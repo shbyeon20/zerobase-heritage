@@ -9,7 +9,7 @@
 
 ## 프로젝트 기능 및 설계
 - 외부API데이터 초기화
-  - 프로그램 동작시 최초 1회, 국가문화유산 API로부터 데이터 호출 후 내부 데이터 모델에 따라 가공하여 DB에 저장한다
+  - 프로그램 동작시 최초 1회, 국가문화유산 API로부터 데이터 호출 후 내부 데이터 모델에 따라 가공하여 DB에 저장한다.
   - 국가문화유산 API : <https://www.khs.go.kr/cha/SearchKindOpenapiDt.do?ccbaKdcd=11&ccbaAsno=00030000&ccbaCtcd=11>
 
 - 회원가입 기능
