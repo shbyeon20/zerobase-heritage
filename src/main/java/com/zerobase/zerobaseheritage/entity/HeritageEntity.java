@@ -10,8 +10,7 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.data.geo.Point;
+import org.locationtech.jts.geom.Point;
 
 @Entity
 @Getter
@@ -26,10 +25,14 @@ public class HeritageEntity {
   private Long id;
   private String heritageId; // API상의 '연계번호(ccbaCpno)'를 고유 ID로 사용
   private String heritageName;
-  @Nullable
+
   private Point location;
   private String heritageGrade;
   @Nullable
   private String basicDescription;
 
 }
+
+
+
+

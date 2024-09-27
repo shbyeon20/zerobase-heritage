@@ -2,10 +2,10 @@ package com.zerobase.zerobaseheritage.configuration;
 
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.dataformat.xml.XmlMapper;
-import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
+import org.locationtech.jts.geom.GeometryFactory;
+import org.locationtech.jts.geom.PrecisionModel;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.stereotype.Component;
 
 @Configuration
 public class Config {
@@ -16,6 +16,10 @@ public class Config {
     xmlMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
     return xmlMapper;
   }
+
+  @Bean
+  public GeometryFactory geometryFactory() {
+    return new GeometryFactory(new PrecisionModel(), 4326);  }
 
 
 }

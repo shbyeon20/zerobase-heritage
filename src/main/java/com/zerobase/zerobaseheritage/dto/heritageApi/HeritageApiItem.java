@@ -1,12 +1,20 @@
 package com.zerobase.zerobaseheritage.dto.heritageApi;
 
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
+import com.zerobase.zerobaseheritage.dto.HeritageApiDto;
+import com.zerobase.zerobaseheritage.externalApi.HeritageApi;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 
 @Getter
 @Setter
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
 public class HeritageApiItem {
 
   @JacksonXmlProperty(localName = "ccbaCpno")
@@ -22,6 +30,7 @@ public class HeritageApiItem {
   private String ccbaKdcd;
   private String ccbaAsno;
   private String ccbaCtcd;
+
 
 
 
