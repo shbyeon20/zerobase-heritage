@@ -28,15 +28,14 @@ public class InitDataService {
     todo : 1. baiscDescription을 위한 API호출 추가 2.속도 향상을 위해서 multithread 향후 추가
 
    */
-  public List<HeritageApiDto> initHeritageData(List<HeritageApiDto> heritageApiDtos) {
+  public void initHeritageData(List<HeritageApiDto> heritageApiDtos) {
     log.info("heirtage data init service start");
 
     List<HeritageEntity> heritageEntities =
         heritageApiDtos.stream().map(HeritageApiDto::toEntity).toList();
 
-    List<HeritageEntity> savedEntities = heritageRepository.saveAll(heritageEntities);
+   heritageRepository.saveAll(heritageEntities);
 
-    return savedEntities.stream().map(HeritageApiDto::fromEntity).toList();
 
   }
 }

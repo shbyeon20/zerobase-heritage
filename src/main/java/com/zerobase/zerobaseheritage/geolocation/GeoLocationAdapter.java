@@ -22,10 +22,15 @@ public class GeoLocationAdapter {
   public Point coordinateToPoint (Double latitude, Double longitude) {
     if (latitude == null || longitude == null) {
       log.error("value of longtitude : "+latitude+" or longtitude : "+longitude+" is null");
-      throw new CustomExcpetion(ErrorCode.NullPointException,"external api return null value");
+      throw new CustomExcpetion(ErrorCode.NULL_POINT_EXCEPTION,"external api return null value");
     }
     log.info("Creating Point with longitude={}, latitude={}", longitude, latitude);
     Point point = geometryFactory.createPoint(new Coordinate(longitude, latitude));
+
+    if (point == null) {
+      log.error("point instance is null");
+      throw new CustomExcpetion(ErrorCode.NULL_POINT_EXCEPTION, "point instance is null");
+    }
     point.setSRID(4326);
     log.info("Creating Point with longitude={}, latitude={}", longitude, latitude);
     return point;

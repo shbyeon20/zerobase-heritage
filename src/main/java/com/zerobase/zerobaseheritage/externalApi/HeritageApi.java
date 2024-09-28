@@ -26,12 +26,17 @@ public class HeritageApi {
 
    */
 
-  public HeritageApiResult importAPI(int pageNum) {
+  public HeritageApiResult fetchApiData(int pageNum) {
     WebClient client = WebClient.create("https://www.khs.go.kr");
-    log.info("HeritageApi importAPI");
+    log.info("HeritageApi fetchApiData");
 
     String xmlResponse = client.get()
-        .uri("/cha/SearchKindOpenapiList.do?pageUnit=300&pageIndex="+pageNum+"&ccbaCncl=N")
+        .uri(uriBuilder -> uriBuilder
+            .path("/cha/SearchKindOpenapiList.do")
+            .queryParam("pageUnit", 300)
+            .queryParam("pageIndex", pageNum)
+            .queryParam("ccbaCncl", "N")
+            .build())
         .retrieve()
         .bodyToMono(String.class)
         .block();  // Synchronous call, use `block()` in non-reactive code

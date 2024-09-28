@@ -15,5 +15,6 @@ public class HeritageApiResult {
   @JacksonXmlElementWrapper(useWrapping = false)
   @JacksonXmlProperty(localName = "item")
   List<HeritageApiItem> heritageApiItemList;
+  int totalCnt;
 
 }

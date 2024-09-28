@@ -18,7 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
 @Slf4j
 @RestController
 @RequiredArgsConstructor
-public class testController {
+public class TestController {
 
   private final HeritageApi heritageApi;
   private final InitDataService initDataService;
@@ -37,14 +37,12 @@ public class testController {
     log.info("test controller for api data init start");
 
     List<HeritageApiDto> heritageApiDtoList = new ArrayList<>();
-    int recordSavedCnt =0;
-    int endOfPage = 52;
-    int startOfPage = 1;
+    int recordSavedCnt = 0;
+    int PageNumber = 1;
 
-
-    for (int pageNum = startOfPage; pageNum <= endOfPage; pageNum++) {
+    while (true) {
       // import external api by page and convert
-      HeritageApiResult heritageApiResult = heritageApi.importAPI(pageNum);
+      HeritageApiResult heritageApiResult = heritageApi.fetchApiData(PageNumber);
       List<HeritageApiItem> heritageApiItems = heritageApiResult.getHeritageApiItemList();
 
       // create dto from javabean
@@ -56,22 +54,25 @@ public class testController {
             .heritageGrade(item.getHeritageGrade())
             .build();
 
-        if (heritageApiDto.getLocation() == null) {
-          log.error("heritageApiDto.getLocation() is null");
-          throw new CustomExcpetion(ErrorCode.NullPointException,
-              "heritageApiDto.getLocation() is null");
-        }
-      //add it into list
+
+        //add it into list
         heritageApiDtoList.add(heritageApiDto);
       }
       // move dto list to service layer
       initDataService.initHeritageData(heritageApiDtoList);
-      recordSavedCnt+=heritageApiDtoList.size();
-      log.info("recordCnt="+recordSavedCnt);
+      recordSavedCnt += heritageApiDtoList.size();
+      log.info("recordCnt=" + recordSavedCnt);
+
+      if (recordSavedCnt >= heritageApiResult.getTotalCnt()) {
+        log.info("external api data loading finished");
+        break;
+      }
+      PageNumber += 1;
     }
 
-    return "Data initialization completed, recordSavedCnt : "+ recordSavedCnt;
+    return "Data initialization completed, recordSavedCnt : " + recordSavedCnt;
 
   }
 }
+
 

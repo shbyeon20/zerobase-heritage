@@ -21,7 +21,7 @@ public class HeritageApiDto {
   private String heritageGrade;
 
   public static HeritageApiDto fromEntity(HeritageEntity heritageEntity) {
-    return  HeritageApiDto.builder()
+    return HeritageApiDto.builder()
         .heritageId(heritageEntity.getHeritageId())
         .heritageName(heritageEntity.getHeritageName())
         .heritageGrade(heritageEntity.getHeritageGrade())
@@ -37,9 +37,6 @@ public class HeritageApiDto {
         .location(this.location)
         .build();
   }
-
-
-
 
 
 }
