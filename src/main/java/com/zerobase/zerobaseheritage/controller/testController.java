@@ -12,8 +12,6 @@ import java.util.ArrayList;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.locationtech.jts.geom.Point;
-import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -29,22 +27,28 @@ public class testController {
 
   /*
   1. 외부 API를 통해 xml -> javabean -> dto로 변환함. 호출은 300레코드씩 여러번 진행됨.
+  todo : 1. 비동기 프로그래밍 후속 도입하기 2. basic description에 대한 호출 도입하기
 
   2. program eventlistner로 변형시키기전 test controller로 테스트
    */
   @GetMapping(value = "/test-heritage-api")
   public String testHeritageApi() {
 
+    log.info("test controller for api data init start");
+
     List<HeritageApiDto> heritageApiDtoList = new ArrayList<>();
-    int recordCnt =0;
+    int recordSavedCnt =0;
+    int endOfPage = 52;
+    int startOfPage = 1;
 
-    for (int i = 1; i <= 52; i++) {
 
-      HeritageApiResult heritageApiResult = heritageApi.importAPI(i);
+    for (int pageNum = startOfPage; pageNum <= endOfPage; pageNum++) {
+      // import external api by page and convert
+      HeritageApiResult heritageApiResult = heritageApi.importAPI(pageNum);
       List<HeritageApiItem> heritageApiItems = heritageApiResult.getHeritageApiItemList();
 
+      // create dto from javabean
       for (HeritageApiItem item : heritageApiItems) {
-
         HeritageApiDto heritageApiDto = HeritageApiDto.builder()
             .heritageId(item.getHeritageId())
             .heritageName(item.getHeritageName())
@@ -55,19 +59,18 @@ public class testController {
         if (heritageApiDto.getLocation() == null) {
           log.error("heritageApiDto.getLocation() is null");
           throw new CustomExcpetion(ErrorCode.NullPointException,
-              "heritageApiDto.getLocation() is nul");
+              "heritageApiDto.getLocation() is null");
         }
-
+      //add it into list
         heritageApiDtoList.add(heritageApiDto);
       }
-
-
+      // move dto list to service layer
       initDataService.initHeritageData(heritageApiDtoList);
-      recordCnt+=heritageApiDtoList.size();
-      log.info("recordCnt="+recordCnt);
+      recordSavedCnt+=heritageApiDtoList.size();
+      log.info("recordCnt="+recordSavedCnt);
     }
 
-    return "Data initialization completed, recordCnt : "+ recordCnt;
+    return "Data initialization completed, recordSavedCnt : "+ recordSavedCnt;
 
   }
 }

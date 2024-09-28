@@ -20,6 +20,4 @@ public class Config {
   @Bean
   public GeometryFactory geometryFactory() {
     return new GeometryFactory(new PrecisionModel(), 4326);  }
-
-
 }
