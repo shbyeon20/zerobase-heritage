@@ -15,26 +15,18 @@ import org.locationtech.jts.geom.Point;
 @Builder
 public class HeritageApiDto {
 
-  private String heritageId; //
+  private String heritageId; // 일련번호
   private String heritageName;
   private Point location;
   private String heritageGrade;
 
-  public static HeritageApiDto fromEntity(HeritageEntity heritageEntity) {
-    return HeritageApiDto.builder()
-        .heritageId(heritageEntity.getHeritageId())
-        .heritageName(heritageEntity.getHeritageName())
-        .heritageGrade(heritageEntity.getHeritageGrade())
-        .location(heritageEntity.getLocation())
-        .build();
-  }
 
-  public HeritageEntity toEntity() {
+  public static HeritageEntity toEntity(HeritageApiDto heritageApiDto) {
     return HeritageEntity.builder()
-        .heritageId(this.heritageId)
-        .heritageName(this.heritageName)
-        .heritageGrade(this.heritageGrade)
-        .location(this.location)
+        .heritageId(heritageApiDto.heritageId)
+        .heritageName(heritageApiDto.heritageName)
+        .heritageGrade(heritageApiDto.heritageGrade)
+        .location(heritageApiDto.location)
         .build();
   }
 

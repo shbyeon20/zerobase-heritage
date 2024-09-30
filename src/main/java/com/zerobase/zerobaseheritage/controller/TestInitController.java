@@ -1,7 +1,5 @@
 package com.zerobase.zerobaseheritage.controller;
 
-import com.zerobase.zerobaseheritage.datatype.exception.CustomExcpetion;
-import com.zerobase.zerobaseheritage.datatype.exception.ErrorCode;
 import com.zerobase.zerobaseheritage.dto.HeritageApiDto;
 import com.zerobase.zerobaseheritage.dto.heritageApi.HeritageApiItem;
 import com.zerobase.zerobaseheritage.dto.heritageApi.HeritageApiResult;
@@ -18,7 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 @Slf4j
 @RestController
 @RequiredArgsConstructor
-public class TestController {
+public class TestInitController {
 
   private final HeritageApi heritageApi;
   private final InitDataService initDataService;
