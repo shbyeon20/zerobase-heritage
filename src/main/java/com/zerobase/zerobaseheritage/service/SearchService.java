@@ -1,23 +1,34 @@
 package com.zerobase.zerobaseheritage.service;
 
 
+import com.zerobase.zerobaseheritage.datatype.exception.CustomExcpetion;
+import com.zerobase.zerobaseheritage.datatype.exception.ErrorCode;
 import com.zerobase.zerobaseheritage.dto.HeritageDto;
+import com.zerobase.zerobaseheritage.entity.HeritageEntity;
 import com.zerobase.zerobaseheritage.repository.HeritageRepository;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.locationtech.jts.geom.Point;
 import org.springframework.stereotype.Service;
 
 @Service
 @RequiredArgsConstructor
+@Slf4j
 public class SearchService {
 
+  private final int RADIUS_DISTANCE = 5;
   private final HeritageRepository heritageRepository;
 
-  public List<HeritageDto> byPointLocation(Point point){
 
-    List<HeritageDto> heritageDtos = null;
+  public List<HeritageDto> byPointLocation(Point point) {
+    log.info("search by location point service start ");
 
-    return heritageDtos;
+    List<HeritageEntity> heritageEntities
+        = heritageRepository.findWithinDistance(point, RADIUS_DISTANCE).orElseThrow(
+        () -> new CustomExcpetion(ErrorCode.NO_HERITAGE_NEARBY, "주변에 존재하는 문화유적이 없습니다."));
+
+    log.info("search by location point service finished ");
+    return heritageEntities.stream().map(HeritageDto::toDto).toList();
   }
 }

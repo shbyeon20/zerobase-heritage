@@ -1,6 +1,7 @@
 package com.zerobase.zerobaseheritage.entity;
 
 import jakarta.annotation.Nullable;
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -26,6 +27,7 @@ public class HeritageEntity {
   private String heritageId; // API상의 '연계번호(ccbaCpno)'를 고유 ID로 사용
   private String heritageName;
 
+  @Column(columnDefinition = "POINT")
   private Point location;
   private String heritageGrade;
   @Nullable

@@ -16,9 +16,19 @@ import org.locationtech.jts.geom.Point;
 public class HeritageDto {
 
   private String heritageGrade;
-  private String heritageNumber; // 등급별 등록번호, 식별번호로부터 parsing 필요
+  private String heritageId;
   private String heritageName;
-  private Point location;
+  private Double latitude;
+  private Double longitude;
 
+   public static HeritageDto toDto(HeritageEntity heritageEntity) {
+     return HeritageDto.builder()
+         .heritageGrade(heritageEntity.getHeritageGrade())
+         .heritageId(heritageEntity.getHeritageId())
+         .heritageName(heritageEntity.getHeritageName())
+         .longitude(heritageEntity.getLocation().getX())
+         .latitude(heritageEntity.getLocation().getY())
+         .build();
+   }
 
 }

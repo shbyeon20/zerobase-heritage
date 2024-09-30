@@ -21,9 +21,10 @@ import org.springframework.web.bind.annotation.RestController;
  */
 @Slf4j
 @RestController()
-@RequestMapping(value="/search")
+@RequestMapping(value = "/search")
 @RequiredArgsConstructor
 public class SearchController {
+
   private static final double MIN_LATITUDE = 33.1147;
   private static final double MAX_LATITUDE = 38.6124;
   private static final double MIN_LONGITUDE = 124.6094;
@@ -34,18 +35,17 @@ public class SearchController {
 
   @GetMapping("/PointLocation")
   public ResponseEntity<List<HeritageDto>> ByPointLocation(
-      @RequestParam Double latitude,@RequestParam Double longitude){
+      @RequestParam Double latitude, @RequestParam Double longitude) {
 
     // Validate the latitude and longitude
     if (latitude < MIN_LATITUDE || latitude > MAX_LATITUDE ||
-       longitude < MIN_LONGITUDE || longitude > MAX_LONGITUDE) {
+        longitude < MIN_LONGITUDE || longitude > MAX_LONGITUDE) {
       throw new CustomExcpetion(
-          ErrorCode.LOCATION_OUT_OF_BOUND,"국내 위치에서만 검색가능합니다");
+          ErrorCode.LOCATION_OUT_OF_BOUND, "국내 위치에서만 검색가능합니다");
     }
 
     List<HeritageDto> heritageDtos = searchService.byPointLocation(
-        geoLocationAdapter.coordinateToPoint(
-            latitude, longitude));
+        geoLocationAdapter.coordinateToPoint(latitude, longitude));
 
     return ResponseEntity.ok(heritageDtos);
   }
