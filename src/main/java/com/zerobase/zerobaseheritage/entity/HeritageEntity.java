@@ -22,8 +22,9 @@ import org.locationtech.jts.geom.Point;
 public class HeritageEntity {
 
   @Id
-  @GeneratedValue(strategy = GenerationType.AUTO)
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long id;
+  @Column(unique = true)
   private String heritageId; // API상의 '연계번호(ccbaCpno)'를 고유 ID로 사용
   private String heritageName;
 

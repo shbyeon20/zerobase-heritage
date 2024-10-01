@@ -1,6 +1,7 @@
 package com.zerobase.zerobaseheritage.dto;
 
 import com.zerobase.zerobaseheritage.entity.HeritageEntity;
+import java.util.List;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -31,4 +32,13 @@ public class HeritageApiDto {
   }
 
 
+  public static HeritageApiDto fromEntity(HeritageEntity heritageEntity) {
+    return HeritageApiDto.builder()
+        .heritageId(heritageEntity.getHeritageId())
+        .heritageName(heritageEntity.getHeritageName())
+        .heritageGrade(heritageEntity.getHeritageGrade())
+        .location(heritageEntity.getLocation())
+        .build();
+  }
 }
+

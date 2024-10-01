@@ -33,7 +33,7 @@ public class SearchController {
   private final SearchService searchService;
   private final GeoLocationAdapter geoLocationAdapter;
 
-  @GetMapping("/PointLocation")
+  @GetMapping("/pointlocation")
   public ResponseEntity<List<HeritageDto>> ByPointLocation(
       @RequestParam Double latitude, @RequestParam Double longitude) {
 

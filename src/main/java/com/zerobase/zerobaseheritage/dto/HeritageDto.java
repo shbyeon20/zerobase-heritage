@@ -6,7 +6,6 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
-import org.locationtech.jts.geom.Point;
 
 @Getter
 @Setter
@@ -21,7 +20,7 @@ public class HeritageDto {
   private Double latitude;
   private Double longitude;
 
-   public static HeritageDto toDto(HeritageEntity heritageEntity) {
+   public static HeritageDto fromEntity(HeritageEntity heritageEntity) {
      return HeritageDto.builder()
          .heritageGrade(heritageEntity.getHeritageGrade())
          .heritageId(heritageEntity.getHeritageId())
