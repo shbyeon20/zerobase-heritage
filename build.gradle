@@ -18,18 +18,28 @@ configurations {
         extendsFrom annotationProcessor
     }
 }
-
 repositories {
     mavenCentral()
 }
 
 dependencies {
-    implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
     implementation 'org.springframework.boot:spring-boot-starter-web'
+    implementation 'org.springframework.boot:spring-boot-starter-webflux'
+
     compileOnly 'org.projectlombok:lombok'
     annotationProcessor 'org.projectlombok:lombok'
+
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
+    implementation 'org.springframework.boot:spring-boot-starter-logging'
     testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+
+    implementation 'com.fasterxml.jackson.dataformat:jackson-dataformat-xml:2.14.1'
+
+    implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+    implementation 'org.locationtech.jts:jts-core:1.18.2' // JTS Core Library
+    implementation 'mysql:mysql-connector-java:8.0.33'
+    implementation 'org.hibernate:hibernate-spatial:6.5.3.Final'
+
 }
 
 tasks.named('test') {
