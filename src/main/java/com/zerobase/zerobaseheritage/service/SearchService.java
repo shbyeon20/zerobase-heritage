@@ -17,7 +17,7 @@ import org.springframework.stereotype.Service;
 @Slf4j
 public class SearchService {
 
-  private final int DISTANCE_METER = 5000;
+  private static final int DISTANCE_METER = 5000;
   private final HeritageRepository heritageRepository;
 
 
@@ -40,9 +40,6 @@ public class SearchService {
     List<HeritageEntity> heritageEntities
         = heritageRepository.findWithinDistance(point, DISTANCE_METER);
 
-    if (heritageEntities.isEmpty()) {
-      throw new CustomExcpetion(ErrorCode.NO_HERITAGE_NEARBY, "주변에 존재하는 문화유적이 없습니다.");
-    }
 
     log.info("search by location point service finished ");
     return heritageEntities.stream().map(HeritageDto::fromEntity).toList();

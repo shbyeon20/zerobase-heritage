@@ -58,7 +58,7 @@ public class TestInitController {
         heritageApiDtoList.add(heritageApiDto);
       }
       // move dto list to service layer
-      recordSavedCnt +=initDataService.initHeritageData(heritageApiDtoList);
+      recordSavedCnt += initDataService.initHeritageData(heritageApiDtoList);
       log.info("recordCnt=" + recordSavedCnt);
 
       if (recordSavedCnt >= heritageApiResult.getTotalCnt()) {
