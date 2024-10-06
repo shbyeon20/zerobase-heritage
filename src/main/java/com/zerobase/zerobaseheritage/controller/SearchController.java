@@ -1,7 +1,5 @@
 package com.zerobase.zerobaseheritage.controller;
 
-import com.zerobase.zerobaseheritage.datatype.exception.CustomExcpetion;
-import com.zerobase.zerobaseheritage.datatype.exception.ErrorCode;
 import com.zerobase.zerobaseheritage.dto.HeritageDto;
 import com.zerobase.zerobaseheritage.geolocation.GeoLocationAdapter;
 import com.zerobase.zerobaseheritage.service.SearchService;
@@ -33,7 +31,7 @@ public class SearchController {
       @RequestParam Double latitude, @RequestParam Double longitude) {
 
     List<HeritageDto> heritageDtos = searchService.byPointLocation(
-        geoLocationAdapter.coordinateToPoint(latitude, longitude));
+        geoLocationAdapter.coordinateToPoint( longitude,latitude));
 
     return ResponseEntity.ok(heritageDtos);
   }

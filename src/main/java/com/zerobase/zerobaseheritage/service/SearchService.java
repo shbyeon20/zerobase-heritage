@@ -10,6 +10,7 @@ import java.util.List;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.locationtech.jts.geom.Point;
+import org.locationtech.jts.geom.Polygon;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -40,8 +41,19 @@ public class SearchService {
     List<HeritageEntity> heritageEntities
         = heritageRepository.findWithinDistance(point, DISTANCE_METER);
 
-
     log.info("search by location point service finished ");
     return heritageEntities.stream().map(HeritageDto::fromEntity).toList();
+  }
+
+  public List<HeritageDto> byPolygon(Polygon polygon) {
+    log.info("search heritage by polygon service start ");
+
+    List<HeritageEntity> heritages = heritageRepository.findWithinPolygon(
+        polygon);
+
+    log.info("search heritage by polygon service finished ");
+
+    return heritages.stream().map(HeritageDto::fromEntity).toList();
+
   }
 }
