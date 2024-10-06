@@ -40,6 +40,7 @@ public class TestInitController {
     int recordSavedCnt = 0;
     int PageNumber = 1;
 
+
     while (true) {
       // import external api by page and convert
       HeritageApiResult heritageApiResult = heritageApi.fetchApiData(PageNumber);
@@ -50,7 +51,7 @@ public class TestInitController {
         HeritageApiDto heritageApiDto = HeritageApiDto.builder()
             .heritageId(item.getHeritageId())
             .heritageName(item.getHeritageName())
-            .location(geoLocationAdapter.coordinateToPoint(item.getLatitude(), item.getLongitude()))
+            .location(geoLocationAdapter.coordinateToPoint( item.getLongitude(),item.getLatitude()))
             .heritageGrade(item.getHeritageGrade())
             .build();
 
@@ -61,7 +62,7 @@ public class TestInitController {
       recordSavedCnt += initDataService.initHeritageData(heritageApiDtoList);
       log.info("recordCnt=" + recordSavedCnt);
 
-      if (recordSavedCnt >= heritageApiResult.getTotalCnt()) {
+      if (recordSavedCnt >= heritageApiResult.getTotalCnt()) { // DB에 저장된 Record와 외부API의 전체 Record수가 일치하면 break
         log.info("external api data loading finished");
         break;
       }

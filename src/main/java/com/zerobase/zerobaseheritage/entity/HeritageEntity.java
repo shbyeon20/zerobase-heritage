@@ -11,6 +11,7 @@
   import lombok.Getter;
   import lombok.NoArgsConstructor;
   import lombok.Setter;
+  import org.antlr.v4.runtime.misc.NotNull;
   import org.locationtech.jts.geom.Point;
 
   @Entity
@@ -28,7 +29,7 @@
     private String heritageId; // API상의 '연계번호(ccbaCpno)'를 고유 ID로 사용
     private String heritageName;
 
-    @Column(columnDefinition = "POINT")
+    @Column(columnDefinition = "POINT",nullable = false)
     private Point location;
     private String heritageGrade;
     @Nullable
