@@ -35,9 +35,6 @@ public class VisitService {
 
     log.info("visitHeritage Service start");
 
-    MemberEntity memberEntity = memberRepository.findByMemberId(userId).orElseThrow(
-        () -> new CustomExcpetion(ErrorCode.UNEXPECTED_REQUEST_FROM_FRONT, "존재하지 않는 유저ID에 의한 요청입니다."));
-
     HeritageEntity heritageEntity = heritageRepository.findByHeritageId(heritageId)
         .orElseThrow(
             () -> new CustomExcpetion(ErrorCode.UNEXPECTED_REQUEST_FROM_FRONT, "존재하지 않는 유적ID에 대한 요청입니다."));
