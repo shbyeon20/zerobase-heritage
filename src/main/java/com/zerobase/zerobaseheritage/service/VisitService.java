@@ -4,7 +4,6 @@ import com.zerobase.zerobaseheritage.datatype.exception.CustomExcpetion;
 import com.zerobase.zerobaseheritage.datatype.exception.ErrorCode;
 import com.zerobase.zerobaseheritage.dto.HeritageDto;
 import com.zerobase.zerobaseheritage.entity.HeritageEntity;
-import com.zerobase.zerobaseheritage.entity.MemberEntity;
 import com.zerobase.zerobaseheritage.entity.VisitedHeritageEntity;
 import com.zerobase.zerobaseheritage.repository.HeritageRepository;
 import com.zerobase.zerobaseheritage.repository.MemberRepository;
@@ -20,7 +19,6 @@ import org.springframework.stereotype.Service;
 public class VisitService {
 
   private final HeritageRepository heritageRepository;
-  private final MemberRepository memberRepository;
   private final VisitedHeritageRepository visitedHeritageRepository;
 
     /*
