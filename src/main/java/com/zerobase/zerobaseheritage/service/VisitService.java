@@ -5,9 +5,11 @@ import com.zerobase.zerobaseheritage.datatype.exception.ErrorCode;
 import com.zerobase.zerobaseheritage.dto.HeritageDto;
 import com.zerobase.zerobaseheritage.entity.HeritageEntity;
 import com.zerobase.zerobaseheritage.entity.MemberEntity;
+import com.zerobase.zerobaseheritage.entity.VisitedHeritageEntity;
 import com.zerobase.zerobaseheritage.repository.HeritageRepository;
 import com.zerobase.zerobaseheritage.repository.MemberRepository;
-import java.util.HashSet;
+import com.zerobase.zerobaseheritage.repository.VisitedHeritageRepository;
+import java.util.List;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -19,6 +21,7 @@ public class VisitService {
 
   private final HeritageRepository heritageRepository;
   private final MemberRepository memberRepository;
+  private final VisitedHeritageRepository visitedHeritageRepository;
 
     /*
     유저가 방문하고자하는 유적을 선택하면 방문여부를 확인한 후, 방문처리한다.
@@ -39,16 +42,24 @@ public class VisitService {
         .orElseThrow(
             () -> new CustomExcpetion(ErrorCode.UNEXPECTED_REQUEST_FROM_FRONT, "존재하지 않는 유적ID에 대한 요청입니다."));
 
-    HashSet<HeritageEntity> visitedHeritages = memberEntity.getVisitedHeritages();
+    //HashSet<HeritageEntity> visitedHeritages = memberEntity.getVisitedHeritages();
+    List<VisitedHeritageEntity> visitedHeritages = visitedHeritageRepository.findAllByMemberId(
+        userId);
 
-    if (visitedHeritages.contains(heritageEntity)) {
+    boolean alreadyVisited = visitedHeritages.stream()
+        .anyMatch(visitedHeritage -> visitedHeritage.getHeritageId().equals(heritageEntity.getHeritageId()));
+
+    if (alreadyVisited) {
       throw new CustomExcpetion(ErrorCode.UNEXPECTED_REQUEST_FROM_FRONT, "이미 방문처리한 유적입니다");
     }
 
-    visitedHeritages.add(heritageEntity);
-    memberEntity.setVisitedHeritages(visitedHeritages);
 
-    memberRepository.save(memberEntity);
+    VisitedHeritageEntity newVisit = VisitedHeritageEntity.builder()
+        .memberId(userId)
+        .heritageId(heritageId)
+        .build();
+
+    visitedHeritageRepository.save(newVisit);
 
     log.info("visitHeritage Service finished");
 
