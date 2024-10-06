@@ -30,6 +30,5 @@ public class VisitedHeritageEntity {
 
   @Column(nullable = false)
   private String heritageId;
-
-
 }
+
