@@ -1,12 +1,9 @@
 package com.zerobase.zerobaseheritage.controller;
 
-import com.zerobase.zerobaseheritage.datatype.MapGrid;
-import com.zerobase.zerobaseheritage.dto.HeritageDto;
 import com.zerobase.zerobaseheritage.entity.MapResponse;
 import com.zerobase.zerobaseheritage.geolocation.GeoLocationAdapter;
 import com.zerobase.zerobaseheritage.service.MapService;
 import com.zerobase.zerobaseheritage.service.SearchService;
-import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.locationtech.jts.geom.Polygon;
 import org.springframework.http.ResponseEntity;
@@ -25,8 +22,8 @@ public class MapController {
   private final SearchService searchService;
 
 
-  @GetMapping("/createGrid")
-  public ResponseEntity<MapResponse> createGridColored(
+  @GetMapping("/createmap")
+  public ResponseEntity<MapResponse> createMap(
       @RequestParam double north_Latitude, @RequestParam double south_Latitude,
       @RequestParam double east_Longitude, @RequestParam double west_Longitude) {
 
@@ -35,18 +32,11 @@ public class MapController {
     Polygon polygon = geoLocationAdapter.boxToPolygon(north_Latitude,
         south_Latitude, east_Longitude, west_Longitude);
 
-    List<HeritageDto> heritagesInBox = searchService.byPolygon(polygon);
+    MapResponse mapResponse = mapService.mapResponseWithGridsAndHeritages(
+        userId, polygon, north_Latitude,
+        south_Latitude, east_Longitude, west_Longitude);
 
-    List<MapGrid> mapGrids = mapService.createGridsWithColor(
-        north_Latitude, south_Latitude, east_Longitude, west_Longitude, userId);
-
-
-    return ResponseEntity.ok(
-        MapResponse.builder()
-            .heritagesInBox(heritagesInBox)
-            .mapGrids(mapGrids)
-            .build()
-    );
+    return ResponseEntity.ok(mapResponse);
   }
 
 }
