@@ -24,7 +24,7 @@ public class GeoLocationAdapter {
       log.error("value of longtitude : "+latitude+" or longtitude : "+longitude+" is null");
       throw new CustomExcpetion(ErrorCode.NULL_POINT_EXCEPTION,"external api return null value");
     }
-    log.info("Creating Point with longitude={}, latitude={}", longitude, latitude);
+
     Point point = geometryFactory.createPoint(new Coordinate(longitude, latitude));
 
     if (point == null) {
@@ -32,7 +32,6 @@ public class GeoLocationAdapter {
       throw new CustomExcpetion(ErrorCode.NULL_POINT_EXCEPTION, "point instance is null");
     }
     point.setSRID(4326);
-    log.info("Creating Point with longitude={}, latitude={}", longitude, latitude);
     return point;
   }
 

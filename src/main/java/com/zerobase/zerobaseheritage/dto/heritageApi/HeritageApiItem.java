@@ -2,7 +2,6 @@ package com.zerobase.zerobaseheritage.dto.heritageApi;
 
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
 import com.zerobase.zerobaseheritage.dto.HeritageApiDto;
-import com.zerobase.zerobaseheritage.externalApi.HeritageApi;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;

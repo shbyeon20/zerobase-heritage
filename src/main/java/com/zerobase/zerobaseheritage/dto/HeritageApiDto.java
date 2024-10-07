@@ -1,6 +1,7 @@
 package com.zerobase.zerobaseheritage.dto;
 
 import com.zerobase.zerobaseheritage.entity.HeritageEntity;
+import java.util.List;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -15,10 +16,21 @@ import org.locationtech.jts.geom.Point;
 @Builder
 public class HeritageApiDto {
 
-  private String heritageId; //
+  private String heritageId; // 일련번호
   private String heritageName;
   private Point location;
   private String heritageGrade;
+
+
+  public static HeritageEntity toEntity(HeritageApiDto heritageApiDto) {
+    return HeritageEntity.builder()
+        .heritageId(heritageApiDto.heritageId)
+        .heritageName(heritageApiDto.heritageName)
+        .heritageGrade(heritageApiDto.heritageGrade)
+        .location(heritageApiDto.location)
+        .build();
+  }
+
 
   public static HeritageApiDto fromEntity(HeritageEntity heritageEntity) {
     return HeritageApiDto.builder()
@@ -28,15 +40,5 @@ public class HeritageApiDto {
         .location(heritageEntity.getLocation())
         .build();
   }
-
-  public HeritageEntity toEntity() {
-    return HeritageEntity.builder()
-        .heritageId(this.heritageId)
-        .heritageName(this.heritageName)
-        .heritageGrade(this.heritageGrade)
-        .location(this.location)
-        .build();
-  }
-
-
 }
+

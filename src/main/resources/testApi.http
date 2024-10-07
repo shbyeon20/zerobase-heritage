@@ -1,5 +1,6 @@
-### GET request to example server
+### GET request to initiate data
 GET localhost:8080/test-heritage-api
 
 
-###
+### GET request to client location
+GET localhost:8080/search/pointlocation?latitude=37.5736269&longitude=127.0318097

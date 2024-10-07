@@ -1,7 +1,5 @@
 package com.zerobase.zerobaseheritage.controller;
 
-import com.zerobase.zerobaseheritage.datatype.exception.CustomExcpetion;
-import com.zerobase.zerobaseheritage.datatype.exception.ErrorCode;
 import com.zerobase.zerobaseheritage.dto.HeritageApiDto;
 import com.zerobase.zerobaseheritage.dto.heritageApi.HeritageApiItem;
 import com.zerobase.zerobaseheritage.dto.heritageApi.HeritageApiResult;
@@ -18,7 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 @Slf4j
 @RestController
 @RequiredArgsConstructor
-public class TestController {
+public class TestInitController {
 
   private final HeritageApi heritageApi;
   private final InitDataService initDataService;
@@ -27,7 +25,9 @@ public class TestController {
 
   /*
   1. 외부 API를 통해 xml -> javabean -> dto로 변환함. 호출은 300레코드씩 여러번 진행됨.
-  todo : 1. 비동기 프로그래밍 후속 도입하기 2. basic description에 대한 호출 도입하기
+  todo : 1. 비동기 프로그래밍 후속 도입하기
+   2. basic description에 대한 호출 도입하기
+    3. native query로 batch save 향후 구현
 
   2. program eventlistner로 변형시키기전 test controller로 테스트
    */
@@ -54,13 +54,11 @@ public class TestController {
             .heritageGrade(item.getHeritageGrade())
             .build();
 
-
         //add it into list
         heritageApiDtoList.add(heritageApiDto);
       }
       // move dto list to service layer
-      initDataService.initHeritageData(heritageApiDtoList);
-      recordSavedCnt += heritageApiDtoList.size();
+      recordSavedCnt += initDataService.initHeritageData(heritageApiDtoList);
       log.info("recordCnt=" + recordSavedCnt);
 
       if (recordSavedCnt >= heritageApiResult.getTotalCnt()) {
