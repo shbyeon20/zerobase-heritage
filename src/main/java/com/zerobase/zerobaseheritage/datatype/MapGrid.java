@@ -1,7 +1,5 @@
 package com.zerobase.zerobaseheritage.datatype;
 
-import static com.zerobase.zerobaseheritage.service.MapService.gridMinSize;
-
 import lombok.Getter;
 import lombok.Setter;
 
@@ -16,7 +14,7 @@ public class MapGrid {
 
   private boolean isBlack = true;
 
-  public MapGrid(double gridPoint_Longitude, double gridPoint_Latitude) {
+  public MapGrid(double gridPoint_Longitude, double gridPoint_Latitude,double gridMinSize ) {
     this.north_Latitude = gridPoint_Latitude;
     this.south_Latitude = gridPoint_Latitude + gridMinSize;
     this.west_Longitude = gridPoint_Longitude;

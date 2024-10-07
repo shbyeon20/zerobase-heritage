@@ -4,6 +4,7 @@ import com.zerobase.zerobaseheritage.datatype.exception.CustomExcpetion;
 import com.zerobase.zerobaseheritage.datatype.exception.ErrorCode;
 import com.zerobase.zerobaseheritage.dto.HeritageDto;
 import com.zerobase.zerobaseheritage.entity.HeritageEntity;
+import com.zerobase.zerobaseheritage.entity.MemberEntity;
 import com.zerobase.zerobaseheritage.entity.VisitedHeritageEntity;
 import com.zerobase.zerobaseheritage.repository.HeritageRepository;
 import com.zerobase.zerobaseheritage.repository.MemberRepository;
@@ -20,6 +21,7 @@ public class VisitService {
 
   private final HeritageRepository heritageRepository;
   private final VisitedHeritageRepository visitedHeritageRepository;
+  private final MemberRepository memberRepository;
 
     /*
     유저가 방문하고자하는 유적을 선택하면 방문여부를 확인한 후, 방문처리한다.
@@ -29,29 +31,33 @@ public class VisitService {
      2. 로그인시 VisitedHeirtageSet 캐쉬에 저장하여 관리하도록 설정
      */
 
-  public HeritageDto visitHeritage( String userId, String heritageId) {
+  public HeritageDto visitHeritage(String memberId, String heritageId) {
 
     log.info("visitHeritage Service start");
 
-    HeritageEntity heritageEntity = heritageRepository.findByHeritageId(heritageId)
-        .orElseThrow(
-            () -> new CustomExcpetion(ErrorCode.UNEXPECTED_REQUEST_FROM_FRONT, "존재하지 않는 유적ID에 대한 요청입니다."));
-
-    //HashSet<HeritageEntity> visitedHeritages = memberEntity.getVisitedHeritages();
-    List<VisitedHeritageEntity> visitedHeritages = visitedHeritageRepository.findAllByMemberId(
-        userId);
-
-    boolean alreadyVisited = visitedHeritages.stream()
-        .anyMatch(visitedHeritage -> visitedHeritage.getHeritageId().equals(heritageEntity.getHeritageId()));
+    boolean alreadyVisited = visitedHeritageRepository.existsByMemberIdAndHeritageId(
+        memberId,
+        heritageId);
 
     if (alreadyVisited) {
-      throw new CustomExcpetion(ErrorCode.UNEXPECTED_REQUEST_FROM_FRONT, "이미 방문처리한 유적입니다");
+      throw new CustomExcpetion(ErrorCode.UNEXPECTED_REQUEST_FROM_FRONT,
+          "이미 방문처리한 유적입니다");
     }
 
+    HeritageEntity heritageEntity = heritageRepository
+        .findByHeritageId(heritageId)
+        .orElseThrow(
+            () -> new CustomExcpetion(ErrorCode.UNEXPECTED_REQUEST_FROM_FRONT,
+                "존재하지 않는 유적ID에 대한 요청입니다."));
+
+    MemberEntity memberEntity = memberRepository.findByMemberId(memberId)
+        .orElseThrow(
+            () -> new CustomExcpetion(ErrorCode.UNEXPECTED_REQUEST_FROM_FRONT,
+                "존재하지 않는 유저ID에 대한 요청입니다."));
 
     VisitedHeritageEntity newVisit = VisitedHeritageEntity.builder()
-        .memberId(userId)
-        .heritageId(heritageId)
+        .memberEntity(memberEntity)
+        .heritageEntity(heritageEntity)
         .build();
 
     visitedHeritageRepository.save(newVisit);
@@ -61,4 +67,12 @@ public class VisitService {
     return HeritageDto.fromEntity(heritageEntity);
   }
 
+  public List<HeritageDto> visitedHeritageByUser(String memberId) {
+
+    log.info("visitedHeritageByUser Service start");
+
+    List<HeritageEntity> visitedHeritages = visitedHeritageRepository.findAllVisitedHeritageByMemberId(memberId);
+
+    return visitedHeritages.stream().map(HeritageDto::fromEntity).toList();
+  }
 }
