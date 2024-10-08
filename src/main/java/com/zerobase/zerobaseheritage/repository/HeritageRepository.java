@@ -26,10 +26,7 @@ public interface HeritageRepository extends
       String heritageGrade, String basicDescription);
 
 
-
   Optional<HeritageEntity> findByHeritageId(String heritageId);
-
-
 
 
 }

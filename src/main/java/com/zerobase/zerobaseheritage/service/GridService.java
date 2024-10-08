@@ -26,12 +26,14 @@ public class GridService {
     int totalNumOfGridsByLongitudeInBox = calculateNumOfGridsByLongitudeInBox(
         boundingBox);
 
-    log.info(totalNumOfGridsByLongitudeInBox + "  piece of grids created By Longitude");
+    log.info(totalNumOfGridsByLongitudeInBox
+        + "  piece of grids created By Longitude");
 
     int totalNumOfGridsByLatitudeInBox = calculateNumOfGridsByLatitudeInBox(
         boundingBox);
 
-    log.info(totalNumOfGridsByLatitudeInBox + " piece of grids created By Latitude");
+    log.info(
+        totalNumOfGridsByLatitudeInBox + " piece of grids created By Latitude");
 
     // grid를 좌상단부터 우측으로 하나씩 순회
     for (int indexOfGridByLatitude = 0;
@@ -43,10 +45,12 @@ public class GridService {
 
         // 각 grid의 좌상단 point를 기준으로 grid 객체 생성하여 리스트에 저장, double 의 floating number 끝자리 오류로 round 처리
         double pointLongitudeOfGrid =
-            Math.round((boundingBox.westLongitude + GRID_MIN_SIZE * indexOfGridByLongitude)*100)/100.0;
+            Math.round((boundingBox.westLongitude
+                + GRID_MIN_SIZE * indexOfGridByLongitude) * 100) / 100.0;
         double pointLatitudeOfGrid =
-            Math.round((boundingBox.northLatitude - GRID_MIN_SIZE * indexOfGridByLatitude)*100)/100.0;
-        log.info("grid : "+ pointLatitudeOfGrid+ "/" +pointLongitudeOfGrid );
+            Math.round((boundingBox.northLatitude
+                - GRID_MIN_SIZE * indexOfGridByLatitude) * 100) / 100.0;
+        log.info("grid : " + pointLatitudeOfGrid + "/" + pointLongitudeOfGrid);
 
         grids.add(new MapGrid(pointLongitudeOfGrid,
             pointLatitudeOfGrid, GRID_MIN_SIZE));
@@ -61,14 +65,16 @@ public class GridService {
   // bounding box 내에 가로 grid 개수 산출
 
   private int calculateNumOfGridsByLongitudeInBox(MapBoundingBox boundingBox) {
-    return (int) Math.round(((boundingBox.northLatitude - boundingBox.southLatitude)
-        / GRID_MIN_SIZE));
+    return (int) Math.round(
+        ((boundingBox.northLatitude - boundingBox.southLatitude)
+            / GRID_MIN_SIZE));
   }
 
   // bounding box 내에 grid 세로 개수 산출
   private int calculateNumOfGridsByLatitudeInBox(MapBoundingBox boundingBox) {
-    return (int) Math.round(((boundingBox.eastLongitude - boundingBox.westLongitude)
-        / GRID_MIN_SIZE));
+    return (int) Math.round(
+        ((boundingBox.eastLongitude - boundingBox.westLongitude)
+            / GRID_MIN_SIZE));
   }
 
   public void unBlackGridIfPointExistInGrid(double pointLongitude,
@@ -87,13 +93,16 @@ public class GridService {
     int indexOfGridByLongitude = (int) (
         (pointLongitude - boundingBox.westLongitude)
             / GRID_MIN_SIZE);
-    int indexOfGridByLatitude = (int) ((boundingBox.northLatitude - pointLatitude)
-        / GRID_MIN_SIZE);
-    int numOfGridsByLongitudeInBox = calculateNumOfGridsByLongitudeInBox(boundingBox);
+    int indexOfGridByLatitude = (int) (
+        (boundingBox.northLatitude - pointLatitude)
+            / GRID_MIN_SIZE);
+    int numOfGridsByLongitudeInBox = calculateNumOfGridsByLongitudeInBox(
+        boundingBox);
 
     // index를 사용하여 몇번째 grid인지 확인.
     int gridNum =
-        indexOfGridByLongitude * numOfGridsByLongitudeInBox + indexOfGridByLatitude;
+        indexOfGridByLongitude * numOfGridsByLongitudeInBox
+            + indexOfGridByLatitude;
 
     // 몇번째 boundingbox인지 식별후 not black으로 변경
 

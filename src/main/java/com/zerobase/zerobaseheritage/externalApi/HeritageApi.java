@@ -46,7 +46,8 @@ public class HeritageApi {
       return xmlMapper.readValue(xmlResponse, HeritageApiResult.class);
     } catch (JsonProcessingException e) {
       log.error(e.getMessage());
-      throw new CustomExcpetion(ErrorCode.EXTERNALAPI_NOT_FOUND, "Heritage API Not Found");
+      throw new CustomExcpetion(ErrorCode.EXTERNALAPI_NOT_FOUND,
+          "Heritage API Not Found");
     }
   }
 

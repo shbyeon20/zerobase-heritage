@@ -18,8 +18,10 @@ public class MapBoundingBox {
     // North,east는 0.01단위로 올림
     // South,West는 0.01단위로 내림
 
-    log.info("mapboundingbox create with latitude : " + northLatitude + ", " + southLatitude);
-    log.info("mapboundingbox create with longitude : " + eastLongitude + ", " + westLongitude);
+    log.info("mapboundingbox create with latitude : " + northLatitude + ", "
+        + southLatitude);
+    log.info("mapboundingbox create with longitude : " + eastLongitude + ", "
+        + westLongitude);
 
     this.northLatitude = Math.ceil(northLatitude * 100) / 100.0;
 
@@ -38,9 +40,6 @@ public class MapBoundingBox {
     log.info("rounded up westLongitude: " + this.westLongitude);
 
     log.info("mapboundingbox finished");
-
-
-
 
 
   }

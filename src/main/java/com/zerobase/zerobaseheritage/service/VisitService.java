@@ -71,7 +71,8 @@ public class VisitService {
 
     log.info("visitedHeritageByUser Service start");
 
-    List<HeritageEntity> visitedHeritages = visitedHeritageRepository.findAllVisitedHeritageByMemberId(memberId);
+    List<HeritageEntity> visitedHeritages = visitedHeritageRepository.findAllVisitedHeritageByMemberId(
+        memberId);
 
     return visitedHeritages.stream().map(HeritageDto::fromEntity).toList();
   }

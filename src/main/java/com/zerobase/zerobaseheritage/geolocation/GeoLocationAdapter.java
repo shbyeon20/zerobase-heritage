@@ -2,8 +2,6 @@ package com.zerobase.zerobaseheritage.geolocation;
 
 import com.zerobase.zerobaseheritage.datatype.exception.CustomExcpetion;
 import com.zerobase.zerobaseheritage.datatype.exception.ErrorCode;
-import java.util.ArrayList;
-import java.util.List;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.locationtech.jts.geom.Coordinate;

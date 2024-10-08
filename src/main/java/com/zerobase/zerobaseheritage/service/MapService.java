@@ -4,7 +4,7 @@ package com.zerobase.zerobaseheritage.service;
 import com.zerobase.zerobaseheritage.datatype.MapBoundingBox;
 import com.zerobase.zerobaseheritage.datatype.MapGrid;
 import com.zerobase.zerobaseheritage.dto.HeritageDto;
-import com.zerobase.zerobaseheritage.entity.MapResponse;
+import com.zerobase.zerobaseheritage.dto.MapResponse;
 import java.util.ArrayList;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
@@ -44,12 +44,12 @@ public class MapService {
     List<MapGrid> grids = gridService.createGridsFromBoundingBox(boundingBox);
 
     // user가 방문한 heritage list를 호출
-    List<HeritageDto> visitedHeritageDtos = new ArrayList<>(visitService.visitedHeritageByUser(userId));
-
+    List<HeritageDto> visitedHeritageDtos = new ArrayList<>(
+        visitService.visitedHeritageByUser(userId));
 
     log.info(visitedHeritageDtos.toString());
-    log.info(String.valueOf("check if its null : "+visitedHeritageDtos==null));
-
+    log.info(
+        String.valueOf("check if its null : " + visitedHeritageDtos == null));
 
     // api test를 위해서 user data 임시로 생성하여 확인
     visitedHeritageDtos.add(HeritageDto.builder()
@@ -69,7 +69,6 @@ public class MapService {
         .build());
 
     log.info(visitedHeritageDtos.toString());
-
 
     // heritage들이 boundingbox에 있는지, 있다면 몇번째 grid에 속하는지 확인하여 unblack처리
     for (HeritageDto visitedHeritageDto : visitedHeritageDtos) {
@@ -91,7 +90,6 @@ public class MapService {
       double west_Longitude) {
 
     log.info("mapResponseWithGridsAndHeritages service start");
-
 
     // polygon 내에 존재하는 heritage 검색
     List<HeritageDto> heritagesInBox = searchService.byPolygon(polygon);

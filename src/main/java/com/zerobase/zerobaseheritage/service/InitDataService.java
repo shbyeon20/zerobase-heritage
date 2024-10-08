@@ -4,7 +4,6 @@ import com.zerobase.zerobaseheritage.dto.HeritageApiDto;
 import com.zerobase.zerobaseheritage.entity.HeritageEntity;
 import com.zerobase.zerobaseheritage.repository.HeritageRepository;
 import java.util.List;
-import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;

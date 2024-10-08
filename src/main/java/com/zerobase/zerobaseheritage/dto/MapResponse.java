@@ -1,7 +1,6 @@
-package com.zerobase.zerobaseheritage.entity;
+package com.zerobase.zerobaseheritage.dto;
 
 import com.zerobase.zerobaseheritage.datatype.MapGrid;
-import com.zerobase.zerobaseheritage.dto.HeritageDto;
 import java.util.List;
 import lombok.Builder;
 import lombok.Getter;

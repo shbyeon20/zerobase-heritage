@@ -14,7 +14,8 @@ public class MapGrid {
 
   private boolean isBlack = true;
 
-  public MapGrid(double gridPoint_Longitude, double gridPoint_Latitude,double gridMinSize ) {
+  public MapGrid(double gridPoint_Longitude, double gridPoint_Latitude,
+      double gridMinSize) {
     this.north_Latitude = gridPoint_Latitude;
     this.south_Latitude = gridPoint_Latitude + gridMinSize;
     this.west_Longitude = gridPoint_Longitude;

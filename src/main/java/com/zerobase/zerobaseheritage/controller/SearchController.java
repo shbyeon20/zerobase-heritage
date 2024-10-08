@@ -31,7 +31,7 @@ public class SearchController {
       @RequestParam Double latitude, @RequestParam Double longitude) {
 
     List<HeritageDto> heritageDtos = searchService.byPointLocation(
-        geoLocationAdapter.coordinateToPoint( longitude,latitude));
+        geoLocationAdapter.coordinateToPoint(longitude, latitude));
 
     return ResponseEntity.ok(heritageDtos);
   }
