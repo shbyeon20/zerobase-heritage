@@ -16,9 +16,9 @@ public class MapGrid {
 
   public MapGrid(double gridPoint_Longitude, double gridPoint_Latitude,
       double gridMinSize) {
-    this.north_Latitude = gridPoint_Latitude;
-    this.south_Latitude = gridPoint_Latitude + gridMinSize;
-    this.west_Longitude = gridPoint_Longitude;
-    this.east_Longitude = gridPoint_Longitude + gridMinSize;
+    this.north_Latitude = Math.round((gridPoint_Latitude) * 100) / 100.0;
+    this.south_Latitude = Math.round((gridPoint_Latitude + gridMinSize) * 100) / 100.0;
+    this.west_Longitude = Math.round((gridPoint_Longitude) * 100) / 100.0;
+    this.east_Longitude = Math.round((gridPoint_Longitude + gridMinSize) * 100) / 100.0;
   }
 }
