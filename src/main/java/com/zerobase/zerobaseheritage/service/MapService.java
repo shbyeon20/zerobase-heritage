@@ -5,6 +5,7 @@ import com.zerobase.zerobaseheritage.datatype.MapBoundingBox;
 import com.zerobase.zerobaseheritage.datatype.MapGrid;
 import com.zerobase.zerobaseheritage.dto.HeritageDto;
 import com.zerobase.zerobaseheritage.entity.MapResponse;
+import java.util.ArrayList;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -43,8 +44,32 @@ public class MapService {
     List<MapGrid> grids = gridService.createGridsFromBoundingBox(boundingBox);
 
     // user가 방문한 heritage list를 호출
-    List<HeritageDto> visitedHeritageDtos = visitService.visitedHeritageByUser(
-        userId);
+    List<HeritageDto> visitedHeritageDtos = new ArrayList<>(visitService.visitedHeritageByUser(userId));
+
+
+    log.info(visitedHeritageDtos.toString());
+    log.info(String.valueOf("check if its null : "+visitedHeritageDtos==null));
+
+
+    // api test를 위해서 user data 임시로 생성하여 확인
+    visitedHeritageDtos.add(HeritageDto.builder()
+        .heritageGrade("국보")
+        .heritageId("1111100020000")
+        .heritageName("서울 원각사지 십층석탑")
+        .latitude(37.5715461695449)
+        .longitude(126.988207994364)
+        .build());
+
+    visitedHeritageDtos.add(HeritageDto.builder()
+        .heritageGrade("보물")
+        .heritageId("1121100030000")
+        .heritageName("서울 원각사지 대원각사비")
+        .latitude(37.5710693985849)
+        .longitude(126.988634645148)
+        .build());
+
+    log.info(visitedHeritageDtos.toString());
+
 
     // heritage들이 boundingbox에 있는지, 있다면 몇번째 grid에 속하는지 확인하여 unblack처리
     for (HeritageDto visitedHeritageDto : visitedHeritageDtos) {
