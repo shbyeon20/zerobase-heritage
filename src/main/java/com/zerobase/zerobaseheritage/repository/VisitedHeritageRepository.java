@@ -12,8 +12,8 @@ public interface VisitedHeritageRepository extends
     JpaRepository<VisitedHeritageEntity, Long> {
 
 
-  boolean existsByMemberIdAndHeritageId(String memberId, String heritageId);
+  boolean existsByMemberEntity_MemberIdAndHeritageEntity_HeritageId(String memberId, String heritageId);
 
-  @Query("select v.heritageEntity from VisitedHeritageEntity v join v.memberEntity m where m.memberId = :memberId")
+  @Query("select v.heritageEntity from VisitedHeritageEntity v where v.memberEntity.memberId = :memberId")
   List<HeritageEntity> findAllVisitedHeritageByMemberId(String memberId);
 }

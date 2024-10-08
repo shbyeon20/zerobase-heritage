@@ -3,7 +3,6 @@ package com.zerobase.zerobaseheritage.controller;
 import com.zerobase.zerobaseheritage.entity.MapResponse;
 import com.zerobase.zerobaseheritage.geolocation.GeoLocationAdapter;
 import com.zerobase.zerobaseheritage.service.MapService;
-import com.zerobase.zerobaseheritage.service.SearchService;
 import lombok.RequiredArgsConstructor;
 import org.locationtech.jts.geom.Polygon;
 import org.springframework.http.ResponseEntity;
@@ -19,22 +18,22 @@ public class MapController {
 
   private final MapService mapService;
   private final GeoLocationAdapter geoLocationAdapter;
-  private final SearchService searchService;
 
 
-  @GetMapping("/createmap")
+  @GetMapping("/create")
   public ResponseEntity<MapResponse> createMap(
-      @RequestParam double north_Latitude, @RequestParam double south_Latitude,
-      @RequestParam double east_Longitude, @RequestParam double west_Longitude) {
+      @RequestParam double northLatitude, @RequestParam double southLatitude,
+      @RequestParam double eastLongitude,
+      @RequestParam double westLongitude) {
 
     String userId = "user123";
 
-    Polygon polygon = geoLocationAdapter.boxToPolygon(north_Latitude,
-        south_Latitude, east_Longitude, west_Longitude);
+    Polygon polygon = geoLocationAdapter.boxToPolygon(northLatitude,
+        southLatitude, eastLongitude, westLongitude);
 
     MapResponse mapResponse = mapService.mapResponseWithGridsAndHeritages(
-        userId, polygon, north_Latitude,
-        south_Latitude, east_Longitude, west_Longitude);
+        userId, polygon, northLatitude,
+        southLatitude, eastLongitude, westLongitude);
 
     return ResponseEntity.ok(mapResponse);
   }

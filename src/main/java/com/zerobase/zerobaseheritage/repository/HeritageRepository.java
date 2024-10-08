@@ -17,15 +17,21 @@ public interface HeritageRepository extends
   @Query(value = "SELECT h FROM HeritageEntity h WHERE ST_Distance(h.location, :point) < :distanceMeter")
   List<HeritageEntity> findWithinDistance(Point point, int distanceMeter);
 
+  @Query("SELECT h FROM HeritageEntity h WHERE ST_Within(h.location, :polygon) = true")
+  List<HeritageEntity> findWithinPolygon(Polygon polygon);
+
   @Modifying
   @Query(value = "INSERT IGNORE INTO heritage_entity (heritage_Id, heritage_Name, location, heritage_Grade, basic_Description) VALUES (:heritageId, :heritageName, :location, :heritageGrade,:basicDescription)", nativeQuery = true)
   int insertIgnore(String heritageId, String heritageName, Point location,
       String heritageGrade, String basicDescription);
 
+
+
   Optional<HeritageEntity> findByHeritageId(String heritageId);
 
-  @Query("SELECT h FROM HeritageEntity h WHERE ST_Within(h.location, :polygon) = true")
-  List<HeritageEntity> findWithinPolygon(Polygon polygon);
+
+
+
 }
 
 

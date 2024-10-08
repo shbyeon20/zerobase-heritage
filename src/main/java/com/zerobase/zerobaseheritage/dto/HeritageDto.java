@@ -20,14 +20,14 @@ public class HeritageDto {
   private Double latitude;
   private Double longitude;
 
-   public static HeritageDto fromEntity(HeritageEntity heritageEntity) {
-     return HeritageDto.builder()
-         .heritageGrade(heritageEntity.getHeritageGrade())
-         .heritageId(heritageEntity.getHeritageId())
-         .heritageName(heritageEntity.getHeritageName())
-         .longitude(heritageEntity.getLocation().getX())
-         .latitude(heritageEntity.getLocation().getY())
-         .build();
-   }
+  public static HeritageDto fromEntity(HeritageEntity heritageEntity) {
+    return HeritageDto.builder()
+        .heritageGrade(heritageEntity.getHeritageGrade())
+        .heritageId(heritageEntity.getHeritageId())
+        .heritageName(heritageEntity.getHeritageName())
+        .longitude(heritageEntity.getLocation().getX())
+        .latitude(heritageEntity.getLocation().getY())
+        .build();
+  }
 
 }

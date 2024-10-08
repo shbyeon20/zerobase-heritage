@@ -45,6 +45,9 @@ public class SearchService {
     return heritageEntities.stream().map(HeritageDto::fromEntity).toList();
   }
 
+
+
+
   public List<HeritageDto> byPolygon(Polygon polygon) {
     log.info("search heritage by polygon service start ");
 

@@ -25,8 +25,13 @@ public class GridService {
     // bounding box로 생성할수있는 grid의 가로 세로 개수 계산
     int totalNumOfGridsByLongitudeInBox = calculateNumOfGridsByLongitudeInBox(
         boundingBox);
+
+    log.info(totalNumOfGridsByLongitudeInBox + "  piece of grids created By Longitude");
+
     int totalNumOfGridsByLatitudeInBox = calculateNumOfGridsByLatitudeInBox(
         boundingBox);
+
+    log.info(totalNumOfGridsByLatitudeInBox + " piece of grids created By Latitude");
 
     // grid를 좌상단부터 우측으로 하나씩 순회
     for (int indexOfGridByLatitude = 0;
@@ -36,11 +41,12 @@ public class GridService {
           indexOfGridByLongitude < totalNumOfGridsByLongitudeInBox;
           indexOfGridByLongitude++) {
 
-        // 각 grid의 좌상단 point를 기준으로 grid 객체 생성하여 리스트에 저장
+        // 각 grid의 좌상단 point를 기준으로 grid 객체 생성하여 리스트에 저장, double 의 floating number 끝자리 오류로 round 처리
         double pointLongitudeOfGrid =
-            boundingBox.westLongitude + GRID_MIN_SIZE * indexOfGridByLongitude;
+            Math.round((boundingBox.westLongitude + GRID_MIN_SIZE * indexOfGridByLongitude)*100)/100.0;
         double pointLatitudeOfGrid =
-            boundingBox.northLatitude - GRID_MIN_SIZE * indexOfGridByLatitude;
+            Math.round((boundingBox.northLatitude - GRID_MIN_SIZE * indexOfGridByLatitude)*100)/100.0;
+        log.info("grid : "+ pointLatitudeOfGrid+ "/" +pointLongitudeOfGrid );
 
         grids.add(new MapGrid(pointLongitudeOfGrid,
             pointLatitudeOfGrid, GRID_MIN_SIZE));
@@ -55,14 +61,14 @@ public class GridService {
   // bounding box 내에 가로 grid 개수 산출
 
   private int calculateNumOfGridsByLongitudeInBox(MapBoundingBox boundingBox) {
-    return (int) ((boundingBox.northLatitude - boundingBox.southLatitude)
-        / GRID_MIN_SIZE);
+    return (int) Math.round(((boundingBox.northLatitude - boundingBox.southLatitude)
+        / GRID_MIN_SIZE));
   }
 
   // bounding box 내에 grid 세로 개수 산출
   private int calculateNumOfGridsByLatitudeInBox(MapBoundingBox boundingBox) {
-    return (int) ((boundingBox.eastLongitude - boundingBox.westLongitude)
-        / GRID_MIN_SIZE);
+    return (int) Math.round(((boundingBox.eastLongitude - boundingBox.westLongitude)
+        / GRID_MIN_SIZE));
   }
 
   public void unBlackGridIfPointExistInGrid(double pointLongitude,

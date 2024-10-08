@@ -4,3 +4,9 @@ GET localhost:8080/test-heritage-api
 
 ### GET request to client location
 GET localhost:8080/search/pointlocation?latitude=37.5736269&longitude=127.0318097
+
+
+### GET request to map information
+GET localhost:8080/map/create?
+    northLatitude=37.580105&southLatitude=37.5632511943809
+    &eastLongitude=126.9979403&westLongitude=126.98730762836

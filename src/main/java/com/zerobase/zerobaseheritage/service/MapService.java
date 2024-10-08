@@ -7,6 +7,7 @@ import com.zerobase.zerobaseheritage.dto.HeritageDto;
 import com.zerobase.zerobaseheritage.entity.MapResponse;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.locationtech.jts.geom.Polygon;
 import org.springframework.stereotype.Service;
 
@@ -20,6 +21,7 @@ client로부터 지도표시를 위해 위도선의 최대최소, 경도선의 �
  */
 @Service
 @RequiredArgsConstructor
+@Slf4j
 public class MapService {
 
   private final GridService gridService;
@@ -31,6 +33,7 @@ public class MapService {
       double north_Latitude, double south_Latitude,
       double east_Longitude, double west_Longitude, String userId
   ) {
+    log.info("createGridsWithColor service start");
 
     // bounding box 생성
     MapBoundingBox boundingBox = new MapBoundingBox(
@@ -51,6 +54,8 @@ public class MapService {
           boundingBox, grids);
     }
 
+    log.info("createGridsWithColor service finish");
+
     return grids;
 
   }
@@ -60,12 +65,17 @@ public class MapService {
       double north_Latitude, double south_Latitude, double east_Longitude,
       double west_Longitude) {
 
+    log.info("mapResponseWithGridsAndHeritages service start");
+
+
     // polygon 내에 존재하는 heritage 검색
     List<HeritageDto> heritagesInBox = searchService.byPolygon(polygon);
 
     // coloredgrid생성
     List<MapGrid> gridsWithColor = createGridsWithColor(north_Latitude,
         south_Latitude, east_Longitude, west_Longitude, userId);
+
+    log.info("mapResponseWithGridsAndHeritages service finish");
 
     // mapresponse에 담아서 반환
     return MapResponse.builder()

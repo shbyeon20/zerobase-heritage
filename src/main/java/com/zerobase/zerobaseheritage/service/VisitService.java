@@ -35,7 +35,7 @@ public class VisitService {
 
     log.info("visitHeritage Service start");
 
-    boolean alreadyVisited = visitedHeritageRepository.existsByMemberIdAndHeritageId(
+    boolean alreadyVisited = visitedHeritageRepository.existsByMemberEntity_MemberIdAndHeritageEntity_HeritageId(
         memberId,
         heritageId);
 
