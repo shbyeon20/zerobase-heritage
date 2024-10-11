@@ -3,7 +3,7 @@ GET localhost:8080/test-heritage-api
 
 
 ### GET request to client location
-GET localhost:8080/search/pointlocation?latitude=37.2736269&longitude=127.0318097
+GET localhost:8080/search/pointlocation?latitude=37.2736269&longitude=128.0318097
 
 
 
@@ -15,4 +15,4 @@ GET localhost:8080/map/create?
 
 
 ### GET request for route with client location
-GET localhost:8080/route/get?latitude=37.2736269&longitude=127.0318097&timeLimit=1000000000000
+GET localhost:8080/route/get?latitude=37.2736269&longitude=128.0318097&timeLimit=100000000000000

@@ -61,7 +61,7 @@ public class RouteFindService {
       morePathToFind = findNextPoint(clientPoint, heritagePoints,
           timeLimit, pointCollection);
     }
-    return null;
+    return RoutePointsResponse.fromPointCollection(pointCollection);
   }
 
   /*
