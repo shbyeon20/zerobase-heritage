@@ -20,8 +20,8 @@ public class MapController {
   private final GeoLocationAdapter geoLocationAdapter;
 
 
-  @GetMapping("/create")
-  public ResponseEntity<MapResponse> createMap(
+  @GetMapping("/heritage-on/grid-on")
+  public ResponseEntity<MapResponse> getMap(
       @RequestParam double northLatitude, @RequestParam double southLatitude,
       @RequestParam double eastLongitude,
       @RequestParam double westLongitude) {

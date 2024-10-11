@@ -3,11 +3,13 @@ package com.zerobase.zerobaseheritage.controller;
 import com.zerobase.zerobaseheritage.dto.HeritageDto;
 import com.zerobase.zerobaseheritage.geolocation.GeoLocationAdapter;
 import com.zerobase.zerobaseheritage.service.SearchService;
+import com.zerobase.zerobaseheritage.service.VisitService;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -19,14 +21,15 @@ import org.springframework.web.bind.annotation.RestController;
  */
 @Slf4j
 @RestController()
-@RequestMapping(value = "/search")
+@RequestMapping(value = "/heritage")
 @RequiredArgsConstructor
-public class SearchController {
+public class HeritageController {
 
   private final SearchService searchService;
   private final GeoLocationAdapter geoLocationAdapter;
+  private final VisitService visitService;
 
-  @GetMapping("/pointlocation")
+  @GetMapping("/coordinate-nearby-heritage")
   public ResponseEntity<List<HeritageDto>> ByPointLocation(
       @RequestParam Double latitude, @RequestParam Double longitude) {
 
@@ -36,4 +39,19 @@ public class SearchController {
     return ResponseEntity.ok(heritageDtos);
   }
 
+
+  /*
+  유저의 요청에 따라 방문처리한다.
+
+   */
+  @PostMapping("/visited-heritage")
+  public String visitHeritage(@RequestParam String userId,
+      @RequestParam String heritageId) {
+    HeritageDto heritageDto = visitService.visitHeritage(userId, heritageId);
+
+    return heritageDto.getHeritageName() + ": 방문처리완료";
+  }
+
+
 }
+

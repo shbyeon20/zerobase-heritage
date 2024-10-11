@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 @Slf4j
 @RestController
 @RequiredArgsConstructor
-public class TestInitController {
+public class ExternalApiController {
 
   private final HeritageApi heritageApi;
   private final InitDataService initDataService;
@@ -31,8 +31,8 @@ public class TestInitController {
 
   2. program eventlistner로 변형시키기전 test controller로 테스트
    */
-  @GetMapping(value = "/test-heritage-api")
-  public String testHeritageApi() {
+  @GetMapping(value = "/external-data/heritage")
+  public String loadHeritageData() {
 
     log.info("test controller for api data init start");
 
