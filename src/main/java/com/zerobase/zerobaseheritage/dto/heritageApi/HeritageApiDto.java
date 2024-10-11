@@ -1,4 +1,4 @@
-package com.zerobase.zerobaseheritage.dto;
+package com.zerobase.zerobaseheritage.dto.heritageApi;
 
 import com.zerobase.zerobaseheritage.entity.HeritageEntity;
 import lombok.AllArgsConstructor;

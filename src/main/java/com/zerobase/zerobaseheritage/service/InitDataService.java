@@ -1,6 +1,6 @@
 package com.zerobase.zerobaseheritage.service;
 
-import com.zerobase.zerobaseheritage.dto.HeritageApiDto;
+import com.zerobase.zerobaseheritage.dto.heritageApi.HeritageApiDto;
 import com.zerobase.zerobaseheritage.entity.HeritageEntity;
 import com.zerobase.zerobaseheritage.repository.HeritageRepository;
 import java.util.List;
