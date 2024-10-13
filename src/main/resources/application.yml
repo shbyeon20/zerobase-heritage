@@ -31,3 +31,13 @@ spring:
 
 
 
+sightseeing:
+  time: 1_800_000
+
+externalAPI:
+  naver:
+    client-Id : "mp7kd1w051"
+    client-Secret : "Hmmf28GUcE9j78BfiwZGmffKtr2B5wnf9sjxrd23"
+
+
+

@@ -1,7 +1,7 @@
 package com.zerobase.zerobaseheritage.controller;
 
-import com.zerobase.zerobaseheritage.dto.HeritageApiDto;
-import com.zerobase.zerobaseheritage.dto.heritageApi.HeritageApiItem;
+import com.zerobase.zerobaseheritage.dto.heritageApi.HeritageApiDto;
+import com.zerobase.zerobaseheritage.dto.heritageApi.HeritageApiResult.HeritageApiItem;
 import com.zerobase.zerobaseheritage.dto.heritageApi.HeritageApiResult;
 import com.zerobase.zerobaseheritage.externalApi.HeritageApi;
 import com.zerobase.zerobaseheritage.geolocation.GeoLocationAdapter;

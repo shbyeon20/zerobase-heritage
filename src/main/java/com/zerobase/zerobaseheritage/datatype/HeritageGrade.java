@@ -16,6 +16,7 @@ public enum HeritageGrade {
   FOLK_CULTURAL_HERITAGE("국가민속문화유산", 1),
   CITY_TANGIBLE_CULTURAL_HERITAGE("시도유형문화유산", 1),
   CITY_INTANGIBLE_CULTURAL_HERITAGE("시도무형문화유산", 1),
+  CITY_INTANGIBLE_HERITAGE("시도무형유산", 1),
   CITY_MONUMENT("시도기념물", 1),
   CITY_FOLK_CULTURAL_HERITAGE("시도민속문화유산", 1),
   CITY_REGISTERED_CULTURAL_HERITAGE("시도등록문화유산", 1),

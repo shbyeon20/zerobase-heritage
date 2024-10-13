@@ -4,7 +4,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.*;
 import static org.mockito.Mockito.*;
 
-import com.zerobase.zerobaseheritage.dto.HeritageApiDto;
+import com.zerobase.zerobaseheritage.dto.heritageApi.HeritageApiDto;
 import com.zerobase.zerobaseheritage.repository.HeritageRepository;
 import java.util.Arrays;
 import java.util.Collections;
