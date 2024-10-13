@@ -44,15 +44,15 @@ public class GeoLocationAdapter {
 
 
   public Polygon boxToPolygon(
-      double north_Latitude, double south_Latitude,
-      double east_Longitude, double west_Longitude) {
+      double northLatitude, double southLatitude,
+      double eastLongitude, double westLongitude) {
 
     Coordinate[] coordinates = new Coordinate[]{
-        new Coordinate(east_Longitude, south_Latitude),
-        new Coordinate(east_Longitude, north_Latitude),
-        new Coordinate(west_Longitude, south_Latitude),
-        new Coordinate(west_Longitude, north_Latitude),
-        new Coordinate(east_Longitude, south_Latitude)
+        new Coordinate(eastLongitude, southLatitude),
+        new Coordinate(eastLongitude, northLatitude),
+        new Coordinate(westLongitude, southLatitude),
+        new Coordinate(westLongitude, northLatitude),
+        new Coordinate(eastLongitude, southLatitude)
     };
 
     return geometryFactory.createPolygon(coordinates);

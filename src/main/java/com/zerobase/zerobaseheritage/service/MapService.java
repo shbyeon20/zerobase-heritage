@@ -30,26 +30,27 @@ public class MapService {
   private final SearchService searchService;
 
 
-  public List<MapGrid> createGridsWithColor(
-      double north_Latitude, double south_Latitude,
-      double east_Longitude, double west_Longitude, String userId
+  public List<MapGrid> selectGridsWithColor(
+      double northLatitude, double southLatitude,
+      double eastLongitude, double westLongitude, String userId
   ) {
     log.info("createGridsWithColor service start");
 
     // bounding box 생성
     MapBoundingBox boundingBox = new MapBoundingBox(
-        north_Latitude, south_Latitude, east_Longitude, west_Longitude);
+        northLatitude, southLatitude, eastLongitude, westLongitude);
 
     // 생성된 bounding box를 grid로 나눔
     List<MapGrid> grids = gridService.createGridsFromBoundingBox(boundingBox);
 
     // user가 방문한 heritage list를 호출
     List<HeritageDto> visitedHeritageDtos = new ArrayList<>(
-        visitService.visitedHeritageByUser(userId));
+        visitService.visitedHeritageByUserWithinArea(userId, northLatitude,
+            southLatitude, eastLongitude, westLongitude));
 
     log.info(visitedHeritageDtos.toString());
     log.info(
-        String.valueOf("check if its null : " + visitedHeritageDtos == null));
+        String.valueOf("check if it is null : " + visitedHeritageDtos == null));
 
     // api test를 위해서 user data 임시로 생성하여 확인
     visitedHeritageDtos.add(HeritageDto.builder()
@@ -95,7 +96,7 @@ public class MapService {
     List<HeritageDto> heritagesInBox = searchService.byPolygon(polygon);
 
     // coloredgrid생성
-    List<MapGrid> gridsWithColor = createGridsWithColor(north_Latitude,
+    List<MapGrid> gridsWithColor = selectGridsWithColor(north_Latitude,
         south_Latitude, east_Longitude, west_Longitude, userId);
 
     log.info("mapResponseWithGridsAndHeritages service finish");

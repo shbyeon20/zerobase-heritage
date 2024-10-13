@@ -6,12 +6,14 @@ import com.zerobase.zerobaseheritage.dto.HeritageDto;
 import com.zerobase.zerobaseheritage.entity.HeritageEntity;
 import com.zerobase.zerobaseheritage.entity.MemberEntity;
 import com.zerobase.zerobaseheritage.entity.VisitedHeritageEntity;
+import com.zerobase.zerobaseheritage.geolocation.GeoLocationAdapter;
 import com.zerobase.zerobaseheritage.repository.HeritageRepository;
 import com.zerobase.zerobaseheritage.repository.MemberRepository;
 import com.zerobase.zerobaseheritage.repository.VisitedHeritageRepository;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.locationtech.jts.geom.Polygon;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -22,6 +24,7 @@ public class VisitService {
   private final HeritageRepository heritageRepository;
   private final VisitedHeritageRepository visitedHeritageRepository;
   private final MemberRepository memberRepository;
+  private final GeoLocationAdapter geoLocationAdapter;
 
     /*
     유저가 방문하고자하는 유적을 선택하면 방문여부를 확인한 후, 방문처리한다.
@@ -35,11 +38,9 @@ public class VisitService {
 
     log.info("visitHeritage Service start");
 
-    boolean alreadyVisited = visitedHeritageRepository.existsByMemberEntity_MemberIdAndHeritageEntity_HeritageId(
-        memberId,
-        heritageId);
 
-    if (alreadyVisited) {
+    if (visitedHeritageRepository.
+        existsByMemberEntity_MemberIdAndHeritageEntity_HeritageId(memberId, heritageId)) {
       throw new CustomExcpetion(ErrorCode.UNEXPECTED_REQUEST_FROM_FRONT,
           "이미 방문처리한 유적입니다");
     }
@@ -67,12 +68,17 @@ public class VisitService {
     return HeritageDto.fromEntity(heritageEntity);
   }
 
-  public List<HeritageDto> visitedHeritageByUser(String memberId) {
+  public List<HeritageDto> visitedHeritageByUserWithinArea(String memberId,
+      double northLatitude, double southLatitude, double eastLongitude,
+      double westLongitude) {
 
     log.info("visitedHeritageByUser Service start");
 
-    List<HeritageEntity> visitedHeritages = visitedHeritageRepository.findAllVisitedHeritageByMemberId(
-        memberId);
+    Polygon polygon = geoLocationAdapter.boxToPolygon(northLatitude,
+        southLatitude, eastLongitude, westLongitude);
+
+    List<HeritageEntity> visitedHeritages = visitedHeritageRepository.findAllVisitedHeritageByMemberIdWithinPolygon(
+        memberId,polygon);
 
     return visitedHeritages.stream().map(HeritageDto::fromEntity).toList();
   }
