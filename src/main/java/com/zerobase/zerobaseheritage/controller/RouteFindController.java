@@ -1,7 +1,7 @@
 package com.zerobase.zerobaseheritage.controller;
 
 import com.zerobase.zerobaseheritage.dto.RouteFind.CustomPoint;
-import com.zerobase.zerobaseheritage.service.RoutePointsResponse;
+import com.zerobase.zerobaseheritage.dto.RoutePointsResponse;
 import com.zerobase.zerobaseheritage.service.RouteFindService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

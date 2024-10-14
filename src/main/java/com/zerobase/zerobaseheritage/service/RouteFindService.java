@@ -1,15 +1,21 @@
 package com.zerobase.zerobaseheritage.service;
 
+import com.zerobase.zerobaseheritage.datatype.exception.CustomExcpetion;
+import com.zerobase.zerobaseheritage.datatype.exception.ErrorCode;
 import com.zerobase.zerobaseheritage.dto.HeritageDto;
 import com.zerobase.zerobaseheritage.dto.RouteFind.BasePoint;
 import com.zerobase.zerobaseheritage.dto.RouteFind.CustomPoint;
 import com.zerobase.zerobaseheritage.dto.RouteFind.HeritagePoint;
 import com.zerobase.zerobaseheritage.dto.RouteFind.PointCollection;
+import com.zerobase.zerobaseheritage.dto.RoutePointsResponse;
 import com.zerobase.zerobaseheritage.dto.pathFindApi.PathFindApiResultDto;
+import com.zerobase.zerobaseheritage.dto.pathFindApi.PathFindApiResultDtos;
 import com.zerobase.zerobaseheritage.externalApi.PathFindApi;
 import com.zerobase.zerobaseheritage.geolocation.GeoLocationAdapter;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.Future;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.locationtech.jts.geom.Point;
@@ -24,6 +30,7 @@ public class RouteFindService {
   private final PathFindApi pathFindApi;
   private final SearchService searchService;
   private final GeoLocationAdapter geoLocationAdapter;
+  private final RouteFindThreadService routeFindThreadService;
 
   @Value("${sightseeing.time}")
   private long SIGHT_SEEING_TIME;
@@ -43,9 +50,11 @@ public class RouteFindService {
 
 
    */
-  public RoutePointsResponse routeFind(CustomPoint clientPoint, long timeLimit) {
+  public RoutePointsResponse routeFind(CustomPoint clientPoint,
+      long timeLimit) {
 
-    log.info("routeFind Service started for clientPoint " + clientPoint+" timeLimit="+timeLimit);
+    log.info("routeFind Service started for clientPoint " + clientPoint
+        + " timeLimit=" + timeLimit);
 
     // 경로상의 Points를 담는 컬랙션을 생성하고 출발점 clientPoint를 넣어서 초기화
     PointCollection pointCollection = new PointCollection();
@@ -57,7 +66,7 @@ public class RouteFindService {
 
     // timeLimit 내에 가능한 경로를 모두 추가할때까지 while문 반복
     boolean morePathToFind = true;
-    while(morePathToFind){
+    while (morePathToFind) {
       morePathToFind = findNextPoint(clientPoint, heritagePoints,
           timeLimit, pointCollection);
     }
@@ -69,7 +78,8 @@ public class RouteFindService {
    */
   private List<HeritagePoint> getHeritagePoints(CustomPoint clientLocation) {
 
-    log.info("getHeritagePoints service started for clientLocation="+clientLocation);
+    log.info("getHeritagePoints service started for clientLocation="
+        + clientLocation);
     // CustomPoint를 jts Point로 형변환 후 Point 주변 문화유산 탐색
     Point clientPoint = geoLocationAdapter.coordinateToPoint(
         clientLocation.getLongitudeX(), clientLocation.getLatitudeY());
@@ -88,65 +98,81 @@ public class RouteFindService {
   private boolean findNextPoint(CustomPoint clientPoint,
       List<HeritagePoint> heritagePoints,
       long timeLimit, PointCollection routePoints) {
-    log.info("findNextPoint service started for clientPoint "+clientPoint+"routePoints="+routePoints.toString());
+    log.info("findNextPoint service started for clientPoint " + clientPoint
+        + "routePoints=" + routePoints.toString());
 
     HeritagePoint nextDestination = null;
     double timeGradeRatioMax = 0;
-    long nextTime=0;
-    int nextGradePoint=0;
+    long nextTime = 0;
+    int nextGradePoint = 0;
 
     // heritage를 순회하여 루트별로 timeGradeRatio를 계산, 최대 루트를 다음 도착지로 결정함
+    List<Future<PathFindApiResultDtos>> futures = new LinkedList<>();
     for (HeritagePoint nextDestinationCandidate : heritagePoints) {
       // heritage가 이미 사용되었으면 continue
-      if (nextDestinationCandidate.isAlreadyUsed()) continue;
+      if (nextDestinationCandidate.isAlreadyUsed()) {
+        continue;
+      }
 
+      futures.add(routeFindThreadService.submitPathFindTask(
+          routePoints, nextDestinationCandidate, clientPoint));
+    }
 
-      // 다음 목적지까지의 소요시간과 다음 목적지에서 client 위치까지 복귀시간 호출
-      PathFindApiResultDto pathToHeritageCandidate = pathFindApi.getPathInfoBetweenPoints(
-          routePoints.getPoints().getLast(), nextDestinationCandidate);
-      PathFindApiResultDto pathToReturn = pathFindApi.getPathInfoBetweenPoints(
-          nextDestinationCandidate, clientPoint);
+    for (Future<PathFindApiResultDtos> future : futures) {
+      PathFindApiResultDtos result;
+      try {
+        result = future.get();
+      } catch (Exception e) {
+        e.printStackTrace();
+        throw new CustomExcpetion(ErrorCode.THREAD_EXCEPTION,
+            "pathFind 쓰레드 상에서 예외 발생");
+      }
 
       // API에서 예외적인 값(차로 도달할 수 없음)을 수령시 continue
-      if(pathToHeritageCandidate==null||pathToReturn==null)continue;
+      if (result.getPathToHeritageCandidate() == null
+          || result.getPathToReturn() == null) {
+        continue;
+      }
 
-      long nextDestinationTime = pathToHeritageCandidate.getDuration();
+      long nextDestinationTime = result.getPathToHeritageCandidate()
+          .getDuration();
 
-      long returnTime = pathToReturn.getDuration();
-
-
-
-
+      long returnTime = result.getPathToReturn().getDuration();
 
       // 현재까지 경로시간 + 다음목적지까지시간 + 복귀시간이 시간제한을 넘으면 안됨
-      long timeAdded = nextDestinationTime + returnTime+ SIGHT_SEEING_TIME;
+      long timeAdded = nextDestinationTime + returnTime + SIGHT_SEEING_TIME;
       long routeTimeAddedAll = timeAdded + routePoints.getRouteTimeSum();
-      if (routeTimeAddedAll > timeLimit) continue;
+      if (routeTimeAddedAll > timeLimit) {
+        continue;
+      }
 
       //  문화유산점수/(다음목적지까지시간 + 복귀시간)의 효율도 구하기
-      int heritageGradePoint = nextDestinationCandidate.getHeritageGradePoint();
+      int heritageGradePoint = result.getNextDestinationCandidate()
+          .getHeritageGradePoint();
       double durationGradeRatio = heritageGradePoint / (double) timeAdded;
 
       // 효율도가 가장 높은 경로를 선택함
       if (durationGradeRatio > timeGradeRatioMax) {
         timeGradeRatioMax = durationGradeRatio;
 
-        nextDestination = nextDestinationCandidate;
+        nextDestination = result.getNextDestinationCandidate();
         nextTime = nextDestinationTime;
         nextGradePoint = heritageGradePoint;
         routePoints.setReturnTime(returnTime);
       }
     }
 
-    // nextDestination이 Null이면 선택할 heritage가 더이상 부재한 것.
-    if (nextDestination == null) return false;
+    // nextDestination이 Null로 유지되면 더이상 선택할 heritage가 부재한 것.
+    if (nextDestination == null) {
+      return false;
+    }
 
     // 선택된 nextDestination을 업데이트하고, 재탐색 방지
     nextDestination.setAlreadyUsed(true);
     routePoints.getPoints().add(nextDestination);
-    routePoints.setRouteTimeSum(routePoints.getRouteTimeSum()+nextTime);
-    routePoints.setHeritageGradePointSum(routePoints.getHeritageGradePointSum()+nextGradePoint);
-
+    routePoints.setRouteTimeSum(routePoints.getRouteTimeSum() + nextTime);
+    routePoints.setHeritageGradePointSum(
+        routePoints.getHeritageGradePointSum() + nextGradePoint);
 
     return true;
   }

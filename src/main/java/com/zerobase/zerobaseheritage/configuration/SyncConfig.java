@@ -10,8 +10,8 @@ import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 @Slf4j
 public class SyncConfig {
 
-  @Bean
-  public TaskExecutor taskExecutor() {
+  @Bean(name = "taskExecutor1")
+  public ThreadPoolTaskExecutor taskExecutor() {
     ThreadPoolTaskExecutor executor = new ThreadPoolTaskExecutor();
 
     int cores = Runtime.getRuntime().availableProcessors();

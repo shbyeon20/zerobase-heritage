@@ -1,4 +1,4 @@
-package com.zerobase.zerobaseheritage.service;
+package com.zerobase.zerobaseheritage.dto;
 
 import com.zerobase.zerobaseheritage.dto.RouteFind.BasePoint;
 import com.zerobase.zerobaseheritage.dto.RouteFind.PointCollection;
