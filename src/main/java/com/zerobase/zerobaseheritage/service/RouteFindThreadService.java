@@ -10,14 +10,15 @@ import com.zerobase.zerobaseheritage.externalApi.PathFindApi;
 import java.util.concurrent.Callable;
 import java.util.concurrent.Future;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.core.task.TaskExecutor;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 import org.springframework.stereotype.Service;
 
 @Service
 @RequiredArgsConstructor
+@Slf4j
 public class RouteFindThreadService {
 
   private final PathFindApi pathFindApi;
@@ -31,28 +32,35 @@ public class RouteFindThreadService {
       PointCollection routePoints, HeritagePoint nextDestinationCandidate,
       CustomPoint clientPoint) {
 
-
+    log.info(
+        "RouteFindThreadService Submitting task for {} Active Threads: {}, Queue Size: {}",
+        nextDestinationCandidate.toString(),
+        taskExecutor.getActiveCount(),
+        taskExecutor.getThreadPoolExecutor().getQueue());
 
     return taskExecutor.submit(
+
         new Callable<PathFindApiResultDtos>() {
 
-      @Override
-      public PathFindApiResultDtos call() throws Exception {
+          @Override
+          public PathFindApiResultDtos call() throws Exception {
 
-        PathFindApiResultDto pathToHeritageCandidate = pathFindApi.getPathInfoBetweenPoints(
-            routePoints.getPoints().getLast(), nextDestinationCandidate);
-        PathFindApiResultDto pathToReturn = pathFindApi.getPathInfoBetweenPoints(
-            nextDestinationCandidate, clientPoint);
+            // Route의 마지막점 ~ Candidate 사이의 Path 정보
+            PathFindApiResultDto pathToHeritageCandidate = pathFindApi.getPathInfoBetweenPoints(
+                routePoints.getPoints().getLast(), nextDestinationCandidate);
+            // Candidate ~ Client Location 사이의 Path 정보
+            PathFindApiResultDto pathToReturn = pathFindApi.getPathInfoBetweenPoints(
+                nextDestinationCandidate, clientPoint);
 
-        return PathFindApiResultDtos
-            .builder()
-            .nextDestinationCandidate(nextDestinationCandidate)
-            .pathToHeritageCandidate(pathToHeritageCandidate)
-            .pathToReturn(pathToReturn)
-            .build();
+            return PathFindApiResultDtos
+                .builder()
+                .nextDestinationCandidate(nextDestinationCandidate)
+                .pathToHeritageCandidate(pathToHeritageCandidate)
+                .pathToReturn(pathToReturn)
+                .build();
 
-      }
-    });
+          }
+        });
 
   }
 

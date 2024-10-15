@@ -8,13 +8,10 @@ import com.zerobase.zerobaseheritage.dto.RouteFind.CustomPoint;
 import com.zerobase.zerobaseheritage.dto.RouteFind.HeritagePoint;
 import com.zerobase.zerobaseheritage.dto.RouteFind.PointCollection;
 import com.zerobase.zerobaseheritage.dto.RoutePointsResponse;
-import com.zerobase.zerobaseheritage.dto.pathFindApi.PathFindApiResultDto;
 import com.zerobase.zerobaseheritage.dto.pathFindApi.PathFindApiResultDtos;
-import com.zerobase.zerobaseheritage.externalApi.PathFindApi;
 import com.zerobase.zerobaseheritage.geolocation.GeoLocationAdapter;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Future;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -27,10 +24,12 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public class RouteFindService {
 
-  private final PathFindApi pathFindApi;
   private final SearchService searchService;
   private final GeoLocationAdapter geoLocationAdapter;
   private final RouteFindThreadService routeFindThreadService;
+
+
+
 
   @Value("${sightseeing.time}")
   private long SIGHT_SEEING_TIME;
@@ -53,7 +52,7 @@ public class RouteFindService {
   public RoutePointsResponse routeFind(CustomPoint clientPoint,
       long timeLimit) {
 
-    log.info("routeFind Service started for clientPoint " + clientPoint
+    log.info("routeFind Service started for clientPoint " + clientPoint.toString()
         + " timeLimit=" + timeLimit);
 
     // 경로상의 Points를 담는 컬랙션을 생성하고 출발점 clientPoint를 넣어서 초기화
@@ -79,7 +78,7 @@ public class RouteFindService {
   private List<HeritagePoint> getHeritagePoints(CustomPoint clientLocation) {
 
     log.info("getHeritagePoints service started for clientLocation="
-        + clientLocation);
+        + clientLocation.toString());
     // CustomPoint를 jts Point로 형변환 후 Point 주변 문화유산 탐색
     Point clientPoint = geoLocationAdapter.coordinateToPoint(
         clientLocation.getLongitudeX(), clientLocation.getLatitudeY());
@@ -96,30 +95,40 @@ public class RouteFindService {
      -
       */
   private boolean findNextPoint(CustomPoint clientPoint,
-      List<HeritagePoint> heritagePoints,
-      long timeLimit, PointCollection routePoints) {
+      List<HeritagePoint> heritagePoints, long timeLimit,
+      PointCollection routePoints) {
     log.info("findNextPoint service started for clientPoint " + clientPoint
         + "routePoints=" + routePoints.toString());
 
-    HeritagePoint nextDestination = null;
-    double timeGradeRatioMax = 0;
-    long nextTime = 0;
-    int nextGradePoint = 0;
-
-    // heritage를 순회하여 루트별로 timeGradeRatio를 계산, 최대 루트를 다음 도착지로 결정함
+    // 멀티스레드 결과물을 담을 future list 생성하여 호출
     List<Future<PathFindApiResultDtos>> futures = new LinkedList<>();
     for (HeritagePoint nextDestinationCandidate : heritagePoints) {
-      // heritage가 이미 사용되었으면 continue
+      // heritagePoint가 RoutePoints에 이미 포함되어있다면 continue
       if (nextDestinationCandidate.isAlreadyUsed()) {
         continue;
       }
 
+
+
       futures.add(routeFindThreadService.submitPathFindTask(
           routePoints, nextDestinationCandidate, clientPoint));
+      try {
+        Thread.sleep(300); // 외부 API 부하경감을 위한 sleep. 이 이상은 reject 발생
+      } catch (InterruptedException e) {
+        throw new RuntimeException(e);
+      }
     }
 
+    // Future에 담긴 HeritagePoint와 관련된 API 결과값을 순회하여, HeritagePoint 별로
+    // timeGradeRatio를 계산하고 그 중 최대의 Point를 다음 도착지로 결정함
+
+    HeritagePoint nextDestination = null;
+    PathFindApiResultDtos result;
+    double timeGradeRatioMax = 0;
+    long nextTime = 0;
+    int nextGradePoint = 0;
+
     for (Future<PathFindApiResultDtos> future : futures) {
-      PathFindApiResultDtos result;
       try {
         result = future.get();
       } catch (Exception e) {

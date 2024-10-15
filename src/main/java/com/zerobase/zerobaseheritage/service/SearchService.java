@@ -29,7 +29,7 @@ public class SearchService {
 
 
   public List<HeritageDto> byPointLocation(Point point) {
-    log.info("search by location point service start ");
+    log.info("search by location point service start for "+point.toString());
 
     // Validate the latitude and longitude
     if (point.getY() < MIN_LATITUDE || point.getY() > MAX_LATITUDE ||
