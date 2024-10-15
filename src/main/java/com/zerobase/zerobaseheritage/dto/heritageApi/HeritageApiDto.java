@@ -31,13 +31,5 @@ public class HeritageApiDto {
   }
 
 
-  public static HeritageApiDto fromEntity(HeritageEntity heritageEntity) {
-    return HeritageApiDto.builder()
-        .heritageId(heritageEntity.getHeritageId())
-        .heritageName(heritageEntity.getHeritageName())
-        .heritageGrade(heritageEntity.getHeritageGrade())
-        .location(heritageEntity.getLocation())
-        .build();
-  }
 }
 

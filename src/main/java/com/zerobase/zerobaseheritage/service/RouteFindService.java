@@ -38,32 +38,32 @@ public class RouteFindService {
 
   input : startPoint, he
 
-  1. 나의 위치를 기반으로 heritage list를 받는다.
+  1. 나의 위치를 기반으로 heritage list 를 받는다.
 
-  2. heritage list를 Point로 변환하고, 그 중 가장 최적의 행선지를 고르고 이를 자료구조에 저장
+  2. heritage list 를 Point 로 변환하고, 그 중 가장 최적의 행선지를 고르고 이를 자료구조에 저장
 
   3. 자료구조를 변환하여 응답
 
   todo :
-    1. PointCollection을 PathCollection으로 확장할지 여부 고민, 시간남으면?
+    1. PointCollection 을 PathCollection 으로 확장할지 여부 고민, 시간남으면?
 
 
    */
   public RoutePointsResponse routeFind(CustomPoint clientPoint,
       long timeLimit) {
 
-    log.info("routeFind Service started for clientPoint " + clientPoint.toString()
-        + " timeLimit=" + timeLimit);
+    log.info("routeFind Service started for clientPoint {} with timeLimit={}", clientPoint, timeLimit);
 
-    // 경로상의 Points를 담는 컬랙션을 생성하고 출발점 clientPoint를 넣어서 초기화
+
+    // 경로상의 Points 를 담는 컬랙션을 생성하고 출발점 clientPoint 를 넣어서 초기화
     PointCollection pointCollection = new PointCollection();
     LinkedList<BasePoint> points = pointCollection.getPoints();
     points.add(clientPoint);
 
-    // clientPoint 주변의 heritagePoint를 탐색하여 리스트 반환
+    // clientPoint 주변의 heritagePoint 를 탐색하여 리스트 반환
     List<HeritagePoint> heritagePoints = getHeritagePoints(clientPoint);
 
-    // timeLimit 내에 가능한 경로를 모두 추가할때까지 while문 반복
+    // timeLimit 내에 가능한 경로를 모두 추가할때까지 while 문 반복
     boolean morePathToFind = true;
     while (morePathToFind) {
       morePathToFind = findNextPoint(clientPoint, heritagePoints,
@@ -73,37 +73,37 @@ public class RouteFindService {
   }
 
   /*
-  client Location 주변의 heritage를 point로 변환하여
+  client Location 주변의 heritage 를 point 로 변환하여
    */
   private List<HeritagePoint> getHeritagePoints(CustomPoint clientLocation) {
 
-    log.info("getHeritagePoints service started for clientLocation="
-        + clientLocation.toString());
-    // CustomPoint를 jts Point로 형변환 후 Point 주변 문화유산 탐색
+    log.info("getHeritagePoints service started for clientLocation={}", clientLocation);
+
+    // CustomPoint 를 jtsPoint 로 형변환 후 Point 주변 문화유산 탐색
     Point clientPoint = geoLocationAdapter.coordinateToPoint(
         clientLocation.getLongitudeX(), clientLocation.getLatitudeY());
     List<HeritageDto> heritageDtos = searchService.byPointLocation(clientPoint);
 
-    // heritageDto를 HeritagePoint(CustomPoint)로 형변환
+    // heritageDto 를 HeritagePoint(CustomPoint)로 형변환
     return heritageDtos.stream().map(HeritagePoint::fromDto).toList();
   }
 
 
   /*
-     외부 API로 부터
+     외부 API 로 부터
      - 다음 경로까지의, 다음경로에서 도착지로 돌아오는 시간 확인
      -
       */
   private boolean findNextPoint(CustomPoint clientPoint,
       List<HeritagePoint> heritagePoints, long timeLimit,
       PointCollection routePoints) {
-    log.info("findNextPoint service started for clientPoint " + clientPoint
-        + "routePoints=" + routePoints.toString());
+    log.info("findNextPoint service started for clientPoint {} and routePoints={}", clientPoint, routePoints);
+
 
     // 멀티스레드 결과물을 담을 future list 생성하여 호출
     List<Future<PathFindApiResultDtos>> futures = new LinkedList<>();
     for (HeritagePoint nextDestinationCandidate : heritagePoints) {
-      // heritagePoint가 RoutePoints에 이미 포함되어있다면 continue
+      // heritagePoint 가 RoutePoints 에 이미 포함되어있다면 continue
       if (nextDestinationCandidate.isAlreadyUsed()) {
         continue;
       }
@@ -119,8 +119,8 @@ public class RouteFindService {
       }
     }
 
-    // Future에 담긴 HeritagePoint와 관련된 API 결과값을 순회하여, HeritagePoint 별로
-    // timeGradeRatio를 계산하고 그 중 최대의 Point를 다음 도착지로 결정함
+    // Future 에 담긴 HeritagePoint 와 관련된 API 결과값을 순회하여, HeritagePoint 별로
+    // timeGradeRatio 를 계산하고 그 중 최대의 Point 를 다음 도착지로 결정함
 
     HeritagePoint nextDestination = null;
     PathFindApiResultDtos result;
@@ -137,7 +137,7 @@ public class RouteFindService {
             "pathFind 쓰레드 상에서 예외 발생");
       }
 
-      // API에서 예외적인 값(차로 도달할 수 없음)을 수령시 continue
+      // API 에서 예외적인 값(차로 도달할 수 없음)을 수령시 continue
       if (result.getPathToHeritageCandidate() == null
           || result.getPathToReturn() == null) {
         continue;

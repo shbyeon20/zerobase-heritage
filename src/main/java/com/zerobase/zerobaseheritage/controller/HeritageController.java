@@ -34,10 +34,10 @@ public class HeritageController {
       @RequestParam Double latitude, @RequestParam Double longitude) {
     log.info("HeritageController find byLocation start ");
 
-    List<HeritageDto> heritageDtos = searchService.byPointLocation(
+    List<HeritageDto> heritageDtoList = searchService.byPointLocation(
         geoLocationAdapter.coordinateToPoint(longitude, latitude));
 
-    return ResponseEntity.ok(heritageDtos);
+    return ResponseEntity.ok(heritageDtoList);
   }
 
 
@@ -48,7 +48,7 @@ public class HeritageController {
   @PostMapping("/visited-heritage")
   public String visitHeritage(@RequestParam String userId,
       @RequestParam String heritageId) {
-    log.info("HeritageController visite Heritage start");
+    log.info("HeritageController visit Heritage start");
 
     HeritageDto heritageDto = visitService.visitHeritage(userId, heritageId);
 

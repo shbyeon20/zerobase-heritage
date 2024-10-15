@@ -48,11 +48,9 @@ public class MapService {
         visitService.visitedHeritageByUserWithinArea(userId, northLatitude,
             southLatitude, eastLongitude, westLongitude));
 
-    log.info(visitedHeritageDtos.toString());
-    log.info(
-        String.valueOf("check if it is null : " + visitedHeritageDtos == null));
+    log.info(visitedHeritageDtos.toString());;
 
-    // api test를 위해서 user data 임시로 생성하여 확인
+    // api test 를 위해서 user data 임시로 생성하여 확인
     visitedHeritageDtos.add(HeritageDto.builder()
         .heritageGrade("국보")
         .heritageId("1111100020000")

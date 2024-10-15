@@ -15,25 +15,25 @@ public class GridService {
   public static final double GRID_MIN_SIZE = 0.01;
 
 /*
-  client로부터 지도표시를 위해 위도의 최대최소, 경도의 최대최소, 4개 값을 받음
-  grid를 위도 경도 0.01도 단위로 규격화하여 boundingbox를 생성
-  boundingbox를 gridMinSize로 쪼개어 gridbox로 만들고 List에 추가함
+  client 로부터 지도표시를 위해 위도의 최대최소, 경도의 최대최소, 4개 값을 받음
+  grid 를 위도 경도 0.01도 단위로 규격화하여 boundingBox 를 생성
+  boundingBox 를 gridMinSize 로 쪼개어 gridBox 로 만들고 List 에 추가함
    */
 
   public List<MapGrid> createGridsFromBoundingBox(MapBoundingBox boundingBox) {
     List<MapGrid> grids = new ArrayList<>();
-    // bounding box로 생성할수있는 grid의 가로 세로 개수 계산
+    // boundingBox 로 생성할수있는 grid 의 가로 세로 개수 계산
     int totalNumOfGridsByLongitudeInBox = calculateNumOfGridsByLongitudeInBox(
         boundingBox);
 
-    log.info(totalNumOfGridsByLongitudeInBox
-        + "  piece of grids created By Longitude");
+    log.info(" {}  piece of grids created By Longitude",
+        totalNumOfGridsByLongitudeInBox);
 
     int totalNumOfGridsByLatitudeInBox = calculateNumOfGridsByLatitudeInBox(
         boundingBox);
 
-    log.info(
-        totalNumOfGridsByLatitudeInBox + " piece of grids created By Latitude");
+    log.info("{} piece of grids created By Latitude",
+        totalNumOfGridsByLatitudeInBox);
 
     // grid를 좌상단부터 우측으로 하나씩 순회
     for (int indexOfGridByLatitude = 0;
@@ -50,7 +50,7 @@ public class GridService {
         double pointLatitudeOfGrid =
             Math.round((boundingBox.northLatitude
                 - GRID_MIN_SIZE * indexOfGridByLatitude) * 100) / 100.0;
-        log.info("grid : " + pointLatitudeOfGrid + "/" + pointLongitudeOfGrid);
+        log.info("grid : {}/{} ",pointLatitudeOfGrid,pointLongitudeOfGrid);
 
         grids.add(new MapGrid(pointLongitudeOfGrid,
             pointLatitudeOfGrid, GRID_MIN_SIZE));
@@ -89,7 +89,7 @@ public class GridService {
       return;
     }
     // 내부에 있다면 몇번째 grid 인지 확인
-    // point가 위치하는 grid의 index를 확인
+    // point 가 위치하는 grid 의 index 를 확인
     int indexOfGridByLongitude = (int) (
         (pointLongitude - boundingBox.westLongitude)
             / GRID_MIN_SIZE);
@@ -99,12 +99,12 @@ public class GridService {
     int numOfGridsByLongitudeInBox = calculateNumOfGridsByLongitudeInBox(
         boundingBox);
 
-    // index를 사용하여 몇번째 grid인지 확인.
+    // index 를 사용하여 몇번째 grid 인지 확인.
     int gridNum =
         indexOfGridByLongitude * numOfGridsByLongitudeInBox
             + indexOfGridByLatitude;
 
-    // 몇번째 boundingbox인지 식별후 not black으로 변경
+    // 몇번째 boundingBox 인지 식별후 not black 으로 변경
 
     grids.get(gridNum).setBlack(false);
 

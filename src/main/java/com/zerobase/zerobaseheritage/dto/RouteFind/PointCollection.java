@@ -1,6 +1,5 @@
 package com.zerobase.zerobaseheritage.dto.RouteFind;
 
-import com.fasterxml.jackson.databind.ser.Serializers.Base;
 import java.util.LinkedList;
 import lombok.Getter;
 import lombok.Setter;

@@ -9,14 +9,14 @@ import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 @Slf4j
 public class SyncConfig {
 
-  @Bean(name = "taskExecutor1")
-  public ThreadPoolTaskExecutor taskExecutor() {
+  @Bean
+  public ThreadPoolTaskExecutor RouteFindTaskExecutor() {
     ThreadPoolTaskExecutor executor = new ThreadPoolTaskExecutor();
 
     int cores = Runtime.getRuntime().availableProcessors();
     log.info("Available core numbers = {}", cores);
 
-    executor.setCorePoolSize(cores * 4);  // IO bound를 상정한 배수설정
+    executor.setCorePoolSize(cores * 4);  // IO bound 를 상정한 배수설정
     executor.setMaxPoolSize(cores * 8);
     executor.setQueueCapacity(1000);
     executor.initialize();

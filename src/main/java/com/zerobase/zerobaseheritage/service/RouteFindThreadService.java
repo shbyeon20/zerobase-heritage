@@ -11,7 +11,6 @@ import java.util.concurrent.Callable;
 import java.util.concurrent.Future;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 import org.springframework.stereotype.Service;
@@ -22,10 +21,8 @@ import org.springframework.stereotype.Service;
 public class RouteFindThreadService {
 
   private final PathFindApi pathFindApi;
-
-  @Autowired
-  @Qualifier("taskExecutor1")
-  private ThreadPoolTaskExecutor taskExecutor;
+  @Qualifier("RouteFindTaskExecutor")
+  private final ThreadPoolTaskExecutor taskExecutor;
 
 
   public Future<PathFindApiResultDtos> submitPathFindTask(
@@ -40,10 +37,10 @@ public class RouteFindThreadService {
 
     return taskExecutor.submit(
 
-        new Callable<PathFindApiResultDtos>() {
+        new Callable<>() {
 
           @Override
-          public PathFindApiResultDtos call() throws Exception {
+          public PathFindApiResultDtos call()  {
 
             // Route의 마지막점 ~ Candidate 사이의 Path 정보
             PathFindApiResultDto pathToHeritageCandidate = pathFindApi.getPathInfoBetweenPoints(

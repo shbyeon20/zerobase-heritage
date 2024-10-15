@@ -24,12 +24,11 @@ public class ExternalApiController {
 
 
   /*
-  1. 외부 API를 통해 xml -> javabean -> dto로 변환함. 호출은 300레코드씩 여러번 진행됨.
+  1. 외부 API 를 통해 xml -> javabean -> dto 로 변환함. 호출은 300레코드씩 여러번 진행됨.
   todo : 1. 비동기 프로그래밍 후속 도입하기
-   2. basic description에 대한 호출 도입하기
-    3. native query로 batch save 향후 구현
+   2. basic description 에 대한 호출 도입하기
 
-  2. program eventlistner로 변형시키기전 test controller로 테스트
+  2. program eventListener 로 변형시키기전 test controller 로 테스트
    */
   @GetMapping(value = "/external-data/heritage")
   public String loadHeritageData() {
@@ -61,10 +60,10 @@ public class ExternalApiController {
       }
       // move dto list to service layer
       recordSavedCnt += initDataService.initHeritageData(heritageApiDtoList);
-      log.info("recordCnt=" + recordSavedCnt);
+      log.info("recordCnt= {}",recordSavedCnt);
 
       if (recordSavedCnt
-          >= heritageApiResult.getTotalCnt()) { // DB에 저장된 Record와 외부API의 전체 Record수가 일치하면 break
+          >= heritageApiResult.getTotalCnt()) { // DB에 저장된 Record 와 외부 API 의 전체 Record 수가 일치하면 break
         log.info("external api data loading finished");
         break;
       }

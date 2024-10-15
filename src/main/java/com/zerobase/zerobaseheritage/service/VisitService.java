@@ -30,8 +30,8 @@ public class VisitService {
     유저가 방문하고자하는 유적을 선택하면 방문여부를 확인한 후, 방문처리한다.
 
     todo :
-     1. SpringSecurity 도입 후 principal로부터 ID 획득
-     2. 로그인시 VisitedHeirtageSet 캐쉬에 저장하여 관리하도록 설정
+     1. SpringSecurity 도입 후 principal 로부터 ID 획득
+     2. 로그인시 Visited Heritage Set 캐쉬에 저장하여 관리하도록 설정
      */
 
   public HeritageDto visitHeritage(String memberId, String heritageId) {
@@ -49,12 +49,12 @@ public class VisitService {
         .findByHeritageId(heritageId)
         .orElseThrow(
             () -> new CustomExcpetion(ErrorCode.UNEXPECTED_REQUEST_FROM_FRONT,
-                "존재하지 않는 유적ID에 대한 요청입니다."));
+                "존재하지 않는 유적 ID에 대한 요청입니다."));
 
     MemberEntity memberEntity = memberRepository.findByMemberId(memberId)
         .orElseThrow(
             () -> new CustomExcpetion(ErrorCode.UNEXPECTED_REQUEST_FROM_FRONT,
-                "존재하지 않는 유저ID에 대한 요청입니다."));
+                "존재하지 않는 유저 ID에 대한 요청입니다."));
 
     VisitedHeritageEntity newVisit = VisitedHeritageEntity.builder()
         .memberEntity(memberEntity)
