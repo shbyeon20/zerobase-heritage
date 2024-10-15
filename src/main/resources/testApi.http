@@ -3,7 +3,7 @@ GET localhost:8080/external-heritage-api
 
 
 ### GET request to client location
-GET localhost:8080/heritage/coordinate-nearby?latitude=37.5736269&
+GET localhost:8080/heritage/coordinate-nearby-heritage?latitude=37.5736269&
     longitude=127.0318097
 
 
@@ -11,5 +11,11 @@ GET localhost:8080/heritage/coordinate-nearby?latitude=37.5736269&
 GET localhost:8080/map/heritage-on/grid-on?
     northLatitude=37.580105&southLatitude=37.5632511943809
     &eastLongitude=126.9979403&westLongitude=126.98730762836
+
+### GET request to route information
+GET localhost:8080/route/get?latitude=37.5736269&
+    longitude=127.0318097&timeLimit=36000000
+
+
 
 
