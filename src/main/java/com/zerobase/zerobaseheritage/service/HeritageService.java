@@ -40,8 +40,8 @@ public class HeritageService {
   }
 
   /*
-  geolocationAdapter을 사용하여 외부 ApiItem을 ApiDto로 mapping하여
-  저장할수 있는
+  geolocationAdapter 을 사용하여 외부 Api Item 을 ApiDto 로 mapping 하여 DB에 저장할
+  형태로 변환
    */
   public HeritageApiDto mapHeritageApiItemToApiDto(HeritageApiItem item) {
     return HeritageApiDto.builder()

@@ -34,19 +34,14 @@ public class RouteFindService {
 
   /*
 
-  input : startPoint, he
-
   1. 나의 위치를 기반으로 heritage list 를 받는다.
 
   2. heritage list 를 Point 로 변환하고, 그 중 가장 최적의 행선지를 고르고 이를 자료구조에 저장
 
-  3. 자료구조를 변환하여 응답
-
-  todo :
-    1. PointCollection 을 PathCollection 으로 확장할지 여부 고민, 시간남으면?
-
+  3. 자료구조를 응답 DTO 로 변환하여 Client 에 응답
 
    */
+
   public RoutePointsResponse routeFind(CustomPoint clientPoint,
       long timeLimit) {
 
@@ -61,17 +56,18 @@ public class RouteFindService {
     // clientPoint 주변의 heritagePoint 를 탐색하여 리스트 반환
     List<HeritagePoint> heritagePoints = getHeritagePoints(clientPoint);
 
-    // timeLimit 내에 가능한 경로를 모두 추가할때까지 while 문 반복
-    boolean morePathToFind = true;
-    while (morePathToFind) {
-      morePathToFind = findNextPoint(clientPoint, heritagePoints,
+    // timeLimit 내에 탐색 가능한 경로를 모두 확인하여, 최적의 경로를 pointCollection 에 추가함.
+    // 모두 추가할때까지 while 문 반복
+    boolean IsThereMorePathToFind = true;
+    while (IsThereMorePathToFind) {
+      IsThereMorePathToFind = findNextPoint(clientPoint, heritagePoints,
           timeLimit, pointCollection);
     }
     return RoutePointsResponse.fromPointCollection(pointCollection);
   }
 
   /*
-  client Location 주변의 heritage 를 point 로 변환하여
+  client Location 주변의 heritage 를 point 로 변환하여 반환한다.
    */
   private List<HeritagePoint> getHeritagePoints(CustomPoint clientLocation) {
 
@@ -89,9 +85,10 @@ public class RouteFindService {
 
 
   /*
-     외부 API 로 부터
-     - 다음 경로까지의, 다음경로에서 도착지로 돌아오는 시간 확인
-     -
+     외부 API 로부터 경로간의 정보(걸리는 시간)를 확인함
+     - routePoints 의 마지막 경로에서 다음 경로까지, 그리고 다음경로에서 도착지로 돌아오는 시간 확인
+     - 유적지의 등급점수를 관람시간으로 나누어 시간당 점수가 가장 높은 경로를 선택
+     - 단, 관람시간이 timeLimit을 넘으면 경로선택에서 제외
       */
   private boolean findNextPoint(CustomPoint clientPoint,
       List<HeritagePoint> heritagePoints, long timeLimit,

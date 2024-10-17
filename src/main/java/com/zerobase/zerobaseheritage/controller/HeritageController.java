@@ -29,7 +29,10 @@ public class HeritageController {
   private final GeoLocationAdapter geoLocationAdapter;
   private final VisitService visitService;
 
-  @GetMapping("/coordinate-nearby-heritage")
+  /*
+   특정 좌표 근처에 있는 유적지를 검색한다 ;
+   */
+  @GetMapping("/heritage-nearby-coordinate")
   public ResponseEntity<List<HeritageDto>> ByPointLocation(
       @RequestParam Double latitude, @RequestParam Double longitude) {
     log.info("HeritageController find byLocation start ");
@@ -42,8 +45,7 @@ public class HeritageController {
 
 
   /*
-  유저의 요청에 따라 방문처리한다.
-
+   유저의 요청에 따라 유적지를 방문처리한다.
    */
   @PostMapping("/visited-heritage")
   public String visitHeritage(@RequestParam String userId,

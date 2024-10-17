@@ -24,6 +24,9 @@ public class RouteFindThreadService {
   @Qualifier("ExternalApiTaskExecutor")
   private final ThreadPoolTaskExecutor taskExecutor;
 
+  /*
+  Point 들 간의 경로 정보를 API 로 부터 호출하여 반환한다
+   */
 
   public Future<PathFindApiResultDtos> submitPathFindTask(
       PointCollection routePoints, HeritagePoint nextDestinationCandidate,
@@ -42,20 +45,20 @@ public class RouteFindThreadService {
           @Override
           public PathFindApiResultDtos call()  {
 
-            // Route의 마지막점 ~ Candidate 사이의 Path 정보
+            // Route 의 마지막 위치 ~  다음 이동 후보지 사이의 Path 정보 불러오기
             PathFindApiResultDto pathToHeritageCandidate = pathFindApi.getPathInfoBetweenPoints(
                 routePoints.getPoints().getLast(), nextDestinationCandidate);
-            // Candidate ~ Client Location 사이의 Path 정보
+            // 다음 이동 후보지 ~ Client Location 사이의 Path 정보 불러오기
             PathFindApiResultDto pathToReturn = pathFindApi.getPathInfoBetweenPoints(
                 nextDestinationCandidate, clientPoint);
 
+            // API 호출정보를 병합하여 반환
             return PathFindApiResultDtos
                 .builder()
                 .nextDestinationCandidate(nextDestinationCandidate)
                 .pathToHeritageCandidate(pathToHeritageCandidate)
                 .pathToReturn(pathToReturn)
                 .build();
-
           }
         });
 

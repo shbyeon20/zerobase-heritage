@@ -40,7 +40,6 @@ public class VisitService {
 
     log.info("visitHeritage Service start");
 
-
     if (visitedHeritageRepository.
         existsByMemberEntity_MemberIdAndHeritageEntity_HeritageId(memberId, heritageId)) {
       throw new CustomExcpetion(ErrorCode.UNEXPECTED_REQUEST_FROM_FRONT,

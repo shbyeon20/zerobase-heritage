@@ -14,9 +14,8 @@ public class InitHeritageDataController {
   public final InitDataService initDataService;
 
   /*
-
-   basic description 에 대한 호출 도입하기
-
+   외부 API 통해서 데이터를 내부 DB로 저장한다
+   todo : basic description 에 대한 호출 도입하기
    */
   @GetMapping(value = "/external-data/heritage")
   public String loadHeritageData() {

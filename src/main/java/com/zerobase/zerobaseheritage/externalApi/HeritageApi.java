@@ -18,8 +18,7 @@ public class HeritageApi {
   private final XmlMapper xmlMapper;
 
   /*
-    1. https://www.khs.go.kr 의 xml 데이터를 javabean으로 맵핑
-
+    1. https://www.khs.go.kr 의 xml 데이터를 javabean 으로 맵핑
 
     2. item내 같이 호출된 ccbaKdcd, ccbaAsno, ccbaCtcd는 다른 APi 호출을 위해 필요한 para값임
     -> basic description에 대한 API 호출을 위해서 향후 쓰일 것임.
