@@ -29,8 +29,6 @@ public class RouteFindService {
   private final RouteFindThreadService routeFindThreadService;
 
 
-
-
   @Value("${sightseeing.time}")
   private long SIGHT_SEEING_TIME;
 
@@ -52,8 +50,8 @@ public class RouteFindService {
   public RoutePointsResponse routeFind(CustomPoint clientPoint,
       long timeLimit) {
 
-    log.info("routeFind Service started for clientPoint {} with timeLimit={}", clientPoint, timeLimit);
-
+    log.info("routeFind Service started for clientPoint {} with timeLimit={}",
+        clientPoint, timeLimit);
 
     // 경로상의 Points 를 담는 컬랙션을 생성하고 출발점 clientPoint 를 넣어서 초기화
     PointCollection pointCollection = new PointCollection();
@@ -77,7 +75,8 @@ public class RouteFindService {
    */
   private List<HeritagePoint> getHeritagePoints(CustomPoint clientLocation) {
 
-    log.info("getHeritagePoints service started for clientLocation={}", clientLocation);
+    log.info("getHeritagePoints service started for clientLocation={}",
+        clientLocation);
 
     // CustomPoint 를 jtsPoint 로 형변환 후 Point 주변 문화유산 탐색
     Point clientPoint = geoLocationAdapter.coordinateToPoint(
@@ -96,9 +95,10 @@ public class RouteFindService {
       */
   private boolean findNextPoint(CustomPoint clientPoint,
       List<HeritagePoint> heritagePoints, long timeLimit,
-      PointCollection routePoints) {
-    log.info("findNextPoint service started for clientPoint {} and routePoints={}", clientPoint, routePoints);
-
+      PointCollection routePoints)  {
+    log.info(
+        "findNextPoint service started for clientPoint {} and routePoints={}",
+        clientPoint, routePoints);
 
     // 멀티스레드 결과물을 담을 future list 생성하여 호출
     List<Future<PathFindApiResultDtos>> futures = new LinkedList<>();
@@ -107,9 +107,6 @@ public class RouteFindService {
       if (nextDestinationCandidate.isAlreadyUsed()) {
         continue;
       }
-
-
-
       futures.add(routeFindThreadService.submitPathFindTask(
           routePoints, nextDestinationCandidate, clientPoint));
       try {
@@ -137,7 +134,7 @@ public class RouteFindService {
             "pathFind 쓰레드 상에서 예외 발생");
       }
 
-      // API 에서 예외적인 값(차로 도달할 수 없음)을 수령시 continue
+      // API 에서 예외적인 값(차로 도달할 수 없는 경우 등)을 수령시 continue
       if (result.getPathToHeritageCandidate() == null
           || result.getPathToReturn() == null) {
         continue;

@@ -28,7 +28,7 @@ public class HeritageApi {
 
   public HeritageApiResult fetchApiData(int pageNum) {
     WebClient client = WebClient.create("https://www.khs.go.kr");
-    log.info("HeritageApi fetchApiData");
+    log.info("start fetchApiData for HeritageApi");
 
     String xmlResponse = client.get()
         .uri(uriBuilder -> uriBuilder
@@ -42,7 +42,7 @@ public class HeritageApi {
         .block();  // Synchronous call, use `block()` in non-reactive code
 
     try {
-      log.info("Successfully parsed XML to HeritageApiResult");
+      log.info("API fetching completed : parsing XML to HeritageApiResult after API response: ");
       return xmlMapper.readValue(xmlResponse, HeritageApiResult.class);
     } catch (JsonProcessingException e) {
       log.error(e.getMessage());

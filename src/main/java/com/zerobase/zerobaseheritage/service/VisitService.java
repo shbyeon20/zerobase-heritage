@@ -15,6 +15,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.locationtech.jts.geom.Polygon;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @RequiredArgsConstructor
@@ -34,6 +35,7 @@ public class VisitService {
      2. 로그인시 Visited Heritage Set 캐쉬에 저장하여 관리하도록 설정
      */
 
+  @Transactional
   public HeritageDto visitHeritage(String memberId, String heritageId) {
 
     log.info("visitHeritage Service start");

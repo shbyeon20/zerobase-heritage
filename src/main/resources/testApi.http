@@ -1,5 +1,5 @@
 ### GET request to initiate data
-GET localhost:8080/external-heritage-api
+GET localhost:8080/external-data/heritage
 
 
 ### GET request to client location
@@ -15,7 +15,6 @@ GET localhost:8080/map/heritage-on/grid-on?
 ### GET request to route information
 GET localhost:8080/route/get?latitude=37.5736269&
     longitude=127.0318097&timeLimit=36000000
-
 
 
 

@@ -1,5 +1,6 @@
 package com.zerobase.zerobaseheritage.dto.heritageApi;
 
+import com.zerobase.zerobaseheritage.dto.heritageApi.HeritageApiResult.HeritageApiItem;
 import com.zerobase.zerobaseheritage.entity.HeritageEntity;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -29,6 +30,8 @@ public class HeritageApiDto {
         .location(heritageApiDto.location)
         .build();
   }
+
+
 
 
 }

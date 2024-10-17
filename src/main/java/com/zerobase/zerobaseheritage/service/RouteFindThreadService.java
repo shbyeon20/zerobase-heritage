@@ -21,7 +21,7 @@ import org.springframework.stereotype.Service;
 public class RouteFindThreadService {
 
   private final PathFindApi pathFindApi;
-  @Qualifier("RouteFindTaskExecutor")
+  @Qualifier("ExternalApiTaskExecutor")
   private final ThreadPoolTaskExecutor taskExecutor;
 
 
@@ -63,3 +63,6 @@ public class RouteFindThreadService {
 
 
 }
+
+
+
