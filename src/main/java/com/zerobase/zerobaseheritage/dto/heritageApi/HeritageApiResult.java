@@ -37,7 +37,7 @@ public class HeritageApiResult {
     @JacksonXmlProperty(localName = "ccmaName")
     private String heritageGrade;
 
-    //ccbaKdcd, ccbaAsno, ccbaCtcd는 다른 APi 호출을 위해 필요한 para값
+    //ccbaKdcd , ccbaAsno , ccbaCtcd 는 다른 APi 호출을 위해 필요한 para 값
     private String ccbaKdcd;
     private String ccbaAsno;
     private String ccbaCtcd;

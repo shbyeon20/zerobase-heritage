@@ -1,9 +1,18 @@
 package com.zerobase.zerobaseheritage.service;
 
+import com.zerobase.zerobaseheritage.datatype.exception.CustomExcpetion;
+import com.zerobase.zerobaseheritage.datatype.exception.ErrorCode;
 import com.zerobase.zerobaseheritage.dto.heritageApi.HeritageApiDto;
+import com.zerobase.zerobaseheritage.dto.heritageApi.HeritageApiResult;
+import com.zerobase.zerobaseheritage.dto.heritageApi.HeritageApiResult.HeritageApiItem;
 import com.zerobase.zerobaseheritage.entity.HeritageEntity;
+import com.zerobase.zerobaseheritage.externalApi.HeritageApi;
+import com.zerobase.zerobaseheritage.geolocation.GeoLocationAdapter;
 import com.zerobase.zerobaseheritage.repository.HeritageRepository;
+import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
+import java.util.concurrent.Future;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -16,40 +25,70 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional
 public class InitDataService {
 
-  private final HeritageRepository heritageRepository;
+  private final HeritageApi heritageApi;
+  private final HeritageService heritageService;
+  private final InitDataThreadService initDataThreadService;
 
 
   /*
 
-   controller에서 레코드 리스트를 받고, 리스트를 순회하며 insertignore을 통해서 반복저장함. 저장성공시마다  ++하여 최종값 return
+  외부 API로부터 300 record x 1 page x 10회 callable 단위로 데이터 로드 후 저장하는 작업을 수행
+  외부 API 데이터가 비어있으면 while문을 중단한다.
 
-   ->  외부 API상 중복된 데이터 다수 존재하여 SaveAll()로 저장시 중복된 데이터로 인해 exception발생함
-   ->> insertIgnore로 방법 변경, 향후 복수의 레코드를 insertingore하는 방법 추가 예정
+  trouble
+   ->  외부 API에 중복된 데이터 다수 존재하여 SaveAll()로 저장시 중복 exception 발생하므로 insert on duplicate update로 변경
+   -->  MySQL myIsam엔진 사용시 Insert on duplicate update시 deadlock발생, sharedLock 원인으로 추정됨. innoDB 엔진으로 변경
 
-   basic decription은 별도의 다른 API 호출이 필요하며 해당 APi 호출시
-   ccbaKdcd, ccbaAsno, ccbaCtcd의 para 값이 필요함, 향후 추가예정
-
-    todo : 1. baiscDescription을 위한 API호출 추가 2.속도 향상을 위해서 multithread 향후 추가 3. insertignore batch처리할수 있도록 향후 추가
-
+   todo : basic description 은 별도의 다른 API 호출이 필요. 해당 API 호출시 ccbaKdcd, ccbaAsno, ccbaCtcd의 para 값이 필요함
    */
-  public int initHeritageData(List<HeritageApiDto> heritageApiDtos) {
+
+  public void loadHeritageData() {
     log.info("heritage data init service start");
 
-    List<HeritageEntity> heritageEntities =
-        heritageApiDtos.stream().map(HeritageApiDto::toEntity).toList();
+    int apiPageNumber = 1;
+    List<HeritageApiItem> heritageApiItems;
+    List<Future<List<HeritageApiItem>>> futures = new ArrayList<>();
+    Boolean isEmpty = false;
 
-    int recordCnt = 0;
+    while (!isEmpty) {
+      for (int i = 0; i < 10; i++) {
+        log.info("current Api pageNumber : {}", apiPageNumber);
+        futures.add(
+            initDataThreadService.submitLoadHeritageApiDataAndSave(apiPageNumber));
+        apiPageNumber += 1;
+        try {
+          Thread.sleep(100); // 외부 API 부하경감을 위한 Sleep
+        } catch (Exception e) {
+          throw new CustomExcpetion(ErrorCode.THREAD_EXCEPTION,
+              "init data thread exception 발생");
+        }
+      }
+      // 10회 API 호출 및 저장을 수행하고 API 데이터가 비어있는지 확인한다
 
-    for (HeritageEntity heritageEntity : heritageEntities) {
-      recordCnt += heritageRepository.insertIgnore(
-          heritageEntity.getHeritageId()
-          , heritageEntity.getHeritageName()
-          , heritageEntity.getLocation()
-          , heritageEntity.getHeritageGrade()
-          , heritageEntity.getBasicDescription());
+      for (int i = 0; i < 10; i++) {
+        try {
+          heritageApiItems = futures.get(i).get();
+          log.info(
+              "heritage api items in initdata service expecting it to be null at some point : {}",
+              heritageApiItems);
+        } catch (Exception e) {
+          e.printStackTrace();
+          throw new CustomExcpetion(ErrorCode.THREAD_EXCEPTION,
+              "loadHeritageData thread exception");
+        }
+        // 외부 API 데이터가 비어있으면 loop를 중단
+        if (heritageApiItems == null || heritageApiItems.size() == 0) {
+          log.info(
+              "heritage api items is empty finishing the loop for fetchin api");
+          isEmpty = true;
+        }
+
+      }
+      futures.clear();
+
     }
-
-    return recordCnt;
-
+    log.info("load heritage Data service  finished");
   }
+
+
 }

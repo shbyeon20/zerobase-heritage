@@ -41,3 +41,11 @@ externalAPI:
 
 
 
+logging:
+  file:
+    name: /Users/byeonsanghwa/Desktop/변상화/10. Programming Material/JavaDev/Spring/zerobase-heritage/logfile.log  # The path where the log file will be saved
+  level:
+    root: INFO  # Log level
+  pattern:
+    console: "%d{yyyy-MM-dd HH:mm:ss} - %msg%n"  # Pattern for console output
+    file: "%d{yyyy-MM-dd HH:mm:ss} [%thread] %-5level %logger{36} - %msg%n"  # Pattern for log file

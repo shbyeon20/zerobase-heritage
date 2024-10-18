@@ -1,7 +1,7 @@
 package com.zerobase.zerobaseheritage.controller;
 
 import com.zerobase.zerobaseheritage.dto.RouteFind.CustomPoint;
-import com.zerobase.zerobaseheritage.service.RoutePointsResponse;
+import com.zerobase.zerobaseheritage.dto.RoutePointsResponse;
 import com.zerobase.zerobaseheritage.service.RouteFindService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -23,7 +23,7 @@ public class RouteFindController {
           @RequestParam double longitude,
           @RequestParam long timeLimit) {
 
-    log.info("routeFInd Controller start for " + latitude + " " + longitude+ " " + timeLimit);
+    log.info("routeFind Controller start for latitude={}, longitude={}, timeLimit={}", latitude, longitude, timeLimit);
 
     CustomPoint clientPoint = CustomPoint.builder().latitudeY(latitude)
         .longitudeX(longitude).build();

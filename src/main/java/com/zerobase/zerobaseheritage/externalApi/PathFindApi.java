@@ -51,6 +51,7 @@ public class PathFindApi {
         .retrieve()
         .bodyToMono(String.class)
         .block();
+
     try {
       PathFindApiResult pathFindApiResult = objectMapper.readValue(jsonResponse,
           PathFindApiResult.class);

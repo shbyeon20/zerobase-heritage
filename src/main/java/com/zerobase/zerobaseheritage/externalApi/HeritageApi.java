@@ -18,8 +18,7 @@ public class HeritageApi {
   private final XmlMapper xmlMapper;
 
   /*
-    1. https://www.khs.go.kr 의 xml 데이터를 javabean으로 맵핑
-
+    1. https://www.khs.go.kr 의 xml 데이터를 javabean 으로 맵핑
 
     2. item내 같이 호출된 ccbaKdcd, ccbaAsno, ccbaCtcd는 다른 APi 호출을 위해 필요한 para값임
     -> basic description에 대한 API 호출을 위해서 향후 쓰일 것임.
@@ -28,7 +27,7 @@ public class HeritageApi {
 
   public HeritageApiResult fetchApiData(int pageNum) {
     WebClient client = WebClient.create("https://www.khs.go.kr");
-    log.info("HeritageApi fetchApiData");
+    log.info("start fetchApiData for HeritageApi");
 
     String xmlResponse = client.get()
         .uri(uriBuilder -> uriBuilder
@@ -42,7 +41,7 @@ public class HeritageApi {
         .block();  // Synchronous call, use `block()` in non-reactive code
 
     try {
-      log.info("Successfully parsed XML to HeritageApiResult");
+      log.info("API fetching completed : parsing XML to HeritageApiResult after API response: ");
       return xmlMapper.readValue(xmlResponse, HeritageApiResult.class);
     } catch (JsonProcessingException e) {
       log.error(e.getMessage());
