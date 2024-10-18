@@ -4,7 +4,6 @@ import com.zerobase.zerobaseheritage.datatype.exception.CustomExcpetion;
 import com.zerobase.zerobaseheritage.datatype.exception.ErrorCode;
 import com.zerobase.zerobaseheritage.dto.HeritageDto;
 import com.zerobase.zerobaseheritage.entity.HeritageEntity;
-import com.zerobase.zerobaseheritage.entity.MemberEntity;
 import com.zerobase.zerobaseheritage.entity.VisitedHeritageEntity;
 import com.zerobase.zerobaseheritage.geolocation.GeoLocationAdapter;
 import com.zerobase.zerobaseheritage.repository.HeritageRepository;
