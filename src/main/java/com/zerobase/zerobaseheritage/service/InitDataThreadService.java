@@ -37,7 +37,6 @@ public class InitDataThreadService {
         taskExecutor.getActiveCount(),
         taskExecutor.getThreadPoolExecutor().getQueue().size());
 
-
     return taskExecutor.submit(new Callable<List<HeritageApiItem>>() {
 
       @Override

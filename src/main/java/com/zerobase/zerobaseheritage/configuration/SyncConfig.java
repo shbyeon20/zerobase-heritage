@@ -9,6 +9,8 @@ import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 @Slf4j
 public class SyncConfig {
 
+  // todo : webflux를 활용하여 completable future로 refactoring
+
   @Bean
   public ThreadPoolTaskExecutor ExternalApiTaskExecutor() {
     ThreadPoolTaskExecutor executor = new ThreadPoolTaskExecutor();
@@ -16,8 +18,8 @@ public class SyncConfig {
     int cores = Runtime.getRuntime().availableProcessors();
     log.info("Available core numbers = {}", cores);
 
-    executor.setCorePoolSize(cores * 2);  // IO bound 를 상정한 배수설정
-    executor.setMaxPoolSize(cores * 2);
+    executor.setCorePoolSize(cores * 4);  // IO bound 를 상정한 배수설정
+    executor.setMaxPoolSize(cores * 8);
     executor.setQueueCapacity(1000);
     executor.initialize();
     return executor;
