@@ -17,6 +17,8 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.locationtech.jts.geom.Point;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.data.geo.GeoResults;
+import org.springframework.data.redis.connection.RedisGeoCommands.GeoLocation;
 import org.springframework.stereotype.Service;
 
 @Slf4j
@@ -27,6 +29,7 @@ public class RouteFindService {
   private final SearchService searchService;
   private final GeoLocationAdapter geoLocationAdapter;
   private final RouteFindThreadService routeFindThreadService;
+  private final RedisCacheService redisCacheService;
 
 
   @Value("${sightseeing.time}")
@@ -77,6 +80,34 @@ public class RouteFindService {
     // CustomPoint 를 jtsPoint 로 형변환 후 Point 주변 문화유산 탐색
     Point clientPoint = geoLocationAdapter.coordinateToPoint(
         clientLocation.getLongitudeX(), clientLocation.getLatitudeY());
+
+    // Client 위치가 서울, 경주 내의 위치이면 Cach로부터 데이터 획득
+    // Check if the location is within Seoul's or Gyeongju's boundaries and fetch from cache if true
+    if ((clientLocation.getLatitudeY() <= RedisCacheService.SEOUL_NORTH_LAT
+        && clientLocation.getLatitudeY() >= RedisCacheService.SEOUL_SOUTH_LAT
+        && clientLocation.getLongitudeX() <= RedisCacheService.SEOUL_EAST_LON
+        && clientLocation.getLongitudeX() >= RedisCacheService.SEOUL_WEST_LON)
+        ||
+        (clientLocation.getLatitudeY() <= RedisCacheService.GYEONGJU_NORTH_LAT
+            && clientLocation.getLatitudeY() >= RedisCacheService.GYEONGJU_SOUTH_LAT
+            && clientLocation.getLongitudeX() <= RedisCacheService.GYEONGJU_EAST_LON
+            && clientLocation.getLongitudeX() >= RedisCacheService.GYEONGJU_WEST_LON)) {
+
+      log.info("Client location is within Seoul or Gyeongju, fetching from cache.");
+
+      // Use Redis to fetch heritage sites from cache within the specified distance
+      GeoResults<GeoLocation<Object>> cachedHeritages = redisCacheService.findHeritagesWithinDistance(
+          clientLocation.getLongitudeX(), clientLocation.getLatitudeY());
+
+      // Convert GeoResults (from Redis) to HeritagePoint objects for further processing
+      return cachedHeritages.getContent().stream()
+          .map(result -> {
+            HeritageDto dto = (HeritageDto) result.getContent().getName();
+            return HeritagePoint.fromDto(dto);
+          })
+          .toList();
+    }
+
     List<HeritageDto> heritageDtos = searchService.byPointLocation(clientPoint);
 
     // heritageDto 를 HeritagePoint(CustomPoint)로 형변환

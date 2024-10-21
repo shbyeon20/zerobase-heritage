@@ -38,6 +38,8 @@ public class SearchService {
           ErrorCode.LOCATION_OUT_OF_BOUND, "국내 위치에서만 검색가능합니다");
     }
 
+
+
     List<HeritageEntity> heritageEntities
         = heritageRepository.findWithinDistance(point, DISTANCE_METER);
 

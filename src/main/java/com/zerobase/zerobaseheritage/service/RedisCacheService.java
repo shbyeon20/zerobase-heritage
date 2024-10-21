@@ -12,9 +12,11 @@ import org.springframework.data.geo.Point;
 import org.springframework.data.redis.connection.RedisGeoCommands.GeoLocation;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.domain.geo.Metrics;
+import org.springframework.stereotype.Service;
 
 @RequiredArgsConstructor
-public class redisCacheService {
+@Service
+public class RedisCacheService {
 
   private final RedisTemplate<String, Object> redisTemplate;
   private final SearchService searchService;
@@ -64,10 +66,10 @@ public class redisCacheService {
   }
 
 
-  // heritage site를 저장
+  // heritage site를 commonKeys에 저장
   public void cacheHeritageEntity(HeritageDto heritageDto) {
     redisTemplate.opsForGeo()
-        .add("heritageLocations",
+        .add("commonKeys",
             new Point(heritageDto.getLongitude(), heritageDto.getLatitude()),
             heritageDto);
   }
@@ -75,7 +77,7 @@ public class redisCacheService {
   // 좌표가 특정 지역 내에 존재한다면 캐쉬에서 findHeritageWithinDistance 실행하기.
   public GeoResults<GeoLocation<Object>> findHeritagesWithinDistance(
       double longitude, double latitude) {
-    return redisTemplate.opsForGeo().radius("heritageLocations",
+    return redisTemplate.opsForGeo().radius("commonKeys",
         new Circle(new Point(longitude, latitude),
             new Distance(DISTANCE_METER, Metrics.METERS)));
   }
