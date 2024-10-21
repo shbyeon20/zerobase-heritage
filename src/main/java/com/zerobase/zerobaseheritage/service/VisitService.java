@@ -4,6 +4,7 @@ import com.zerobase.zerobaseheritage.datatype.exception.CustomExcpetion;
 import com.zerobase.zerobaseheritage.datatype.exception.ErrorCode;
 import com.zerobase.zerobaseheritage.dto.HeritageDto;
 import com.zerobase.zerobaseheritage.entity.HeritageEntity;
+import com.zerobase.zerobaseheritage.entity.MemberEntity;
 import com.zerobase.zerobaseheritage.entity.VisitedHeritageEntity;
 import com.zerobase.zerobaseheritage.geolocation.GeoLocationAdapter;
 import com.zerobase.zerobaseheritage.repository.HeritageRepository;
@@ -12,7 +13,7 @@ import com.zerobase.zerobaseheritage.repository.VisitedHeritageRepository;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.locationtech.jts.geom.Polygon;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -68,17 +69,18 @@ public class VisitService {
     return HeritageDto.fromEntity(heritageEntity);
   }
 
-  public List<HeritageDto> visitedHeritageByUserWithinArea(String memberId,
-      double northLatitude, double southLatitude, double eastLongitude,
-      double westLongitude) {
+
+
+  /*
+  Map의 조회가 빈번할 것으로 생각되어 캐쉬에 저장하여 재활용
+   */
+  @Cacheable(key = "#memberId", value = "visitedHeritageList")
+  public List<HeritageDto> visitedHeritageByUser(String memberId) {
 
     log.info("visitedHeritageByUser Service start");
 
-    Polygon polygon = geoLocationAdapter.boxToPolygon(northLatitude,
-        southLatitude, eastLongitude, westLongitude);
-
-    List<HeritageEntity> visitedHeritages = visitedHeritageRepository.findAllVisitedHeritageByMemberIdWithinPolygon(
-        memberId,polygon);
+    List<HeritageEntity> visitedHeritages = visitedHeritageRepository.findAllVisitedHeritageByMemberId(
+        memberId);
 
     return visitedHeritages.stream().map(HeritageDto::fromEntity).toList();
   }
