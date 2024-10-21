@@ -16,7 +16,6 @@ public interface VisitedHeritageRepository extends
   boolean existsByMemberEntity_MemberIdAndHeritageEntity_HeritageId(
       String memberId, String heritageId);
 
-  @Query("select v.heritageEntity from VisitedHeritageEntity v where v.memberEntity.memberId = :memberId and ST_Within(v.heritageEntity.location, :polygon) = true")
-  List<HeritageEntity> findAllVisitedHeritageByMemberIdWithinPolygon(String memberId,
-      Polygon polygon);
+  @Query("select v.heritageEntity from VisitedHeritageEntity v where v.memberEntity.memberId = :memberId")
+  List<HeritageEntity> findAllVisitedHeritageByMemberId(String memberId);
 }

@@ -21,7 +21,7 @@ public class HeritageService {
   private final GeoLocationAdapter geoLocationAdapter;
 
 
-  @Transactional(isolation = Isolation.READ_COMMITTED)
+  @Transactional
   public void saveHeritageDtos(List<HeritageApiDto> heritageApiDtos) {
     log.info("heritage data init service start");
 
