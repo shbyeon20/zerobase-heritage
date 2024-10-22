@@ -26,7 +26,6 @@ import org.springframework.web.bind.annotation.RestController;
 public class HeritageController {
 
   private final SearchService searchService;
-  private final GeoLocationAdapter geoLocationAdapter;
   private final VisitService visitService;
 
   /*
@@ -34,11 +33,11 @@ public class HeritageController {
    */
   @GetMapping("/heritage-nearby-coordinate")
   public ResponseEntity<List<HeritageDto>> ByPointLocation(
-      @RequestParam Double latitude, @RequestParam Double longitude) {
+       @RequestParam Double longitude,@RequestParam Double latitude) {
     log.info("HeritageController find byLocation start ");
 
-    List<HeritageDto> heritageDtoList = searchService.byPointLocation(
-        geoLocationAdapter.coordinateToPoint(longitude, latitude));
+    List<HeritageDto> heritageDtoList = searchService.byPointLocation(longitude,
+        latitude);
 
     return ResponseEntity.ok(heritageDtoList);
   }

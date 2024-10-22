@@ -5,6 +5,7 @@ import com.zerobase.zerobaseheritage.datatype.exception.CustomExcpetion;
 import com.zerobase.zerobaseheritage.datatype.exception.ErrorCode;
 import com.zerobase.zerobaseheritage.dto.HeritageDto;
 import com.zerobase.zerobaseheritage.entity.HeritageEntity;
+import com.zerobase.zerobaseheritage.geolocation.GeoLocationAdapter;
 import com.zerobase.zerobaseheritage.repository.HeritageRepository;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
@@ -20,6 +21,7 @@ public class SearchService {
 
   private static final int DISTANCE_METER = 5000;
   private final HeritageRepository heritageRepository;
+  private final GeoLocationAdapter geoLocationAdapter;
 
 
   private static final double MIN_LATITUDE = 33.1147;
@@ -28,17 +30,18 @@ public class SearchService {
   private static final double MAX_LONGITUDE = 131.8649;
 
 
-  public List<HeritageDto> byPointLocation(Point point) {
-    log.info("search by location point service start for {}",point.toString());
+  public List<HeritageDto> byPointLocation(double longtitudeX, double latitudeY ) {
+    log.info("search by location point service start for long : {} & lat :{}",longtitudeX,latitudeY);
 
     // Validate the latitude and longitude
-    if (point.getY() < MIN_LATITUDE || point.getY() > MAX_LATITUDE ||
-        point.getX() < MIN_LONGITUDE || point.getX() > MAX_LONGITUDE) {
+    if (latitudeY < MIN_LATITUDE || latitudeY > MAX_LATITUDE ||
+        longtitudeX < MIN_LONGITUDE || longtitudeX > MAX_LONGITUDE) {
       throw new CustomExcpetion(
           ErrorCode.LOCATION_OUT_OF_BOUND, "국내 위치에서만 검색가능합니다");
     }
 
-
+    // point 객체로 변환
+    Point point = geoLocationAdapter.coordinateToPoint(longtitudeX, latitudeY);
 
     List<HeritageEntity> heritageEntities
         = heritageRepository.findWithinDistance(point, DISTANCE_METER);

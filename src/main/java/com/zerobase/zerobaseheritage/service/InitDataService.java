@@ -37,7 +37,8 @@ public class InitDataService {
 
   trouble
    ->  외부 API에 중복된 데이터 다수 존재하여 SaveAll()로 저장시 중복 exception 발생하므로 insert on duplicate update로 변경
-   -->  MySQL myIsam엔진 사용시 Insert on duplicate update시 deadlock발생, sharedLock 원인으로 추정됨. innoDB 엔진으로 변경
+   -->  MySQL myIsam엔진에 Insert on duplicate update 사용시 deadlock발생, 여러 transaction이 slock에서 xlock으로 변경이 원인으로 추정됨.
+    innoDB 엔진으로 변경하여 문제해결
 
    todo : basic description 은 별도의 다른 API 호출이 필요. 해당 API 호출시 ccbaKdcd, ccbaAsno, ccbaCtcd의 para 값이 필요함
    */

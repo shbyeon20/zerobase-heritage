@@ -108,7 +108,7 @@ public class RouteFindService {
           .toList();
     }
 
-    List<HeritageDto> heritageDtos = searchService.byPointLocation(clientPoint);
+    List<HeritageDto> heritageDtos = searchService.byPointLocation(clientPoint.getX(), clientPoint.getY());
 
     // heritageDto 를 HeritagePoint(CustomPoint)로 형변환
     return heritageDtos.stream().map(HeritagePoint::fromDto).toList();
