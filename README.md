@@ -45,9 +45,6 @@
   - API 호출대기 시간이 다소 길어 스레드 활용도 증가를 위해 비동기화 refactoring 고려중
 
 
-## Trouble Shooting
-- TBD
-
 ## 프로젝트 기획과정 기록
 - <https://bsh6226.tistory.com/132>
 
