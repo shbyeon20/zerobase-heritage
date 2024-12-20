@@ -2,7 +2,7 @@ package com.zerobase.zerobaseheritage.service;
 
 import com.zerobase.zerobaseheritage.datatype.exception.CustomException;
 import com.zerobase.zerobaseheritage.datatype.exception.ErrorCode;
-import com.zerobase.zerobaseheritage.dto.HeritageDto;
+import com.zerobase.zerobaseheritage.dto.HeritageResponseDto;
 import com.zerobase.zerobaseheritage.entity.HeritageEntity;
 import com.zerobase.zerobaseheritage.entity.MemberEntity;
 import com.zerobase.zerobaseheritage.entity.VisitedHeritageEntity;
@@ -36,7 +36,7 @@ public class VisitService {
      */
 
   @Transactional
-  public HeritageDto visitHeritage(String memberId, String heritageId) {
+  public HeritageResponseDto visitHeritage(String memberId, String heritageId) {
 
     log.info("visitHeritage Service start");
 
@@ -66,10 +66,10 @@ public class VisitService {
 
     log.info("visitHeritage Service finished");
 
-    return HeritageDto.fromEntity(heritageEntity);
+    return HeritageResponseDto.fromEntity(heritageEntity);
   }
 
-  public List<HeritageDto> visitedHeritageByUserWithinArea(String memberId,
+  public List<HeritageResponseDto> visitedHeritageByUserWithinArea(String memberId,
       double northLatitude, double southLatitude, double eastLongitude,
       double westLongitude) {
 
@@ -81,6 +81,6 @@ public class VisitService {
     List<HeritageEntity> visitedHeritages = visitedHeritageRepository.findAllVisitedHeritageByMemberIdWithinPolygon(
         memberId,polygon);
 
-    return visitedHeritages.stream().map(HeritageDto::fromEntity).toList();
+    return visitedHeritages.stream().map(HeritageResponseDto::fromEntity).toList();
   }
 }

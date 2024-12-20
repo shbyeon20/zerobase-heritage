@@ -3,7 +3,7 @@ package com.zerobase.zerobaseheritage.service;
 
 import com.zerobase.zerobaseheritage.datatype.MapBoundingBox;
 import com.zerobase.zerobaseheritage.datatype.MapGrid;
-import com.zerobase.zerobaseheritage.dto.HeritageDto;
+import com.zerobase.zerobaseheritage.dto.HeritageResponseDto;
 import com.zerobase.zerobaseheritage.dto.MapResponse;
 import java.util.ArrayList;
 import java.util.List;
@@ -44,14 +44,14 @@ public class MapService {
     List<MapGrid> grids = gridService.createGridsFromBoundingBox(boundingBox);
 
     // user가 방문한 heritage list를 호출
-    List<HeritageDto> visitedHeritageDtos = new ArrayList<>(
+    List<HeritageResponseDto> visitedHeritageResponseDtos = new ArrayList<>(
         visitService.visitedHeritageByUserWithinArea(userId, northLatitude,
             southLatitude, eastLongitude, westLongitude));
 
-    log.info(visitedHeritageDtos.toString());;
+    log.info(visitedHeritageResponseDtos.toString());;
 
     // api test 를 위해서 user data 임시로 생성하여 확인
-    visitedHeritageDtos.add(HeritageDto.builder()
+    visitedHeritageResponseDtos.add(HeritageResponseDto.builder()
         .heritageGrade("국보")
         .heritageId("1111100020000")
         .heritageName("서울 원각사지 십층석탑")
@@ -59,7 +59,7 @@ public class MapService {
         .longitude(126.988207994364)
         .build());
 
-    visitedHeritageDtos.add(HeritageDto.builder()
+    visitedHeritageResponseDtos.add(HeritageResponseDto.builder()
         .heritageGrade("보물")
         .heritageId("1121100030000")
         .heritageName("서울 원각사지 대원각사비")
@@ -67,12 +67,12 @@ public class MapService {
         .longitude(126.988634645148)
         .build());
 
-    log.info(visitedHeritageDtos.toString());
+    log.info(visitedHeritageResponseDtos.toString());
 
     // heritage들이 boundingbox에 있는지, 있다면 몇번째 grid에 속하는지 확인하여 unblack처리
-    for (HeritageDto visitedHeritageDto : visitedHeritageDtos) {
-      double xCoordinate = visitedHeritageDto.getLongitude();
-      double yCoordinate = visitedHeritageDto.getLatitude();
+    for (HeritageResponseDto visitedHeritageResponseDto : visitedHeritageResponseDtos) {
+      double xCoordinate = visitedHeritageResponseDto.getLongitude();
+      double yCoordinate = visitedHeritageResponseDto.getLatitude();
       gridService.unBlackGridIfPointExistInGrid(xCoordinate, yCoordinate,
           boundingBox, grids);
     }
@@ -91,7 +91,7 @@ public class MapService {
     log.info("mapResponseWithGridsAndHeritages service start");
 
     // polygon 내에 존재하는 heritage 검색
-    List<HeritageDto> heritagesInBox = searchService.byPolygon(polygon);
+    List<HeritageResponseDto> heritagesInBox = searchService.byPolygon(polygon);
 
     // coloredgrid생성
     List<MapGrid> gridsWithColor = selectGridsWithColor(north_Latitude,

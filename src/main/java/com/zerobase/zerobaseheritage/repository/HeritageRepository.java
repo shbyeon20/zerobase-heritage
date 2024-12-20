@@ -28,9 +28,8 @@ public interface HeritageRepository extends
       + " VALUES (:heritageId, :heritageName, :location, :heritageGrade, :basicDescription)" 
       + " ON DUPLICATE KEY UPDATE" 
       + " heritage_Name = :heritageName, location = :location, heritage_Grade =" 
-      + " :heritageGrade, basic_Description = :basicDescription", nativeQuery = true)
-  int insertOrUpdate(String heritageId, String heritageName, Point location,
-      String heritageGrade, String basicDescription);
+      + " :heritageGrade", nativeQuery = true)
+  int insertOrUpdate(String heritageId, String heritageName, Point location, String heritageGrade);
 
 
   Optional<HeritageEntity> findByHeritageId(String heritageId);

@@ -1,6 +1,6 @@
 package com.zerobase.zerobaseheritage.controller;
 
-import com.zerobase.zerobaseheritage.dto.HeritageDto;
+import com.zerobase.zerobaseheritage.dto.HeritageResponseDto;
 import com.zerobase.zerobaseheritage.geolocation.GeoLocationAdapter;
 import com.zerobase.zerobaseheritage.service.SearchService;
 import com.zerobase.zerobaseheritage.service.VisitService;
@@ -33,15 +33,15 @@ public class HeritageController {
    특정 좌표 근처에 있는 유적지를 검색한다 ;
    */
   @GetMapping("/heritage-nearby-coordinate")
-  public ResponseEntity<List<HeritageDto>> ByPointLocation(
+  public ResponseEntity<List<HeritageResponseDto>> ByPointLocation(
       @RequestParam Double latitude, @RequestParam Double longitude) {
     log.info("HeritageController find byLocation start ");
 
-    List<HeritageDto> heritageDtoList = searchService.byPointLocation(
+    List<HeritageResponseDto> heritageResponseDtoList = searchService.byPointLocation(
         geoLocationAdapter.coordinateToPoint(longitude, latitude));
 
 
-    return ResponseEntity.ok(heritageDtoList);
+    return ResponseEntity.ok(heritageResponseDtoList);
   }
 
 
@@ -53,9 +53,9 @@ public class HeritageController {
       @RequestParam String heritageId) {
     log.info("HeritageController visit Heritage start");
 
-    HeritageDto heritageDto = visitService.visitHeritage(userId, heritageId);
+    HeritageResponseDto heritageResponseDto = visitService.visitHeritage(userId, heritageId);
 
-    return heritageDto.getHeritageName() + ": 방문처리완료";
+    return heritageResponseDto.getHeritageName() + ": 방문처리완료";
   }
 
 

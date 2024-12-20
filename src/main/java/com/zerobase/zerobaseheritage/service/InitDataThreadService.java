@@ -1,7 +1,6 @@
 package com.zerobase.zerobaseheritage.service;
 
 import com.zerobase.zerobaseheritage.dto.heritageApi.HeritageApiDto;
-import com.zerobase.zerobaseheritage.dto.heritageApi.HeritageApiResult;
 import com.zerobase.zerobaseheritage.dto.heritageApi.HeritageApiResult.HeritageApiItem;
 import com.zerobase.zerobaseheritage.externalApi.HeritageApi;
 import java.util.ArrayList;
@@ -23,7 +22,8 @@ public class InitDataThreadService {
   @Qualifier("ExternalApiTaskExecutor")
   private final ThreadPoolTaskExecutor taskExecutor;
   private final HeritageApi heritageApi;
-  private final HeritageService heritageService;
+  private final HeritageImpl heritageImpl;
+  private final HeritageInitService heritageInitService;
 
   /*
   외부 API 로부터 데이터를 1페이지 단위로 불러온 후에 저장한다
@@ -38,9 +38,7 @@ public class InitDataThreadService {
 
         List<HeritageApiDto> heritageApiDtos = new ArrayList<>();
         // import external api by page number
-        HeritageApiResult heritageApiResult = heritageApi.fetchApiData(apiPageNumber);
-        List<HeritageApiItem> heritageApiItems = heritageApiResult.getHeritageApiItemList();
-
+        List<HeritageApiItem> heritageApiItems = heritageApi.fetchApiData(apiPageNumber).getHeritageApiItemList();
 
         if (heritageApiItems == null) {
           return null;
@@ -48,12 +46,11 @@ public class InitDataThreadService {
 
         // create dto from Api Item and add to container for saving to repo
         for (HeritageApiItem item : heritageApiItems) {
-          HeritageApiDto heritageApiDto = heritageService.mapHeritageApiItemToApiDto(
-              item);
+          HeritageApiDto heritageApiDto = heritageInitService.mapHeritageApiItemToApiDto(item);
           heritageApiDtos.add(heritageApiDto);
         }
 
-        heritageService.saveHeritageDtos(heritageApiDtos);
+        heritageImpl.insertOrUpdateHeritages(heritageApiDtos);
         return heritageApiItems;
 
       }

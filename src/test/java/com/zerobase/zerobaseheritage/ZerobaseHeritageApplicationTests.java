@@ -9,7 +9,7 @@ import static org.mockito.BDDMockito.given;
 
 import com.zerobase.zerobaseheritage.datatype.exception.CustomException;
 import com.zerobase.zerobaseheritage.datatype.exception.ErrorCode;
-import com.zerobase.zerobaseheritage.dto.HeritageDto;
+import com.zerobase.zerobaseheritage.dto.HeritageResponseDto;
 import com.zerobase.zerobaseheritage.entity.HeritageEntity;
 import com.zerobase.zerobaseheritage.repository.HeritageRepository;
 import com.zerobase.zerobaseheritage.service.SearchService;
@@ -57,13 +57,13 @@ class ZerobaseHeritageApplicationTests {
             .build()));
 
     //when
-    List<HeritageDto> heritageDtos = searchService.byPointLocation(point);
+    List<HeritageResponseDto> heritageResponseDtos = searchService.byPointLocation(point);
 
     //then
-    assertNotNull(heritageDtos);  // Check if result is not null
-    assertEquals(1, heritageDtos.size());  // Verify size of the result
-    assertEquals("heritage1", heritageDtos.get(0).getHeritageId());  // Check specific properties
-    assertEquals("Heritage Name 1", heritageDtos.get(0).getHeritageName());
+    assertNotNull(heritageResponseDtos);  // Check if result is not null
+    assertEquals(1, heritageResponseDtos.size());  // Verify size of the result
+    assertEquals("heritage1", heritageResponseDtos.get(0).getHeritageId());  // Check specific properties
+    assertEquals("Heritage Name 1", heritageResponseDtos.get(0).getHeritageName());
   }
 
   /*

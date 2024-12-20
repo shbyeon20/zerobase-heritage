@@ -11,7 +11,7 @@ import lombok.Setter;
 @Builder
 public class MapResponse {
 
-  List<HeritageDto> heritagesInBox;
+  List<HeritageResponseDto> heritagesInBox;
   List<MapGrid> mapGrids;
 
 }

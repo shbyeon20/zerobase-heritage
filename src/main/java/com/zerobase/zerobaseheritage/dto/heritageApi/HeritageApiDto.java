@@ -22,17 +22,5 @@ public class HeritageApiDto {
   private String heritageGrade;
 
 
-  public static HeritageEntity toEntity(HeritageApiDto heritageApiDto) {
-    return HeritageEntity.builder()
-        .heritageId(heritageApiDto.heritageId)
-        .heritageName(heritageApiDto.heritageName)
-        .heritageGrade(heritageApiDto.heritageGrade)
-        .location(heritageApiDto.location)
-        .build();
-  }
-
-
-
-
 }
 

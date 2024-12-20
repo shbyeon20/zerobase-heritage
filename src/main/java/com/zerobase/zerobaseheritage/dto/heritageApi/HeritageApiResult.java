@@ -42,9 +42,5 @@ public class HeritageApiResult {
     private String ccbaAsno;
     private String ccbaCtcd;
 
-
-
-
-
   }
 }

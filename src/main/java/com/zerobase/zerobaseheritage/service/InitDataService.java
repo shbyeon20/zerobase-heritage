@@ -36,9 +36,7 @@ public class InitDataService {
 
         while (!isEmpty) {
             for (int i = 0; i < 10; i++) {
-                futures.add(
-                    initDataThreadService.submitLoadHeritageApiDataAndSave(
-                        apiPageNumber));
+                futures.add(initDataThreadService.submitLoadHeritageApiDataAndSave(apiPageNumber));
                 apiPageNumber += 1;
                 Thread.sleep(100); // 외부 API 부하경감을 위한 Sleep
             }
