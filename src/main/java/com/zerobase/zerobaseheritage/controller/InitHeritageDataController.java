@@ -1,6 +1,7 @@
 package com.zerobase.zerobaseheritage.controller;
 
 import com.zerobase.zerobaseheritage.service.InitDataService;
+import java.util.concurrent.ExecutionException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
@@ -19,7 +20,8 @@ public class InitHeritageDataController {
    todo : basic description 에 대한 호출 도입하기
    */
   @PostMapping(value = "/heritage")
-  public ResponseEntity<Void> loadHeritageData() {
+  public ResponseEntity<Void> loadHeritageData()
+      throws ExecutionException, InterruptedException {
 
     log.info("load heritage Data controller  start");
 
