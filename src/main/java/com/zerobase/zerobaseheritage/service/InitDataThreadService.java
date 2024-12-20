@@ -31,12 +31,6 @@ public class InitDataThreadService {
 
   public Future<List<HeritageApiItem>> submitLoadHeritageApiDataAndSave(int apiPageNumber) {
 
-    log.info(
-        "InitDataThreadService Submitting task for page : {} Active Threads: {}, Queue Size: {}",
-        apiPageNumber,
-        taskExecutor.getActiveCount(),
-        taskExecutor.getThreadPoolExecutor().getQueue().size());
-
     return taskExecutor.submit(new Callable<List<HeritageApiItem>>() {
 
       @Override
@@ -44,8 +38,7 @@ public class InitDataThreadService {
 
         List<HeritageApiDto> heritageApiDtos = new ArrayList<>();
         // import external api by page number
-        HeritageApiResult heritageApiResult = heritageApi.fetchApiData(
-            apiPageNumber);
+        HeritageApiResult heritageApiResult = heritageApi.fetchApiData(apiPageNumber);
         List<HeritageApiItem> heritageApiItems = heritageApiResult.getHeritageApiItemList();
 
 
@@ -59,6 +52,7 @@ public class InitDataThreadService {
               item);
           heritageApiDtos.add(heritageApiDto);
         }
+
         heritageService.saveHeritageDtos(heritageApiDtos);
         return heritageApiItems;
 

@@ -2,7 +2,7 @@ package com.zerobase.zerobaseheritage.externalApi;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.zerobase.zerobaseheritage.datatype.exception.CustomExcpetion;
+import com.zerobase.zerobaseheritage.datatype.exception.CustomException;
 import com.zerobase.zerobaseheritage.datatype.exception.ErrorCode;
 import com.zerobase.zerobaseheritage.dto.RouteFind.BasePoint;
 import com.zerobase.zerobaseheritage.dto.pathFindApi.PathFindApiResult;
@@ -58,7 +58,7 @@ public class PathFindApi {
 
       return PathFindApiResultDto.fromResult(pathFindApiResult);
     } catch (JsonProcessingException e) {
-      throw new CustomExcpetion(ErrorCode.EXTERNALAPI_NOT_FOUND,
+      throw new CustomException(ErrorCode.EXTERNALAPI_NOT_FOUND,
           "PathFind API Not Found");
     }catch (NullPointerException e) {
       log.warn("예외적인 API호출로 Json 응답형식이 예상과 다릅니다. 본 API 호출은 무시처리 됩니다. : "+e.getMessage());

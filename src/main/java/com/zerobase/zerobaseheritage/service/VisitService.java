@@ -1,9 +1,10 @@
 package com.zerobase.zerobaseheritage.service;
 
-import com.zerobase.zerobaseheritage.datatype.exception.CustomExcpetion;
+import com.zerobase.zerobaseheritage.datatype.exception.CustomException;
 import com.zerobase.zerobaseheritage.datatype.exception.ErrorCode;
 import com.zerobase.zerobaseheritage.dto.HeritageDto;
 import com.zerobase.zerobaseheritage.entity.HeritageEntity;
+import com.zerobase.zerobaseheritage.entity.MemberEntity;
 import com.zerobase.zerobaseheritage.entity.VisitedHeritageEntity;
 import com.zerobase.zerobaseheritage.geolocation.GeoLocationAdapter;
 import com.zerobase.zerobaseheritage.repository.HeritageRepository;
@@ -41,19 +42,19 @@ public class VisitService {
 
     if (visitedHeritageRepository.
         existsByMemberEntity_MemberIdAndHeritageEntity_HeritageId(memberId, heritageId)) {
-      throw new CustomExcpetion(ErrorCode.UNEXPECTED_REQUEST_FROM_FRONT,
+      throw new CustomException(ErrorCode.UNEXPECTED_REQUEST_FROM_FRONT,
           "이미 방문처리한 유적입니다");
     }
 
     HeritageEntity heritageEntity = heritageRepository
         .findByHeritageId(heritageId)
         .orElseThrow(
-            () -> new CustomExcpetion(ErrorCode.UNEXPECTED_REQUEST_FROM_FRONT,
+            () -> new CustomException(ErrorCode.UNEXPECTED_REQUEST_FROM_FRONT,
                 "존재하지 않는 유적 ID에 대한 요청입니다."));
 
     MemberEntity memberEntity = memberRepository.findByMemberId(memberId)
         .orElseThrow(
-            () -> new CustomExcpetion(ErrorCode.UNEXPECTED_REQUEST_FROM_FRONT,
+            () -> new CustomException(ErrorCode.UNEXPECTED_REQUEST_FROM_FRONT,
                 "존재하지 않는 유저 ID에 대한 요청입니다."));
 
     VisitedHeritageEntity newVisit = VisitedHeritageEntity.builder()

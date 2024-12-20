@@ -1,6 +1,6 @@
 package com.zerobase.zerobaseheritage.service;
 
-import com.zerobase.zerobaseheritage.datatype.exception.CustomExcpetion;
+import com.zerobase.zerobaseheritage.datatype.exception.CustomException;
 import com.zerobase.zerobaseheritage.datatype.exception.ErrorCode;
 import com.zerobase.zerobaseheritage.dto.HeritageDto;
 import com.zerobase.zerobaseheritage.dto.RouteFind.BasePoint;
@@ -127,7 +127,7 @@ public class RouteFindService {
         result = future.get();
       } catch (Exception e) {
         e.printStackTrace();
-        throw new CustomExcpetion(ErrorCode.THREAD_EXCEPTION,
+        throw new CustomException(ErrorCode.THREAD_EXCEPTION,
             "pathFind 쓰레드 상에서 예외 발생");
       }
 

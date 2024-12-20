@@ -7,7 +7,7 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyInt;
 import static org.mockito.BDDMockito.given;
 
-import com.zerobase.zerobaseheritage.datatype.exception.CustomExcpetion;
+import com.zerobase.zerobaseheritage.datatype.exception.CustomException;
 import com.zerobase.zerobaseheritage.datatype.exception.ErrorCode;
 import com.zerobase.zerobaseheritage.dto.HeritageDto;
 import com.zerobase.zerobaseheritage.entity.HeritageEntity;
@@ -23,7 +23,6 @@ import org.locationtech.jts.geom.Point;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.beans.factory.annotation.Autowired;
 
 @ExtendWith(MockitoExtension.class)
 class ZerobaseHeritageApplicationTests {
@@ -77,12 +76,12 @@ class ZerobaseHeritageApplicationTests {
     Point point = geometryFactory.createPoint(new Coordinate(1, 1));
 
     //when
-    CustomExcpetion customExcpetion = assertThrows(CustomExcpetion.class,
+    CustomException customException = assertThrows(CustomException.class,
         () -> searchService.byPointLocation(point));
 
     //then
 
-    assertEquals(ErrorCode.LOCATION_OUT_OF_BOUND,customExcpetion.getErrorCode());
+    assertEquals(ErrorCode.LOCATION_OUT_OF_BOUND, customException.getErrorCode());
 
   }
 

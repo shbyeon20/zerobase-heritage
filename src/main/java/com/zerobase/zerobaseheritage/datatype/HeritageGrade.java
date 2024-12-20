@@ -1,6 +1,6 @@
 package com.zerobase.zerobaseheritage.datatype;
 
-import com.zerobase.zerobaseheritage.datatype.exception.CustomExcpetion;
+import com.zerobase.zerobaseheritage.datatype.exception.CustomException;
 import com.zerobase.zerobaseheritage.datatype.exception.ErrorCode;
 import lombok.Getter;
 
@@ -41,7 +41,7 @@ public enum HeritageGrade {
         return grade.getGradePoint();
       }
     }
-    throw new CustomExcpetion(ErrorCode.HERITAGE_GRADE_NOT_FOUND,
+    throw new CustomException(ErrorCode.HERITAGE_GRADE_NOT_FOUND,
         "Unknown heritage grade: " + koreanName);
   }
 }

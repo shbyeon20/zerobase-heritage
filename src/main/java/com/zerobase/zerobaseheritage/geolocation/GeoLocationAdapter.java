@@ -1,6 +1,6 @@
 package com.zerobase.zerobaseheritage.geolocation;
 
-import com.zerobase.zerobaseheritage.datatype.exception.CustomExcpetion;
+import com.zerobase.zerobaseheritage.datatype.exception.CustomException;
 import com.zerobase.zerobaseheritage.datatype.exception.ErrorCode;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -26,7 +26,7 @@ public class GeoLocationAdapter {
       log.error(
           "value of longtitude : " + latitude + " or longtitude : " + longitude
               + " is null");
-      throw new CustomExcpetion(ErrorCode.NULL_POINT_EXCEPTION,
+      throw new CustomException(ErrorCode.NULL_POINT_EXCEPTION,
           "external api return null value");
     }
 
@@ -35,7 +35,7 @@ public class GeoLocationAdapter {
 
     if (point == null) {
       log.error("point instance is null");
-      throw new CustomExcpetion(ErrorCode.NULL_POINT_EXCEPTION,
+      throw new CustomException(ErrorCode.NULL_POINT_EXCEPTION,
           "point instance is null");
     }
     point.setSRID(4326);

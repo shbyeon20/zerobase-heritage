@@ -40,6 +40,7 @@ public class HeritageController {
     List<HeritageDto> heritageDtoList = searchService.byPointLocation(
         geoLocationAdapter.coordinateToPoint(longitude, latitude));
 
+
     return ResponseEntity.ok(heritageDtoList);
   }
 

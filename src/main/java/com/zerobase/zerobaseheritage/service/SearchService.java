@@ -1,7 +1,7 @@
 package com.zerobase.zerobaseheritage.service;
 
 
-import com.zerobase.zerobaseheritage.datatype.exception.CustomExcpetion;
+import com.zerobase.zerobaseheritage.datatype.exception.CustomException;
 import com.zerobase.zerobaseheritage.datatype.exception.ErrorCode;
 import com.zerobase.zerobaseheritage.dto.HeritageDto;
 import com.zerobase.zerobaseheritage.entity.HeritageEntity;
@@ -34,7 +34,7 @@ public class SearchService {
     // Validate the latitude and longitude
     if (point.getY() < MIN_LATITUDE || point.getY() > MAX_LATITUDE ||
         point.getX() < MIN_LONGITUDE || point.getX() > MAX_LONGITUDE) {
-      throw new CustomExcpetion(
+      throw new CustomException(
           ErrorCode.LOCATION_OUT_OF_BOUND, "국내 위치에서만 검색가능합니다");
     }
 

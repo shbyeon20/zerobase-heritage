@@ -1,33 +1,25 @@
 package com.zerobase.zerobaseheritage.service;
 
-import com.zerobase.zerobaseheritage.datatype.exception.CustomExcpetion;
+import com.zerobase.zerobaseheritage.datatype.exception.CustomException;
 import com.zerobase.zerobaseheritage.datatype.exception.ErrorCode;
-import com.zerobase.zerobaseheritage.dto.heritageApi.HeritageApiDto;
-import com.zerobase.zerobaseheritage.dto.heritageApi.HeritageApiResult;
 import com.zerobase.zerobaseheritage.dto.heritageApi.HeritageApiResult.HeritageApiItem;
-import com.zerobase.zerobaseheritage.entity.HeritageEntity;
-import com.zerobase.zerobaseheritage.externalApi.HeritageApi;
-import com.zerobase.zerobaseheritage.geolocation.GeoLocationAdapter;
-import com.zerobase.zerobaseheritage.repository.HeritageRepository;
 import java.util.ArrayList;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.concurrent.Future;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.hibernate.annotations.SecondaryRow;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
 
 @Service
 @RequiredArgsConstructor
 @Slf4j
-@Transactional
 public class InitDataService {
 
-  private final HeritageApi heritageApi;
-  private final HeritageService heritageService;
-  private final InitDataThreadService initDataThreadService;
+    private final InitDataThreadService initDataThreadService;
+
+
 
 
   /*
@@ -42,53 +34,54 @@ public class InitDataService {
    todo : basic description 은 별도의 다른 API 호출이 필요. 해당 API 호출시 ccbaKdcd, ccbaAsno, ccbaCtcd의 para 값이 필요함
    */
 
-  public void loadHeritageData() {
-    log.info("heritage data init service start");
+    @Transactional
+    public void loadHeritageData() {
+        log.info("heritage data init service start");
 
-    int apiPageNumber = 1;
-    List<HeritageApiItem> heritageApiItems;
-    List<Future<List<HeritageApiItem>>> futures = new ArrayList<>();
-    Boolean isEmpty = false;
+        int apiPageNumber = 1;
+        List<HeritageApiItem> heritageApiItems;
+        List<Future<List<HeritageApiItem>>> futures = new ArrayList<>();
+        Boolean isEmpty = false;
 
-    while (!isEmpty) {
-      for (int i = 0; i < 10; i++) {
-        log.info("current Api pageNumber : {}", apiPageNumber);
-        futures.add(
-            initDataThreadService.submitLoadHeritageApiDataAndSave(apiPageNumber));
-        apiPageNumber += 1;
-        try {
-          Thread.sleep(100); // 외부 API 부하경감을 위한 Sleep
-        } catch (Exception e) {
-          throw new CustomExcpetion(ErrorCode.THREAD_EXCEPTION,
-              "init data thread exception 발생");
+        while (!isEmpty) {
+            for (int i = 0; i < 10; i++) {
+                log.info("current Api pageNumber : {}", apiPageNumber);
+                futures.add(initDataThreadService.submitLoadHeritageApiDataAndSave(apiPageNumber));
+                apiPageNumber += 1;
+                try {
+                    Thread.sleep(100); // 외부 API 부하경감을 위한 Sleep
+                } catch (Exception e) {
+                    throw new CustomException(ErrorCode.THREAD_EXCEPTION,
+                        "init data thread exception 발생");
+                }
+            }
+            // 10회 API 호출 및 저장을 수행하고 API 데이터가 비어있는지 확인한다
+
+            for (int i = 0; i < 10; i++) {
+                try {
+                    heritageApiItems = futures.get(i).get();
+                    log.info(
+                        "heritage api items in initdata service expecting it to be null at some point : {}",
+                        heritageApiItems);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    throw new CustomException(ErrorCode.THREAD_EXCEPTION,
+                        "loadHeritageData thread exception");
+                }
+                // 외부 API 데이터가 비어있으면 loop를 중단
+                if (heritageApiItems == null || heritageApiItems.size() == 0) {
+                    log.info(
+                        "heritage api items is empty finishing the loop for fetchin api");
+                    isEmpty = true;
+                }
+
+            }
+            futures.clear();
+
         }
-      }
-      // 10회 API 호출 및 저장을 수행하고 API 데이터가 비어있는지 확인한다
-
-      for (int i = 0; i < 10; i++) {
-        try {
-          heritageApiItems = futures.get(i).get();
-          log.info(
-              "heritage api items in initdata service expecting it to be null at some point : {}",
-              heritageApiItems);
-        } catch (Exception e) {
-          e.printStackTrace();
-          throw new CustomExcpetion(ErrorCode.THREAD_EXCEPTION,
-              "loadHeritageData thread exception");
-        }
-        // 외부 API 데이터가 비어있으면 loop를 중단
-        if (heritageApiItems == null || heritageApiItems.size() == 0) {
-          log.info(
-              "heritage api items is empty finishing the loop for fetchin api");
-          isEmpty = true;
-        }
-
-      }
-      futures.clear();
-
+        log.info("load heritage Data service  finished");
     }
-    log.info("load heritage Data service  finished");
-  }
 
 
 }
+
