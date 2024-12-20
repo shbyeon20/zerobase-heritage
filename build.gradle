@@ -39,6 +39,8 @@ dependencies {
     implementation 'org.locationtech.jts:jts-core:1.18.2' // JTS Core Library
     implementation 'mysql:mysql-connector-java:8.0.33'
     implementation 'org.hibernate:hibernate-spatial:6.5.3.Final'
+    implementation 'org.springdoc:springdoc-openapi-starter-webmvc-ui:2.2.0'
+
 
 }
 
