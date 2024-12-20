@@ -6,6 +6,7 @@ spring:
     driver-class-name: com.mysql.cj.jdbc.Driver
 
 
+
   jpa:
     defer-datasource-initialization: true
     database-platform: org.hibernate.dialect.MySQLDialect
@@ -27,6 +28,10 @@ spring:
     init:
       mode: always
       schema-locations: classpath:schema.sql
+
+  mvc:
+    pathmatch:
+      matching-strategy: ant_path_matcher
 
 
 
