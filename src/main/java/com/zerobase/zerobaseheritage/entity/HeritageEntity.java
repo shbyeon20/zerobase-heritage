@@ -31,8 +31,6 @@ public class HeritageEntity {
   @Column(columnDefinition = "POINT", nullable = false)
   private Point location;
   private String heritageGrade;
-  @Nullable
-  private String basicDescription;
 
 }
 

@@ -24,8 +24,8 @@ public interface HeritageRepository extends
 
   @Modifying
   @Query(value = "INSERT INTO heritage_entity"
-      + " (heritage_Id, heritage_Name, location, heritage_Grade, basic_Description)" 
-      + " VALUES (:heritageId, :heritageName, :location, :heritageGrade, :basicDescription)" 
+      + " (heritage_Id, heritage_Name, location, heritage_Grade)"
+      + " VALUES (:heritageId, :heritageName, :location, :heritageGrade)"
       + " ON DUPLICATE KEY UPDATE" 
       + " heritage_Name = :heritageName, location = :location, heritage_Grade =" 
       + " :heritageGrade", nativeQuery = true)

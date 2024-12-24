@@ -12,6 +12,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @Slf4j
@@ -28,6 +29,7 @@ public class InitDataThreadService {
   /*
   외부 API 로부터 데이터를 1페이지 단위로 불러온 후에 저장한다
    */
+
 
   public Future<List<HeritageApiItem>> submitLoadHeritageApiDataAndSave(int apiPageNumber) {
 
@@ -57,3 +59,6 @@ public class InitDataThreadService {
     });
   }
 }
+
+
+
