@@ -1,6 +1,6 @@
 spring:
   datasource:
-    url: jdbc:mysql://localhost:3306/zerobase_heritage?useSSL=false&useServerPrepStmts=false
+    url: jdbc:mysql://localhost:3306/zerobase_heritage?useSSL=false&useServerPrepStmts=false&allowPublicKeyRetrieval=true
     username: testuser
     password: password
     driver-class-name: com.mysql.cj.jdbc.Driver

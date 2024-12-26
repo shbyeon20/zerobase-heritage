@@ -20,8 +20,9 @@ public class MemberEntity {
   private Long id;
   @Column(unique = true)
   private String memberId;
+
+  @Column(nullable = false)
   private String password;
-  private Role role;
 
 
 }
