@@ -12,7 +12,7 @@ import lombok.Setter;
 @RequiredArgsConstructor
 @AllArgsConstructor
 @Builder
-public class HeritageResponseDto {
+public class HeritageDto {
 
   private String heritageGrade;
   private String heritageId;
@@ -20,8 +20,8 @@ public class HeritageResponseDto {
   private Double latitude;
   private Double longitude;
 
-  public static HeritageResponseDto fromEntity(HeritageEntity heritageEntity) {
-    return HeritageResponseDto.builder()
+  public static HeritageDto fromEntity(HeritageEntity heritageEntity) {
+    return HeritageDto.builder()
         .heritageGrade(heritageEntity.getHeritageGrade())
         .heritageId(heritageEntity.getHeritageId())
         .heritageName(heritageEntity.getHeritageName())

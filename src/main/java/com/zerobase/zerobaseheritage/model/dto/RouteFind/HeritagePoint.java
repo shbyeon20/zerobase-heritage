@@ -1,7 +1,7 @@
 package com.zerobase.zerobaseheritage.model.dto.RouteFind;
 
 import com.zerobase.zerobaseheritage.model.type.HeritageGrade;
-import com.zerobase.zerobaseheritage.model.dto.HeritageResponseDto;
+import com.zerobase.zerobaseheritage.model.dto.HeritageDto;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.experimental.SuperBuilder;
@@ -17,15 +17,15 @@ public class HeritagePoint extends BasePoint {
   private String heritageName;
   private boolean alreadyUsed;
 
-  public static HeritagePoint fromDto(HeritageResponseDto heritageResponseDto) {
+  public static HeritagePoint fromDto(HeritageDto heritageDto) {
     return HeritagePoint.builder()
-        .heritageGrade(heritageResponseDto.getHeritageGrade())
+        .heritageGrade(heritageDto.getHeritageGrade())
         .heritageGradePoint(
-            HeritageGrade.toGradePoint(heritageResponseDto.getHeritageGrade()))
-        .heritageId(heritageResponseDto.getHeritageId())
-        .heritageName(heritageResponseDto.getHeritageName())
-        .longitudeX(heritageResponseDto.getLongitude())
-        .latitudeY(heritageResponseDto.getLatitude())
+            HeritageGrade.toGradePoint(heritageDto.getHeritageGrade()))
+        .heritageId(heritageDto.getHeritageId())
+        .heritageName(heritageDto.getHeritageName())
+        .longitudeX(heritageDto.getLongitude())
+        .latitudeY(heritageDto.getLatitude())
         .build();
 
 

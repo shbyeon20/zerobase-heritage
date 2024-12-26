@@ -4,7 +4,7 @@ package com.zerobase.zerobaseheritage.service;
 import com.zerobase.zerobaseheritage.geolocation.GeoLocationAdapter;
 import com.zerobase.zerobaseheritage.model.exception.CustomException;
 import com.zerobase.zerobaseheritage.model.exception.ErrorCode;
-import com.zerobase.zerobaseheritage.model.dto.HeritageResponseDto;
+import com.zerobase.zerobaseheritage.model.dto.HeritageDto;
 import com.zerobase.zerobaseheritage.model.entity.HeritageEntity;
 import com.zerobase.zerobaseheritage.repository.HeritageRepository;
 import java.util.List;
@@ -30,7 +30,7 @@ public class SearchHeritageService {
   private static final double MAX_LONGITUDE = 131.8649;
 
 
-  public List<HeritageResponseDto> ConvertToPointAndFindDistancedFrom(double longitude, double latitude) {
+  public List<HeritageDto> ConvertToPointAndFindDistancedFrom(double longitude, double latitude) {
     log.info("search by location point service start for {},{}",longitude,latitude);
 
     validate(longitude,latitude);
@@ -42,7 +42,7 @@ public class SearchHeritageService {
         = heritageRepository.findWithinDistance(point, SETTING_DISTANCE_METER);
 
     log.info("search by location point service finished ");
-    return heritageEntities.stream().map(HeritageResponseDto::fromEntity).toList();
+    return heritageEntities.stream().map(HeritageDto::fromEntity).toList();
   }
 
 
@@ -57,7 +57,7 @@ public class SearchHeritageService {
   }
 
 
-  public List<HeritageResponseDto> byPolygon(Polygon polygon) {
+  public List<HeritageDto> findHeritageWithinPolygon(Polygon polygon) {
     log.info("search heritage by polygon service start ");
 
     List<HeritageEntity> heritages = heritageRepository.findWithinPolygon(
@@ -65,7 +65,7 @@ public class SearchHeritageService {
 
     log.info("search heritage by polygon service finished ");
 
-    return heritages.stream().map(HeritageResponseDto::fromEntity).toList();
+    return heritages.stream().map(HeritageDto::fromEntity).toList();
 
   }
 }

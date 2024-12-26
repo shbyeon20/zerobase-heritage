@@ -2,7 +2,7 @@ package com.zerobase.zerobaseheritage.service;
 
 import com.zerobase.zerobaseheritage.model.exception.CustomException;
 import com.zerobase.zerobaseheritage.model.exception.ErrorCode;
-import com.zerobase.zerobaseheritage.model.dto.HeritageResponseDto;
+import com.zerobase.zerobaseheritage.model.dto.HeritageDto;
 import com.zerobase.zerobaseheritage.model.entity.HeritageEntity;
 import com.zerobase.zerobaseheritage.model.entity.MemberEntity;
 import com.zerobase.zerobaseheritage.model.entity.VisitedHeritageEntity;
@@ -64,7 +64,7 @@ public class VisitHeritageService {
     }
   }
 
-  public List<HeritageResponseDto> findVisitByUserWithinArea(String memberId,
+  public List<HeritageDto> findVisitsWithinBoxByUser(String memberId,
       double northLatitude, double southLatitude, double eastLongitude,
       double westLongitude) {
 
@@ -76,6 +76,6 @@ public class VisitHeritageService {
     List<HeritageEntity> visitedHeritages = visitedHeritageRepository.findAllVisitedHeritageByMemberIdWithinPolygon(
         memberId,polygon);
 
-    return visitedHeritages.stream().map(HeritageResponseDto::fromEntity).toList();
+    return visitedHeritages.stream().map(HeritageDto::fromEntity).toList();
   }
 }

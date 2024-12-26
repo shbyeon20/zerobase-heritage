@@ -2,7 +2,7 @@ package com.zerobase.zerobaseheritage.service;
 
 import com.zerobase.zerobaseheritage.model.exception.CustomException;
 import com.zerobase.zerobaseheritage.model.exception.ErrorCode;
-import com.zerobase.zerobaseheritage.model.dto.HeritageResponseDto;
+import com.zerobase.zerobaseheritage.model.dto.HeritageDto;
 import com.zerobase.zerobaseheritage.model.dto.RouteFind.BasePoint;
 import com.zerobase.zerobaseheritage.model.dto.RouteFind.CustomPoint;
 import com.zerobase.zerobaseheritage.model.dto.RouteFind.HeritagePoint;
@@ -77,11 +77,11 @@ public class RouteFindService {
     // CustomPoint 를 jtsPoint 로 형변환 후 Point 주변 문화유산 탐색
     Point clientPoint = geoLocationAdapter.coordinateToPoint(
         clientLocation.getLongitudeX(), clientLocation.getLatitudeY());
-    List<HeritageResponseDto> heritageResponseDtos =
+    List<HeritageDto> heritageDtos =
         searchHeritageService.ConvertToPointAndFindDistancedFrom(clientPoint.getCoordinate().getX(),clientPoint.getCoordinate().getY());
 
     // heritageDto 를 HeritagePoint(CustomPoint)로 형변환
-    return heritageResponseDtos.stream().map(HeritagePoint::fromDto).toList();
+    return heritageDtos.stream().map(HeritagePoint::fromDto).toList();
   }
 
 
