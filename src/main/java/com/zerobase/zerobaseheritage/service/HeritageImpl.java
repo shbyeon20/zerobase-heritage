@@ -1,8 +1,7 @@
 package com.zerobase.zerobaseheritage.service;
 
-import com.zerobase.zerobaseheritage.dto.heritageApi.HeritageApiDto;
+import com.zerobase.zerobaseheritage.model.dto.heritageApi.HeritageApiDto;
 import com.zerobase.zerobaseheritage.repository.HeritageRepository;
-import java.util.List;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -17,16 +16,15 @@ public class HeritageImpl {
 
 
   @Transactional
-  public void insertOrUpdateHeritages(List<HeritageApiDto> heritageApiDtos) {
+  public void insertOrUpdateHeritages(HeritageApiDto heritageApiDto) {
     log.info("heritage data init service start");
 
-    for (HeritageApiDto heritageApiDto : heritageApiDtos) {
       heritageRepository.insertOrUpdate(
           heritageApiDto.getHeritageId(),
           heritageApiDto.getHeritageName(),
           heritageApiDto.getLocation()
           ,heritageApiDto.getHeritageGrade());
-    }
+
   }
 
 
