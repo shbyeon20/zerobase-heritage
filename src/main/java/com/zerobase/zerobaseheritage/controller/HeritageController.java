@@ -21,7 +21,7 @@ import org.springframework.web.bind.annotation.RestController;
  */
 @Slf4j
 @RestController()
-@RequestMapping(value = "/heritage")
+@RequestMapping(value = "/api/heritage")
 @RequiredArgsConstructor
 public class HeritageController {
 
