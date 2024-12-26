@@ -1,7 +1,7 @@
 package com.zerobase.zerobaseheritage.geolocation;
 
-import com.zerobase.zerobaseheritage.datatype.exception.CustomException;
-import com.zerobase.zerobaseheritage.datatype.exception.ErrorCode;
+import com.zerobase.zerobaseheritage.model.exception.CustomException;
+import com.zerobase.zerobaseheritage.model.exception.ErrorCode;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.locationtech.jts.geom.Coordinate;

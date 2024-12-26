@@ -1,10 +1,10 @@
 package com.zerobase.zerobaseheritage.service;
 
 
-import com.zerobase.zerobaseheritage.datatype.MapBoundingBox;
-import com.zerobase.zerobaseheritage.datatype.MapGrid;
-import com.zerobase.zerobaseheritage.dto.HeritageResponseDto;
-import com.zerobase.zerobaseheritage.dto.MapResponse;
+import com.zerobase.zerobaseheritage.model.MapBoundingBox;
+import com.zerobase.zerobaseheritage.model.MapGrid;
+import com.zerobase.zerobaseheritage.model.dto.HeritageResponseDto;
+import com.zerobase.zerobaseheritage.model.dto.MapResponse;
 import java.util.ArrayList;
 import java.util.List;
 import lombok.RequiredArgsConstructor;

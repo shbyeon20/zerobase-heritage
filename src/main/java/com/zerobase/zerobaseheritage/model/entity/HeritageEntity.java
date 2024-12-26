@@ -1,4 +1,4 @@
-package com.zerobase.zerobaseheritage.entity;
+package com.zerobase.zerobaseheritage.model.entity;
 
 import jakarta.annotation.Nullable;
 import jakarta.persistence.Column;

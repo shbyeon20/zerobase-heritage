@@ -1,7 +1,7 @@
-package com.zerobase.zerobaseheritage.datatype;
+package com.zerobase.zerobaseheritage.model.type;
 
-import com.zerobase.zerobaseheritage.datatype.exception.CustomException;
-import com.zerobase.zerobaseheritage.datatype.exception.ErrorCode;
+import com.zerobase.zerobaseheritage.model.exception.CustomException;
+import com.zerobase.zerobaseheritage.model.exception.ErrorCode;
 import lombok.Getter;
 
 @Getter

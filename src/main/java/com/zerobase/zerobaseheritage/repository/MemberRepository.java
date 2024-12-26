@@ -1,6 +1,6 @@
 package com.zerobase.zerobaseheritage.repository;
 
-import com.zerobase.zerobaseheritage.entity.MemberEntity;
+import com.zerobase.zerobaseheritage.model.entity.MemberEntity;
 import java.util.Optional;
 import org.springframework.data.jpa.repository.JpaRepository;
 

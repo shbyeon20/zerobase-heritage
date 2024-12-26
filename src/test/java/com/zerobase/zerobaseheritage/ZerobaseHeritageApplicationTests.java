@@ -7,10 +7,10 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyInt;
 import static org.mockito.BDDMockito.given;
 
-import com.zerobase.zerobaseheritage.datatype.exception.CustomException;
-import com.zerobase.zerobaseheritage.datatype.exception.ErrorCode;
-import com.zerobase.zerobaseheritage.dto.HeritageResponseDto;
-import com.zerobase.zerobaseheritage.entity.HeritageEntity;
+import com.zerobase.zerobaseheritage.model.exception.CustomException;
+import com.zerobase.zerobaseheritage.model.exception.ErrorCode;
+import com.zerobase.zerobaseheritage.model.dto.HeritageResponseDto;
+import com.zerobase.zerobaseheritage.model.entity.HeritageEntity;
 import com.zerobase.zerobaseheritage.repository.HeritageRepository;
 import com.zerobase.zerobaseheritage.service.SearchService;
 import java.util.List;

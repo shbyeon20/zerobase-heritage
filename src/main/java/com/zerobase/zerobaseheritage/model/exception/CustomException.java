@@ -1,4 +1,4 @@
-package com.zerobase.zerobaseheritage.datatype.exception;
+package com.zerobase.zerobaseheritage.model.exception;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

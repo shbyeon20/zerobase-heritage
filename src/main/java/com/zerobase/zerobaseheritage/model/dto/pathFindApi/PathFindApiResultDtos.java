@@ -1,11 +1,10 @@
-package com.zerobase.zerobaseheritage.dto.pathFindApi;
+package com.zerobase.zerobaseheritage.model.dto.pathFindApi;
 
-import com.zerobase.zerobaseheritage.dto.RouteFind.HeritagePoint;
+import com.zerobase.zerobaseheritage.model.dto.RouteFind.HeritagePoint;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 
 @Getter

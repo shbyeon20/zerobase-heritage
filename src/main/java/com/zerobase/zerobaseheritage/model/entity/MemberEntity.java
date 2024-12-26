@@ -1,6 +1,6 @@
-package com.zerobase.zerobaseheritage.entity;
+package com.zerobase.zerobaseheritage.model.entity;
 
-import com.zerobase.zerobaseheritage.datatype.Role;
+import com.zerobase.zerobaseheritage.model.type.Role;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;

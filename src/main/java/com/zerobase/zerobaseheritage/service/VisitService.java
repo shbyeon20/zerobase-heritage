@@ -1,11 +1,11 @@
 package com.zerobase.zerobaseheritage.service;
 
-import com.zerobase.zerobaseheritage.datatype.exception.CustomException;
-import com.zerobase.zerobaseheritage.datatype.exception.ErrorCode;
-import com.zerobase.zerobaseheritage.dto.HeritageResponseDto;
-import com.zerobase.zerobaseheritage.entity.HeritageEntity;
-import com.zerobase.zerobaseheritage.entity.MemberEntity;
-import com.zerobase.zerobaseheritage.entity.VisitedHeritageEntity;
+import com.zerobase.zerobaseheritage.model.exception.CustomException;
+import com.zerobase.zerobaseheritage.model.exception.ErrorCode;
+import com.zerobase.zerobaseheritage.model.dto.HeritageResponseDto;
+import com.zerobase.zerobaseheritage.model.entity.HeritageEntity;
+import com.zerobase.zerobaseheritage.model.entity.MemberEntity;
+import com.zerobase.zerobaseheritage.model.entity.VisitedHeritageEntity;
 import com.zerobase.zerobaseheritage.geolocation.GeoLocationAdapter;
 import com.zerobase.zerobaseheritage.repository.HeritageRepository;
 import com.zerobase.zerobaseheritage.repository.MemberRepository;

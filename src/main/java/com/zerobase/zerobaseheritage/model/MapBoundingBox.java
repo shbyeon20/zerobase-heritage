@@ -1,4 +1,4 @@
-package com.zerobase.zerobaseheritage.datatype;
+package com.zerobase.zerobaseheritage.model;
 
 import lombok.extern.slf4j.Slf4j;
 

@@ -1,6 +1,6 @@
-package com.zerobase.zerobaseheritage.dto;
+package com.zerobase.zerobaseheritage.model.dto;
 
-import com.zerobase.zerobaseheritage.entity.HeritageEntity;
+import com.zerobase.zerobaseheritage.model.entity.HeritageEntity;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;

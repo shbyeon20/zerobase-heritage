@@ -1,4 +1,4 @@
-package com.zerobase.zerobaseheritage.dto.heritageApi;
+package com.zerobase.zerobaseheritage.model.dto.heritageApi;
 
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlElementWrapper;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;

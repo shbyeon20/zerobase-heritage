@@ -1,7 +1,7 @@
-package com.zerobase.zerobaseheritage.dto.RouteFind;
+package com.zerobase.zerobaseheritage.model.dto.RouteFind;
 
-import com.zerobase.zerobaseheritage.datatype.HeritageGrade;
-import com.zerobase.zerobaseheritage.dto.HeritageResponseDto;
+import com.zerobase.zerobaseheritage.model.type.HeritageGrade;
+import com.zerobase.zerobaseheritage.model.dto.HeritageResponseDto;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.experimental.SuperBuilder;

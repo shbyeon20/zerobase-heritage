@@ -1,6 +1,6 @@
 package com.zerobase.zerobaseheritage.controller;
 
-import com.zerobase.zerobaseheritage.service.InitDataService;
+import com.zerobase.zerobaseheritage.service.HeritageInitManagementService;
 import java.util.concurrent.ExecutionException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RequiredArgsConstructor
 public class InitHeritageDataController {
 
-  public final InitDataService initDataService;
+  public final HeritageInitManagementService heritageInitManagementService;
 
   /*
    외부 API 통해서 데이터를 내부 DB로 저장한다
@@ -25,7 +25,7 @@ public class InitHeritageDataController {
 
     log.info("load heritage Data controller  start");
 
-    initDataService.loadHeritageData();
+    heritageInitManagementService.loadHeritageData();
 
     return ResponseEntity.ok().build();
 

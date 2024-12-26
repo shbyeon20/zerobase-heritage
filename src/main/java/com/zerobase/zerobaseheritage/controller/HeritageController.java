@@ -1,6 +1,6 @@
 package com.zerobase.zerobaseheritage.controller;
 
-import com.zerobase.zerobaseheritage.dto.HeritageResponseDto;
+import com.zerobase.zerobaseheritage.model.dto.HeritageResponseDto;
 import com.zerobase.zerobaseheritage.geolocation.GeoLocationAdapter;
 import com.zerobase.zerobaseheritage.service.SearchService;
 import com.zerobase.zerobaseheritage.service.VisitService;

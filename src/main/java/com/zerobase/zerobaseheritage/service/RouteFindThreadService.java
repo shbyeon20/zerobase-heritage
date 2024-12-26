@@ -1,11 +1,11 @@
 package com.zerobase.zerobaseheritage.service;
 
 
-import com.zerobase.zerobaseheritage.dto.RouteFind.CustomPoint;
-import com.zerobase.zerobaseheritage.dto.RouteFind.HeritagePoint;
-import com.zerobase.zerobaseheritage.dto.RouteFind.PointCollection;
-import com.zerobase.zerobaseheritage.dto.pathFindApi.PathFindApiResultDto;
-import com.zerobase.zerobaseheritage.dto.pathFindApi.PathFindApiResultDtos;
+import com.zerobase.zerobaseheritage.model.dto.RouteFind.CustomPoint;
+import com.zerobase.zerobaseheritage.model.dto.RouteFind.HeritagePoint;
+import com.zerobase.zerobaseheritage.model.dto.RouteFind.PointCollection;
+import com.zerobase.zerobaseheritage.model.dto.pathFindApi.PathFindApiResultDto;
+import com.zerobase.zerobaseheritage.model.dto.pathFindApi.PathFindApiResultDtos;
 import com.zerobase.zerobaseheritage.externalApi.PathFindApi;
 import java.util.concurrent.Callable;
 import java.util.concurrent.Future;

@@ -1,7 +1,7 @@
 package com.zerobase.zerobaseheritage.repository;
 
-import com.zerobase.zerobaseheritage.entity.HeritageEntity;
-import com.zerobase.zerobaseheritage.entity.VisitedHeritageEntity;
+import com.zerobase.zerobaseheritage.model.entity.HeritageEntity;
+import com.zerobase.zerobaseheritage.model.entity.VisitedHeritageEntity;
 import java.util.List;
 import org.locationtech.jts.geom.Polygon;
 import org.springframework.data.jpa.repository.JpaRepository;

@@ -1,4 +1,4 @@
-package com.zerobase.zerobaseheritage.dto.pathFindApi;
+package com.zerobase.zerobaseheritage.model.dto.pathFindApi;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

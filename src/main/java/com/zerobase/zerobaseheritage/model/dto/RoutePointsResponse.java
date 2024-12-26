@@ -1,7 +1,7 @@
-package com.zerobase.zerobaseheritage.dto;
+package com.zerobase.zerobaseheritage.model.dto;
 
-import com.zerobase.zerobaseheritage.dto.RouteFind.BasePoint;
-import com.zerobase.zerobaseheritage.dto.RouteFind.PointCollection;
+import com.zerobase.zerobaseheritage.model.dto.RouteFind.BasePoint;
+import com.zerobase.zerobaseheritage.model.dto.RouteFind.PointCollection;
 import java.util.List;
 import lombok.Builder;
 import lombok.Getter;

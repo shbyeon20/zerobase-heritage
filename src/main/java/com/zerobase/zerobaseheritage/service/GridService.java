@@ -1,7 +1,7 @@
 package com.zerobase.zerobaseheritage.service;
 
-import com.zerobase.zerobaseheritage.datatype.MapBoundingBox;
-import com.zerobase.zerobaseheritage.datatype.MapGrid;
+import com.zerobase.zerobaseheritage.model.MapBoundingBox;
+import com.zerobase.zerobaseheritage.model.MapGrid;
 import java.util.ArrayList;
 import java.util.List;
 import lombok.extern.slf4j.Slf4j;

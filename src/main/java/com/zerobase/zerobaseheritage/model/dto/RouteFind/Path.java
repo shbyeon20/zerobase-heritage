@@ -1,4 +1,4 @@
-package com.zerobase.zerobaseheritage.dto.RouteFind;
+package com.zerobase.zerobaseheritage.model.dto.RouteFind;
 
 
 import lombok.Builder;

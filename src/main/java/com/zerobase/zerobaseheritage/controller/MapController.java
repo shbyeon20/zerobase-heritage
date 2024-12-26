@@ -1,6 +1,6 @@
 package com.zerobase.zerobaseheritage.controller;
 
-import com.zerobase.zerobaseheritage.dto.MapResponse;
+import com.zerobase.zerobaseheritage.model.dto.MapResponse;
 import com.zerobase.zerobaseheritage.geolocation.GeoLocationAdapter;
 import com.zerobase.zerobaseheritage.service.MapService;
 import lombok.RequiredArgsConstructor;
