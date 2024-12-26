@@ -12,7 +12,7 @@ import com.zerobase.zerobaseheritage.model.exception.ErrorCode;
 import com.zerobase.zerobaseheritage.model.dto.HeritageResponseDto;
 import com.zerobase.zerobaseheritage.model.entity.HeritageEntity;
 import com.zerobase.zerobaseheritage.repository.HeritageRepository;
-import com.zerobase.zerobaseheritage.service.SearchService;
+import com.zerobase.zerobaseheritage.service.SearchHeritageService;
 import java.util.List;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -31,7 +31,7 @@ class ZerobaseHeritageApplicationTests {
   private HeritageRepository heritageRepository;
 
   @InjectMocks
-  private SearchService searchService;
+  private SearchHeritageService searchHeritageService;
 
   private GeometryFactory geometryFactory;
 
@@ -57,7 +57,7 @@ class ZerobaseHeritageApplicationTests {
             .build()));
 
     //when
-    List<HeritageResponseDto> heritageResponseDtos = searchService.byPointLocation(point);
+    List<HeritageResponseDto> heritageResponseDtos = searchHeritageService.ConvertToPointAndFindDistancedFrom(point);
 
     //then
     assertNotNull(heritageResponseDtos);  // Check if result is not null
@@ -77,7 +77,7 @@ class ZerobaseHeritageApplicationTests {
 
     //when
     CustomException customException = assertThrows(CustomException.class,
-        () -> searchService.byPointLocation(point));
+        () -> searchHeritageService.ConvertToPointAndFindDistancedFrom(point));
 
     //then
 

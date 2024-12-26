@@ -24,7 +24,7 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public class RouteFindService {
 
-  private final SearchService searchService;
+  private final SearchHeritageService searchHeritageService;
   private final GeoLocationAdapter geoLocationAdapter;
   private final RouteFindThreadService routeFindThreadService;
 
@@ -77,7 +77,8 @@ public class RouteFindService {
     // CustomPoint 를 jtsPoint 로 형변환 후 Point 주변 문화유산 탐색
     Point clientPoint = geoLocationAdapter.coordinateToPoint(
         clientLocation.getLongitudeX(), clientLocation.getLatitudeY());
-    List<HeritageResponseDto> heritageResponseDtos = searchService.byPointLocation(clientPoint);
+    List<HeritageResponseDto> heritageResponseDtos =
+        searchHeritageService.ConvertToPointAndFindDistancedFrom(clientPoint.getCoordinate().getX(),clientPoint.getCoordinate().getY());
 
     // heritageDto 를 HeritagePoint(CustomPoint)로 형변환
     return heritageResponseDtos.stream().map(HeritagePoint::fromDto).toList();

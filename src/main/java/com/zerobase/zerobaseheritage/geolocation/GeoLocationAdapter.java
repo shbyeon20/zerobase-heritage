@@ -43,7 +43,7 @@ public class GeoLocationAdapter {
   }
 
 
-  public Polygon boxToPolygon(
+  public Polygon convertToPolygon(
       double northLatitude, double southLatitude,
       double eastLongitude, double westLongitude) {
 

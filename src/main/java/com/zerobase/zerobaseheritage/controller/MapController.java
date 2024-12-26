@@ -28,7 +28,7 @@ public class MapController {
 
     String userId = "user123";
 
-    Polygon polygon = geoLocationAdapter.boxToPolygon(northLatitude,
+    Polygon polygon = geoLocationAdapter.convertToPolygon(northLatitude,
         southLatitude, eastLongitude, westLongitude);
 
     MapResponse mapResponse = mapService.mapResponseWithGridsAndHeritages(

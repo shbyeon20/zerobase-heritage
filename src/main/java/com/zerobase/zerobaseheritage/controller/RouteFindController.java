@@ -19,7 +19,7 @@ public class RouteFindController {
 
   private final RouteFindService routeFindService;
 
-  @GetMapping("/route/get")
+  @GetMapping("")
   public ResponseEntity<RoutePointsResponse> routeFind
       (@RequestParam double latitude,
           @RequestParam double longitude,

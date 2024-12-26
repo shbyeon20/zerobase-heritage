@@ -20,7 +20,7 @@ import org.springframework.transaction.annotation.Transactional;
 @Service
 @RequiredArgsConstructor
 @Slf4j
-public class VisitService {
+public class VisitHeritageService {
 
   private final HeritageRepository heritageRepository;
   private final VisitedHeritageRepository visitedHeritageRepository;
@@ -29,53 +29,48 @@ public class VisitService {
 
     /*
     유저가 방문하고자하는 유적을 선택하면 방문여부를 확인한 후, 방문처리한다.
-
-    todo :
-     1. SpringSecurity 도입 후 principal 로부터 ID 획득
-     2. 로그인시 Visited Heritage Set 캐쉬에 저장하여 관리하도록 설정
-     */
+    */
 
   @Transactional
-  public HeritageResponseDto visitHeritage(String memberId, String heritageId) {
+  public void createVisit(String memberId, String heritageId) {
 
     log.info("visitHeritage Service start");
 
-    if (visitedHeritageRepository.
-        existsByMemberEntity_MemberIdAndHeritageEntity_HeritageId(memberId, heritageId)) {
-      throw new CustomException(ErrorCode.UNEXPECTED_REQUEST_FROM_FRONT,
-          "이미 방문처리한 유적입니다");
-    }
+    validateVisitRequest(memberId, heritageId);
 
-    HeritageEntity heritageEntity = heritageRepository
-        .findByHeritageId(heritageId)
-        .orElseThrow(
-            () -> new CustomException(ErrorCode.UNEXPECTED_REQUEST_FROM_FRONT,
-                "존재하지 않는 유적 ID에 대한 요청입니다."));
+    HeritageEntity heritageEntity = heritageRepository.findByHeritageId(heritageId).orElseThrow(
+            () -> new CustomException(ErrorCode.UNEXPECTED_REQUEST_FROM_FRONT, "존재하지 않는 유적 ID에 대한 요청입니다."));
 
     MemberEntity memberEntity = memberRepository.findByMemberId(memberId)
-        .orElseThrow(
-            () -> new CustomException(ErrorCode.UNEXPECTED_REQUEST_FROM_FRONT,
-                "존재하지 않는 유저 ID에 대한 요청입니다."));
+        .orElseThrow(() -> new CustomException(ErrorCode.UNEXPECTED_REQUEST_FROM_FRONT, "존재하지 않는 유저 ID에 대한 요청입니다."));
 
-    VisitedHeritageEntity newVisit = VisitedHeritageEntity.builder()
-        .memberEntity(memberEntity)
-        .heritageEntity(heritageEntity)
-        .build();
-
-    visitedHeritageRepository.save(newVisit);
+    visitedHeritageRepository.save(
+        VisitedHeritageEntity.builder()
+            .memberEntity(memberEntity)
+            .heritageEntity(heritageEntity)
+            .build()
+    );
 
     log.info("visitHeritage Service finished");
 
-    return HeritageResponseDto.fromEntity(heritageEntity);
   }
 
-  public List<HeritageResponseDto> visitedHeritageByUserWithinArea(String memberId,
+  private void validateVisitRequest(String memberId, String heritageId) {
+    if (visitedHeritageRepository.
+        existsByMemberEntity_MemberIdAndHeritageEntity_HeritageId(memberId,
+            heritageId)) {
+      throw new CustomException(ErrorCode.UNEXPECTED_REQUEST_FROM_FRONT,
+          "이미 방문처리한 유적입니다");
+    }
+  }
+
+  public List<HeritageResponseDto> findVisitByUserWithinArea(String memberId,
       double northLatitude, double southLatitude, double eastLongitude,
       double westLongitude) {
 
     log.info("visitedHeritageByUser Service start");
 
-    Polygon polygon = geoLocationAdapter.boxToPolygon(northLatitude,
+    Polygon polygon = geoLocationAdapter.convertToPolygon(northLatitude,
         southLatitude, eastLongitude, westLongitude);
 
     List<HeritageEntity> visitedHeritages = visitedHeritageRepository.findAllVisitedHeritageByMemberIdWithinPolygon(

@@ -1,15 +1,16 @@
 package com.zerobase.zerobaseheritage.controller;
 
 import com.zerobase.zerobaseheritage.model.dto.HeritageResponseDto;
-import com.zerobase.zerobaseheritage.geolocation.GeoLocationAdapter;
-import com.zerobase.zerobaseheritage.service.SearchService;
-import com.zerobase.zerobaseheritage.service.VisitService;
+import com.zerobase.zerobaseheritage.service.SearchHeritageService;
+import com.zerobase.zerobaseheritage.service.VisitHeritageService;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -21,24 +22,23 @@ import org.springframework.web.bind.annotation.RestController;
  */
 @Slf4j
 @RestController()
-@RequestMapping(value = "/api/heritage")
+@RequestMapping(value = "/api/heritages")
 @RequiredArgsConstructor
 public class HeritageController {
 
-  private final SearchService searchService;
-  private final GeoLocationAdapter geoLocationAdapter;
-  private final VisitService visitService;
+  private final SearchHeritageService searchHeritageService;
+  private final VisitHeritageService visitHeritageService;
 
   /*
    특정 좌표 근처에 있는 유적지를 검색한다 ;
    */
-  @GetMapping("/heritage-nearby-coordinate")
-  public ResponseEntity<List<HeritageResponseDto>> ByPointLocation(
-      @RequestParam Double latitude, @RequestParam Double longitude) {
-    log.info("HeritageController find byLocation start ");
+  @GetMapping
+  public ResponseEntity<List<HeritageResponseDto>> searchHeritageDistancedFromPoint(
+      @RequestParam double search_from_latitude, @RequestParam double search_from_longitude) {
+    log.info("HeritageController SearchHeritageFromPoint start ");
 
-    List<HeritageResponseDto> heritageResponseDtoList = searchService.byPointLocation(
-        geoLocationAdapter.coordinateToPoint(longitude, latitude));
+    List<HeritageResponseDto> heritageResponseDtoList = searchHeritageService.ConvertToPointAndFindDistancedFrom(
+       search_from_longitude, search_from_latitude);
 
 
     return ResponseEntity.ok(heritageResponseDtoList);
@@ -48,14 +48,14 @@ public class HeritageController {
   /*
    유저의 요청에 따라 유적지를 방문처리한다.
    */
-  @PostMapping("/visited-heritage")
-  public String visitHeritage(@RequestParam String userId,
-      @RequestParam String heritageId) {
+  @PostMapping("/user/{userId}/visited-heritage")
+  public ResponseEntity<Object> visitHeritage(@PathVariable String userId,
+      @RequestBody String heritageId) {
     log.info("HeritageController visit Heritage start");
 
-    HeritageResponseDto heritageResponseDto = visitService.visitHeritage(userId, heritageId);
+    visitHeritageService.createVisit(userId, heritageId);
 
-    return heritageResponseDto.getHeritageName() + ": 방문처리완료";
+    return ResponseEntity.ok().build();
   }
 
 

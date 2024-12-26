@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 @Slf4j
 @RestController
 @RequiredArgsConstructor
-@RequestMapping(value = "/api/initializations/heritage")
+@RequestMapping(value = "/api/initialization")
 
 public class InitHeritageDataController {
 
@@ -22,7 +22,7 @@ public class InitHeritageDataController {
    외부 API 통해서 데이터를 내부 DB로 저장한다
    todo : basic description 에 대한 호출 도입하기
    */
-  @PostMapping(value = "/heritage")
+  @PostMapping(value = "/heritages")
   public ResponseEntity<Void> loadHeritageData()
       throws ExecutionException, InterruptedException {
 

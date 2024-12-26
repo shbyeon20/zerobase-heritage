@@ -26,8 +26,8 @@ client로부터 지도표시를 위해 위도선의 최대최소, 경도선의 �
 public class MapService {
 
   private final GridService gridService;
-  private final VisitService visitService;
-  private final SearchService searchService;
+  private final VisitHeritageService visitHeritageService;
+  private final SearchHeritageService searchHeritageService;
 
 
   public List<MapGrid> selectGridsWithColor(
@@ -45,7 +45,7 @@ public class MapService {
 
     // user가 방문한 heritage list를 호출
     List<HeritageResponseDto> visitedHeritageResponseDtos = new ArrayList<>(
-        visitService.visitedHeritageByUserWithinArea(userId, northLatitude,
+        visitHeritageService.findVisitByUserWithinArea(userId, northLatitude,
             southLatitude, eastLongitude, westLongitude));
 
     log.info(visitedHeritageResponseDtos.toString());;
@@ -91,7 +91,7 @@ public class MapService {
     log.info("mapResponseWithGridsAndHeritages service start");
 
     // polygon 내에 존재하는 heritage 검색
-    List<HeritageResponseDto> heritagesInBox = searchService.byPolygon(polygon);
+    List<HeritageResponseDto> heritagesInBox = searchHeritageService.byPolygon(polygon);
 
     // coloredgrid생성
     List<MapGrid> gridsWithColor = selectGridsWithColor(north_Latitude,
