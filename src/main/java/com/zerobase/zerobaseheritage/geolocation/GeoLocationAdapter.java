@@ -1,5 +1,6 @@
 package com.zerobase.zerobaseheritage.geolocation;
 
+import com.zerobase.zerobaseheritage.model.dto.RouteFind.CustomPoint;
 import com.zerobase.zerobaseheritage.model.exception.CustomException;
 import com.zerobase.zerobaseheritage.model.exception.ErrorCode;
 import lombok.RequiredArgsConstructor;
@@ -21,14 +22,7 @@ public class GeoLocationAdapter {
   /*
    jts 라이브러리를 활용하여 x,y 좌표를 point 객체로 변환.
    */
-  public Point coordinateToPoint(Double longitude, Double latitude) {
-    if (latitude == null || longitude == null) {
-      log.error(
-          "value of longtitude : " + latitude + " or longtitude : " + longitude
-              + " is null");
-      throw new CustomException(ErrorCode.NULL_POINT_EXCEPTION,
-          "external api return null value");
-    }
+  public Point coordinateToPoint(double longitude, double latitude) {
 
     Point point = geometryFactory.createPoint(
         new Coordinate(longitude, latitude));
@@ -56,6 +50,11 @@ public class GeoLocationAdapter {
     };
 
     return geometryFactory.createPolygon(coordinates);
+  }
+
+  public CustomPoint convertToCustomPoint(double longitude, double latitude){
+    return CustomPoint.builder().latitudeY(latitude)
+        .longitudeX(longitude).build();
   }
 
 

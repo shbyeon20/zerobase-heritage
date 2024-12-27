@@ -42,11 +42,12 @@ public class RouteFindService {
 
    */
 
-  public RoutePointsResponse routeFind(CustomPoint clientPoint,
+  public RoutePointsResponse routeFind(String userId, double longitude, double latitude,
       long timeLimit) {
 
-    log.info("routeFind Service started for clientPoint {} with timeLimit={}",
-        clientPoint, timeLimit);
+    CustomPoint clientPoint = geoLocationAdapter.convertToCustomPoint(longitude, latitude);
+
+
 
     // 경로상의 Points 를 담는 컬랙션을 생성하고 출발점 clientPoint 를 넣어서 초기화
     PointCollection pointCollection = new PointCollection();

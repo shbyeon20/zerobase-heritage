@@ -19,20 +19,19 @@ public class RouteFindController {
 
   private final RouteFindService routeFindService;
 
-  @GetMapping("")
+  @GetMapping()
   public ResponseEntity<RoutePointsResponse> routeFind
-      (@RequestParam double latitude,
+      (   @RequestParam String userId,
           @RequestParam double longitude,
+          @RequestParam double latitude,
           @RequestParam long timeLimit) {
 
     log.info("routeFind Controller start for latitude={}, longitude={}, timeLimit={}", latitude, longitude, timeLimit);
 
-    CustomPoint clientPoint = CustomPoint.builder().latitudeY(latitude)
-        .longitudeX(longitude).build();
 
 
     return ResponseEntity.ok(
-        routeFindService.routeFind(clientPoint, timeLimit));
+        routeFindService.routeFind(userId,longitude, latitude, timeLimit));
 
   }
 
