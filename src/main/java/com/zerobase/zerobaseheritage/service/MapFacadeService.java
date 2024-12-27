@@ -36,15 +36,13 @@ public class MapFacadeService {
   ) {
     log.info("createGridsWithColor service start");
 
-    List<MapGrid> grids = gridService.createGrids(northLatitude, southLatitude, eastLongitude, westLongitude);
-
     // user가 방문한 heritage list를 호출
     List<HeritageDto> visitedHeritageDtos = visitHeritageService
         .findVisitsWithinBoxByUser(userId, northLatitude, southLatitude, eastLongitude, westLongitude);
 
+    List<MapGrid> grids = gridService.createGrids(northLatitude, southLatitude, eastLongitude, westLongitude);
+
     List<MapGrid> coloredGrids = gridService.colorGridsIfVisited(grids, visitedHeritageDtos);
-
-
 
     log.info("createGridsWithColor service finish");
 

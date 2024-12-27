@@ -26,8 +26,7 @@ public class MapController {
 
 
     MapResponse mapResponse = mapFacadeService.createMapResponseDtoWithColoredGridsAndHeritages(
-        userId, northLatitude,
-        southLatitude, eastLongitude, westLongitude);
+        userId, northLatitude, southLatitude, eastLongitude, westLongitude);
 
     return ResponseEntity.ok(mapResponse);
   }
