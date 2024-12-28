@@ -1,5 +1,5 @@
 ### GET request to initiate data
-POST localhost:8080/heritage
+POST localhost:8080/api/initialization/heritages
 
 
 ### GET request to client location

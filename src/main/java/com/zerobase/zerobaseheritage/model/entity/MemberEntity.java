@@ -21,8 +21,6 @@ public class MemberEntity {
   @Column(unique = true)
   private String memberId;
 
-  @Column(nullable = false)
-  private String password;
 
 
 }
