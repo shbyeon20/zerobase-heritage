@@ -1,5 +1,6 @@
 package com.zerobase.zerobaseheritage.service;
 
+import com.zerobase.zerobaseheritage.model.dto.RoutePointsResponse;
 import com.zerobase.zerobaseheritage.model.exception.CustomException;
 import com.zerobase.zerobaseheritage.model.exception.ErrorCode;
 import com.zerobase.zerobaseheritage.model.dto.HeritageDto;
@@ -7,7 +8,6 @@ import com.zerobase.zerobaseheritage.model.dto.RouteFind.BasePoint;
 import com.zerobase.zerobaseheritage.model.dto.RouteFind.CustomPoint;
 import com.zerobase.zerobaseheritage.model.dto.RouteFind.HeritagePoint;
 import com.zerobase.zerobaseheritage.model.dto.RouteFind.PointCollection;
-import com.zerobase.zerobaseheritage.model.dto.RoutePointsResponse;
 import com.zerobase.zerobaseheritage.model.dto.pathFindApi.PathFindApiResultDtos;
 import com.zerobase.zerobaseheritage.geolocation.GeoLocationAdapter;
 import java.util.LinkedList;
@@ -24,7 +24,7 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public class RouteFindService {
 
-  private final SearchHeritageService searchHeritageService;
+  private final HeritageSearchService heritageSearchService;
   private final GeoLocationAdapter geoLocationAdapter;
   private final RouteFindThreadService routeFindThreadService;
 
@@ -79,7 +79,7 @@ public class RouteFindService {
     Point clientPoint = geoLocationAdapter.coordinateToPoint(
         clientLocation.getLongitudeX(), clientLocation.getLatitudeY());
     List<HeritageDto> heritageDtos =
-        searchHeritageService.ConvertToPointAndFindDistancedFrom(clientPoint.getCoordinate().getX(),clientPoint.getCoordinate().getY());
+        heritageSearchService.ConvertToPointAndFindDistancedFrom(clientPoint.getCoordinate().getX(),clientPoint.getCoordinate().getY());
 
     // heritageDto 를 HeritagePoint(CustomPoint)로 형변환
     return heritageDtos.stream().map(HeritagePoint::fromDto).toList();

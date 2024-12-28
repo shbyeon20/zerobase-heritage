@@ -24,9 +24,9 @@ client로부터 지도표시를 위해 위도선의 최대최소, 경도선의 �
 @Slf4j
 public class MapFacadeService {
 
-  private final GridService gridService;
-  private final VisitHeritageService visitHeritageService;
-  private final SearchHeritageService searchHeritageService;
+  private final MapGridService mapGridService;
+  private final HeritageVisitService heritageVisitService;
+  private final HeritageSearchService heritageSearchService;
   private final GeoLocationAdapter geoLocationAdapter;
 
 
@@ -37,12 +37,12 @@ public class MapFacadeService {
     log.info("createGridsWithColor service start");
 
     // user가 방문한 heritage list를 호출
-    List<HeritageDto> visitedHeritageDtos = visitHeritageService
+    List<HeritageDto> visitedHeritageDtos = heritageVisitService
         .findVisitsWithinBoxByUser(userId, northLatitude, southLatitude, eastLongitude, westLongitude);
 
-    List<MapGrid> grids = gridService.createGrids(northLatitude, southLatitude, eastLongitude, westLongitude);
+    List<MapGrid> grids = mapGridService.createGrids(northLatitude, southLatitude, eastLongitude, westLongitude);
 
-    List<MapGrid> coloredGrids = gridService.colorGridsIfVisited(grids, visitedHeritageDtos);
+    List<MapGrid> coloredGrids = mapGridService.colorGridsIfVisited(grids, visitedHeritageDtos);
 
     log.info("createGridsWithColor service finish");
 
@@ -60,7 +60,7 @@ public class MapFacadeService {
         northLatitude, southLatitude, eastLongitude, westLongitude);
 
     // polygon 내에 존재하는 heritage 검색
-    List<HeritageDto> heritagesInBox = searchHeritageService.findHeritageWithinPolygon(polygon);
+    List<HeritageDto> heritagesInBox = heritageSearchService.findHeritageWithinPolygon(polygon);
 
     // coloredgrid생성
     List<MapGrid> gridsWithColor = this.createGridsAndColorIfVisited(northLatitude,

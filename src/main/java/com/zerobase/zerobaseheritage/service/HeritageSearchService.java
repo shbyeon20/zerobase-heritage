@@ -17,7 +17,7 @@ import org.springframework.stereotype.Service;
 @Service
 @RequiredArgsConstructor
 @Slf4j
-public class SearchHeritageService {
+public class HeritageSearchService {
 
   private final HeritageRepository heritageRepository;
   private final GeoLocationAdapter geoLocationAdapter;

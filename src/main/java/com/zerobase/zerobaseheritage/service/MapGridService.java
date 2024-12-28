@@ -9,7 +9,7 @@ import org.springframework.stereotype.Service;
 
 @Service
 @Slf4j
-public class GridService {
+public class MapGridService {
 
   // 위도 경도 0.01도를 기준으로 GRID 분할
   public static final double GRID_SIZE = 0.01;

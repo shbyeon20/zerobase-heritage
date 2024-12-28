@@ -20,7 +20,7 @@ import org.springframework.transaction.annotation.Transactional;
 @Service
 @RequiredArgsConstructor
 @Slf4j
-public class VisitHeritageService {
+public class HeritageVisitService {
 
   private final HeritageRepository heritageRepository;
   private final VisitedHeritageRepository visitedHeritageRepository;

@@ -1,8 +1,8 @@
 package com.zerobase.zerobaseheritage.controller;
 
 import com.zerobase.zerobaseheritage.model.dto.HeritageDto;
-import com.zerobase.zerobaseheritage.service.SearchHeritageService;
-import com.zerobase.zerobaseheritage.service.VisitHeritageService;
+import com.zerobase.zerobaseheritage.service.HeritageSearchService;
+import com.zerobase.zerobaseheritage.service.HeritageVisitService;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -26,8 +26,8 @@ import org.springframework.web.bind.annotation.RestController;
 @RequiredArgsConstructor
 public class HeritageController {
 
-  private final SearchHeritageService searchHeritageService;
-  private final VisitHeritageService visitHeritageService;
+  private final HeritageSearchService heritageSearchService;
+  private final HeritageVisitService heritageVisitService;
 
   /*
    특정 좌표 근처에 있는 유적지를 검색한다 ;
@@ -37,7 +37,7 @@ public class HeritageController {
       @RequestParam double search_from_latitude, @RequestParam double search_from_longitude) {
     log.info("HeritageController SearchHeritageFromPoint start ");
 
-    List<HeritageDto> heritageDtoList = searchHeritageService.ConvertToPointAndFindDistancedFrom(
+    List<HeritageDto> heritageDtoList = heritageSearchService.ConvertToPointAndFindDistancedFrom(
        search_from_longitude, search_from_latitude);
 
 
@@ -53,7 +53,7 @@ public class HeritageController {
       @RequestBody String heritageId) {
     log.info("HeritageController visit Heritage start");
 
-    visitHeritageService.createVisit(userId, heritageId);
+    heritageVisitService.createVisit(userId, heritageId);
 
     return ResponseEntity.ok().build();
   }
