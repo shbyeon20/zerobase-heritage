@@ -30,7 +30,7 @@ public class HeritageSearchService {
   private static final double MAX_LONGITUDE = 131.8649;
 
 
-  public List<HeritageDto> ConvertToPointAndFindDistancedFrom(double longitude, double latitude) {
+  public List<HeritageDto> findHeritagesDistancedFromPoint(double longitude, double latitude) {
     log.info("search by location point service start for {},{}",longitude,latitude);
 
     validate(longitude,latitude);

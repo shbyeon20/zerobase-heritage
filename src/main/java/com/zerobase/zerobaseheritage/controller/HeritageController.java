@@ -37,7 +37,7 @@ public class HeritageController {
       @RequestParam double search_from_latitude, @RequestParam double search_from_longitude) {
     log.info("HeritageController SearchHeritageFromPoint start ");
 
-    List<HeritageDto> heritageDtoList = heritageSearchService.ConvertToPointAndFindDistancedFrom(
+    List<HeritageDto> heritageDtoList = heritageSearchService.findHeritagesDistancedFromPoint(
        search_from_longitude, search_from_latitude);
 
 

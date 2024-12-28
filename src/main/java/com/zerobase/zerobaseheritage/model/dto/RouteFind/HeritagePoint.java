@@ -15,7 +15,7 @@ public class HeritagePoint extends BasePoint {
   private int heritageGradePoint;
   private String heritageId;
   private String heritageName;
-  private boolean alreadyUsed;
+  private boolean alreadyInCollection;
 
   public static HeritagePoint fromDto(HeritageDto heritageDto) {
     return HeritagePoint.builder()

@@ -31,7 +31,7 @@ public class PathFindApi {
   /*
       시작점과 도착점을 지정하면 외부 API로부터 경로 및 시간정보를 받아온다.
    */
-  public PathFindApiResultDto getPathInfoBetweenPoints
+  public PathFindApiResultDto getTravelTimeBetweenPoints
   (BasePoint start, BasePoint end) {
     log.info("getPathInfoBetweenPoints start: {}, end: {}", start, end);
 
