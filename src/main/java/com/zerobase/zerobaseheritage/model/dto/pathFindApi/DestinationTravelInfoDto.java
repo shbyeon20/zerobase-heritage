@@ -12,10 +12,14 @@ import lombok.Setter;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class PathFindApiResultDtos {
+public class DestinationTravelInfoDto {
 
-  private HeritagePoint nextDestinationCandidate;
-  private PathFindApiResultDto pathToHeritageCandidate;
-  private PathFindApiResultDto pathToReturn;
+
+  private HeritagePoint candidateDestination;
+  private PathFindApiResultDto pathToNextCandidate;
+  private PathFindApiResultDto pathReturnToStart;
+  private long travelAndReturnTime;
+
+
 
 }

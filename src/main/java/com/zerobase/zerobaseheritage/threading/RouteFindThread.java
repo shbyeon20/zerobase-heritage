@@ -3,7 +3,7 @@ package com.zerobase.zerobaseheritage.threading;
 
 import com.zerobase.zerobaseheritage.model.dto.RouteFind.BasePoint;
 import com.zerobase.zerobaseheritage.model.dto.RouteFind.HeritagePoint;
-import com.zerobase.zerobaseheritage.model.dto.pathFindApi.PathFindApiResultDtos;
+import com.zerobase.zerobaseheritage.model.dto.pathFindApi.DestinationTravelInfoDto;
 import com.zerobase.zerobaseheritage.service.RouteFindService;
 import java.util.concurrent.Callable;
 import java.util.concurrent.Future;
@@ -23,15 +23,15 @@ public class RouteFindThread {
   private final RouteFindService routeFindService;
 
 
-  public Future<PathFindApiResultDtos> submitFindPointsTravelTimeTask(
+  public Future<DestinationTravelInfoDto> submitGetDestinationCandidateInfoTask(
       BasePoint lastPoint, HeritagePoint nextDestinationCandidate, BasePoint clientPoint) {
 
     return taskExecutor.submit(
 
         new Callable<>() {
           @Override
-          public PathFindApiResultDtos call()  {
-              return routeFindService.findTravelTimeToCandidateAndReturnToStart(lastPoint,nextDestinationCandidate,clientPoint);
+          public DestinationTravelInfoDto call()  {
+              return routeFindService.getDestinationCandidateInfo(lastPoint,nextDestinationCandidate,clientPoint);
 
 
           }

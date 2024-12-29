@@ -14,7 +14,7 @@ import lombok.Setter;
 public class PathFindApiResultDto {
 
 
-  public Long duration;
+  public long duration;
 
   public static PathFindApiResultDto fromResult(PathFindApiResult pathFindApiResult) throws NullPointerException {
 

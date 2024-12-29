@@ -15,13 +15,12 @@ public class HeritagePoint extends BasePoint {
   private int heritageGradePoint;
   private String heritageId;
   private String heritageName;
-  private boolean alreadyInCollection;
+  private boolean unUsable;
 
   public static HeritagePoint fromDto(HeritageDto heritageDto) {
     return HeritagePoint.builder()
         .heritageGrade(heritageDto.getHeritageGrade())
-        .heritageGradePoint(
-            HeritageGrade.toGradePoint(heritageDto.getHeritageGrade()))
+        .heritageGradePoint(HeritageGrade.toGradePoint(heritageDto.getHeritageGrade()))
         .heritageId(heritageDto.getHeritageId())
         .heritageName(heritageDto.getHeritageName())
         .longitudeX(heritageDto.getLongitude())

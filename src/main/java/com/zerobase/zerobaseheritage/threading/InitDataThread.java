@@ -22,8 +22,6 @@ public class InitDataThread {
 
   @Qualifier("ExternalApiTaskExecutor")
   private final ThreadPoolTaskExecutor taskExecutor;
-  private final HeritageApi heritageApi;
-  private final HeritageImpl heritageImpl;
   private final HeritageInitService heritageInitService;
 
   /*
