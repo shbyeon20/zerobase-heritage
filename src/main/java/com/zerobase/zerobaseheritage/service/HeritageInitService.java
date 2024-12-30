@@ -9,6 +9,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.locationtech.jts.geom.Point;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Transactional;
 
 @Service
@@ -20,7 +21,8 @@ public class HeritageInitService {
     private final HeritageApi heritageApi;
     private final HeritageImpl heritageImpl;
 
-    @Transactional
+
+    @Transactional(isolation = Isolation.READ_COMMITTED)
     public List<HeritageApiItem> fetchAPIItemsAndSaveUnlessEmpty(int apiPageNumber) {
         List<HeritageApiItem> heritageApiItems = heritageApi.fetchApiData(apiPageNumber).getHeritageApiItemList();
 
@@ -32,7 +34,7 @@ public class HeritageInitService {
         }
     }
 
-    @Transactional
+    @Transactional(isolation = Isolation.READ_COMMITTED)
     protected void convertApiItemsAndSaveDtos(
         List<HeritageApiItem> heritageApiItems) {
         for (HeritageApiItem heritageApiItem : heritageApiItems) {
