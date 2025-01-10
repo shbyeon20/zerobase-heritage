@@ -2,9 +2,9 @@ package com.zerobase.zerobaseheritage.externalApi;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.dataformat.xml.XmlMapper;
-import com.zerobase.zerobaseheritage.datatype.exception.CustomExcpetion;
-import com.zerobase.zerobaseheritage.datatype.exception.ErrorCode;
-import com.zerobase.zerobaseheritage.dto.heritageApi.HeritageApiResult;
+import com.zerobase.zerobaseheritage.model.exception.CustomException;
+import com.zerobase.zerobaseheritage.model.exception.ErrorCode;
+import com.zerobase.zerobaseheritage.model.dto.heritageApi.HeritageApiResult;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
@@ -45,7 +45,7 @@ public class HeritageApi {
       return xmlMapper.readValue(xmlResponse, HeritageApiResult.class);
     } catch (JsonProcessingException e) {
       log.error(e.getMessage());
-      throw new CustomExcpetion(ErrorCode.EXTERNALAPI_NOT_FOUND,
+      throw new CustomException(ErrorCode.EXTERNALAPI_NOT_FOUND,
           "Heritage API Not Found");
     }
   }
