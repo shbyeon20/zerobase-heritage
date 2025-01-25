@@ -1,0 +1,26 @@
+    version: '3.8'  # Docker Compose 파일의 버전
+
+    services:       # 서비스 정의
+      app:          # 서비스 이름
+        image: zerobase-heritage:dev # 사용할 Docker 이미지
+        ports:       # 호스트와 컨테이너 간의 포트 매핑
+          - "8080:8080"
+        environment:
+          SPRING_DATASOURCE_URL: jdbc:mysql://db:3306/zerobase_heritage
+
+      db:           # 데이터베이스 서비스
+        image: mysql:8.0
+        environment:
+          MYSQL_ROOT_PASSWORD: rootpassword
+          MYSQL_DATABASE: zerobase_heritage
+          MYSQL_USER: testuser
+          MYSQL_PASSWORD: password
+        ports:
+          - "3307:3307"
+        volumes: # 볼륨 마운트
+          - ./app-data:/app/data
+
+
+
+
+

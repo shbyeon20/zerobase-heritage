@@ -13,6 +13,19 @@ java {
     }
 }
 
+
+// profile의 기본값 local로 설정
+ext.profile = (!project.hasProperty('profile') || !profile) ? 'local' : profile
+
+// 리소스 폴더 지정
+sourceSets {
+    main {
+        resources {
+            srcDirs "src/main/resources-local"
+        }
+    }
+}
+
 configurations {
     compileOnly {
         extendsFrom annotationProcessor

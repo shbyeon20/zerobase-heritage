@@ -1,0 +1,55 @@
+#  로컬 환경에서 같이 mysql이 동작할 경우를 가정해서 진행
+spring:
+  datasource:
+    url: jdbc:mysql://localhost:3306/zerobase_heritage?useSSL=false&useServerPrepStmts=false&allowPublicKeyRetrieval=true
+    username: testuser
+    password: password
+    driver-class-name: com.mysql.cj.jdbc.Driver
+
+
+
+  jpa:
+    defer-datasource-initialization: true
+
+    database-platform: org.hibernate.dialect.MySQLDialect
+    hibernate:
+      ddl-auto: create-drop
+
+
+    open-in-view: false
+    properties:
+      hibernate:
+        format_sql: true
+        show_sql: true
+        dialect: org.hibernate.dialect.MySQLDialect
+
+  data:
+    rest:
+      default-media-type: application/json
+
+
+  mvc:
+    pathmatch:
+      matching-strategy: ant_path_matcher
+
+
+
+
+sightseeing:
+  time: 1_800_000
+
+externalAPI:
+  naver:
+    client-Id : "mp7kd1w051"
+    client-Secret : "Hmmf28GUcE9j78BfiwZGmffKtr2B5wnf9sjxrd23"
+
+
+
+logging:
+  file:
+    name: /Users/byeonsanghwa/Desktop/변상화/10. Programming Material/JavaDev/Spring/zerobase-heritage/logfile.log  # The path where the log file will be saved
+  level:
+    root: INFO  # Log level
+  pattern:
+    console: "%d{yyyy-MM-dd HH:mm:ss} - %msg%n"  # Pattern for console output
+    file: "%d{yyyy-MM-dd HH:mm:ss} [%thread] %-5level %logger{36} - %msg%n"  # Pattern for log file

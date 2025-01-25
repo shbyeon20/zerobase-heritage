@@ -1,0 +1,7 @@
+FROM openjdk:17
+EXPOSE 8080
+COPY ./build/libs/zerobase-heritage-0.0.1-SNAPSHOT.jar api.jar
+ENTRYPOINT ["java", "-jar", "/api.jar","--spring.profiles.active=local"]
+
+
+
