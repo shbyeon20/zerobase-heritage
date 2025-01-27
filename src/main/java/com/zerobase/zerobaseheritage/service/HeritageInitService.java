@@ -22,7 +22,6 @@ public class HeritageInitService {
     private final HeritageImpl heritageImpl;
 
 
-    @Transactional(isolation = Isolation.READ_COMMITTED)
     public List<HeritageApiItem> fetchAPIItemsAndSaveUnlessEmpty(int apiPageNumber) {
         List<HeritageApiItem> heritageApiItems = heritageApi.fetchApiData(apiPageNumber).getHeritageApiItemList();
 
@@ -34,7 +33,7 @@ public class HeritageInitService {
         }
     }
 
-    @Transactional(isolation = Isolation.READ_COMMITTED)
+    @Transactional
     protected void convertApiItemsAndSaveDtos(
         List<HeritageApiItem> heritageApiItems) {
         for (HeritageApiItem heritageApiItem : heritageApiItems) {

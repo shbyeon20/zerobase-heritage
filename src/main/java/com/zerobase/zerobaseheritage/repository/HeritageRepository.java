@@ -22,7 +22,8 @@ public interface HeritageRepository extends
 
   @Modifying
 
-  /*
+
+
   @Query(value = "INSERT INTO heritage_entity"
       + " (heritage_Id, heritage_Name, location, heritage_Grade)"
       + " VALUES (:heritageId, :heritageName, :location, :heritageGrade)"
@@ -30,13 +31,19 @@ public interface HeritageRepository extends
       + " heritage_Name = :heritageName, location = :location, heritage_Grade =" 
       + " :heritageGrade", nativeQuery = true)
 
-   */
 
 
+
+
+/*
   @Query(value = "INSERT IGNORE INTO heritage_entity"
       + " (heritage_Id, heritage_Name, location, heritage_Grade)"
       + " VALUES (:heritageId, :heritageName, :location, :heritageGrade)",
       nativeQuery = true)
+
+ */
+
+
 
   int insertOrUpdate(String heritageId, String heritageName, Point location, String heritageGrade);
 
