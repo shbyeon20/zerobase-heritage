@@ -32,14 +32,14 @@ public class HeritageInitManagementService {
 
         boolean isEmpty = false;
         while (!isEmpty) {
-            for (int i = 0; i < 10; i++) {
+            for (int i = 0; i < 30; i++) {
                 futures.add(initDataThread.submitFetchAPIItemsAndSaveUnlessEmpty(apiPageNumber));
                 apiPageNumber += 1; // api의 다음 페이지 선택
                 Thread.sleep(100); // 외부 API 부하경감을 위한 Sleep
             }
             // 10회 API 호출 및 저장을 수행하고 API 데이터가 비어있는지 확인한다
 
-            for (int i = 0; i < 10; i++) {
+            for (int i = 0; i < 30; i++) {
                 List<HeritageApiItem> heritageApiItems = futures.get(i).get();
                 if (heritageApiItems == null || heritageApiItems.isEmpty())
                 // 외부 API 데이터가 비어있으면 loop를 중단
